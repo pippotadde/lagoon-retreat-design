@@ -6,7 +6,8 @@ import { LanguageDropdown } from "@/components/LanguageDropdown";
 import { Picture } from "@/components/Picture";
 import { isLandscape, type ImageName } from "@/lib/images";
 import { LANGS, type Lang } from "@/lib/i18n";
-import { PHONE_DE_DISPLAY, PHONE_IT_DISPLAY, WHATSAPP_DE, WHATSAPP_IT } from "@/lib/contact";
+import { CIN, PHONE_DE_DISPLAY, PHONE_IT_DISPLAY } from "@/lib/contact";
+import { WhatsAppButton, WhatsAppFloatingButton } from "@/components/WhatsApp";
 
 // `sizes` for each image slot: its rendered width. With object-cover a landscape (4:3)
 // photo in a taller box is wider than the box (box height × 4/3), so it needs more pixels.
@@ -22,6 +23,8 @@ const SIZES = {
   // Lightbox: at most 1152px wide and 85vh tall, 16px padding on each side.
   lightboxLandscape: "(min-width: 1184px) 1152px, calc(100vw - 32px)",
   lightboxPortrait: "(orientation: portrait) calc(100vw - 32px), 64vh",
+  // Location map: 2/3 of the grid on desktop; on mobile a 420px tall box covered by a 16:10 map.
+  map: "(min-width: 1024px) 900px, 672px",
 };
 
 // Address coordinates for Google Maps
@@ -29,9 +32,6 @@ const MAPS_QUERY = "Via+Paolo+Thaon+di+Revel+58,+Cavallino+Treporti,+Venezia";
 const MAPS_URL = `https://www.google.com/maps/search/?api=1&query=${MAPS_QUERY}`;
 const MAPS_EMBED = `https://www.google.com/maps?q=${MAPS_QUERY}&output=embed`;
 
-// The German page writes to the German number, the other languages to the Italian one.
-const whatsappUrl = (lang: Lang, message: string) =>
-  `https://wa.me/${lang === "de" ? WHATSAPP_DE : WHATSAPP_IT}?text=${encodeURIComponent(message)}`;
 const expMapUrl = (q: string) => `https://www.google.com/maps/search/?api=1&query=${q}`;
 
 function Reveal({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
@@ -39,6 +39,60 @@ function Reveal({ children, className = "", delay = 0 }: { children: React.React
   return (
     <div ref={ref} className={`fade-in-up ${className}`} style={{ transitionDelay: `${delay}ms` }}>
       {children}
+    </div>
+  );
+}
+
+/**
+ * Static OpenStreetMap picture of the area (scripts/generate-static-map.mjs). The
+ * Google Maps iframe is only loaded when the visitor asks for it, so the page makes
+ * no third-party requests and sets no cookies on load.
+ */
+function LocationMap() {
+  const { t } = useLang();
+  const [interactive, setInteractive] = useState(false);
+  return (
+    <div className="relative h-full min-h-[420px] overflow-hidden rounded-3xl shadow-soft">
+      {interactive ? (
+        <iframe
+          src={MAPS_EMBED}
+          title="Google Maps — Cavallino Treporti"
+          referrerPolicy="no-referrer-when-downgrade"
+          className="absolute inset-0 h-full w-full border-0"
+        />
+      ) : (
+        <>
+          <Picture
+            name="map-area"
+            alt={t.alt["map-area"]}
+            sizes={SIZES.map}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-[oklch(0.22_0.03_220/0.12)] p-6 text-center">
+            <button
+              type="button"
+              onClick={() => setInteractive(true)}
+              className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-foreground shadow-md transition-transform hover:scale-105"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden="true">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1 1 18 0z" strokeLinecap="round" strokeLinejoin="round" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+              {t.location.showMap}
+            </button>
+            <p className="rounded-full bg-white/90 px-3 py-1 text-xs text-foreground">{t.location.mapNotice}</p>
+          </div>
+          {/* Map data licence (ODbL) requires the credit */}
+          <a
+            href="https://www.openstreetmap.org/copyright"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="absolute bottom-0 right-0 rounded-tl-lg bg-white/90 px-2 py-0.5 text-[11px] text-foreground"
+          >
+            © OpenStreetMap
+          </a>
+        </>
+      )}
     </div>
   );
 }
@@ -150,19 +204,7 @@ function LandingInner() {
             </p>
           </Reveal>
           <Reveal delay={360}>
-            <a
-              href={whatsappUrl(lang, t.contact.whatsappMessage)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366]/85 px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#25D366]"
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-
-
-                <path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 0 1 8.413 3.488 11.82 11.82 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 0 0 1.51 5.26l-.999 3.648 3.978-1.607zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
-              </svg>
-              {t.contact.whatsappCta}
-            </a>
+            <WhatsAppButton className="mt-8" />
           </Reveal>
           <Reveal delay={460}>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-white/85">
@@ -287,6 +329,11 @@ function LandingInner() {
               </Reveal>
             ))}
           </div>
+          {/* Mid-page call to action: with no prices on the site, the only action is to write */}
+          <Reveal className="mt-14 text-center">
+            <p className="text-sm text-muted-foreground md:text-base">{t.contact.priceNote}</p>
+            <WhatsAppButton className="mt-4" />
+          </Reveal>
         </div>
       </section>
 
@@ -368,24 +415,7 @@ function LandingInner() {
             </Reveal>
 
             <Reveal delay={120} className="lg:col-span-2">
-              <a
-                href={MAPS_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={t.location.openMaps}
-                className="relative block h-full min-h-[420px] overflow-hidden rounded-3xl shadow-soft"
-              >
-                <iframe
-                  src={MAPS_EMBED}
-                  title="Google Maps — Cavallino Treporti"
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  className="absolute inset-0 h-full w-full border-0"
-                />
-                <div className="pointer-events-none absolute bottom-4 left-4 rounded-full bg-white/95 px-4 py-2 text-xs font-medium text-foreground shadow-md backdrop-blur-sm">
-                  📍 {t.location.openMaps}
-                </div>
-              </a>
+              <LocationMap />
             </Reveal>
           </div>
         </div>
@@ -397,19 +427,7 @@ function LandingInner() {
           <Reveal>
             <h2 className="font-serif italic text-4xl md:text-6xl">CavallinoTreporti</h2>
             <p className="mt-4 italic text-white/75 md:text-lg">{t.footer.tagline}</p>
-            <a
-              href={whatsappUrl(lang, t.contact.whatsappMessage)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366]/85 px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#25D366]"
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-
-
-                <path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 0 1 8.413 3.488 11.82 11.82 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 0 0 1.51 5.26l-.999 3.648 3.978-1.607zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
-              </svg>
-              {t.contact.whatsappCta}
-            </a>
+            <WhatsAppButton className="mt-8" />
             <div className="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-white/85">
               <a href={`tel:${PHONE_IT_DISPLAY.replace(/\s/g, "")}`} className="hover:text-white transition-colors">
                 🇮🇹 {t.contact.callIt}: {PHONE_IT_DISPLAY}
@@ -420,10 +438,14 @@ function LandingInner() {
             </div>
             <div className="mt-14 border-t border-white/15 pt-8 text-sm text-white/55">
               © {new Date().getFullYear()} CavallinoTreporti · {t.footer.rights}
+              {/* National identification code, required by law on every listing */}
+              <p className="mt-2 text-white/75">CIN {CIN}</p>
             </div>
           </Reveal>
         </div>
       </footer>
+
+      <WhatsAppFloatingButton />
 
       {/* LIGHTBOX */}
       {lightboxIndex !== null && (

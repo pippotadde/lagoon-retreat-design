@@ -17,7 +17,9 @@ const pathOf = (lang: Lang) => LANGS.find((l) => l.code === lang)!.path;
 /** schema.org VacationRental: only facts stated on the page, no ratings or reviews. */
 function vacationRental(lang: Lang) {
   const t = translations[lang];
-  const photos = [HERO, ...(Object.keys(IMAGES) as ImageName[]).filter((n) => n !== HERO)];
+  // Listing photos are the "real-*" images (not the map), hero first
+  const names = Object.keys(IMAGES) as ImageName[];
+  const photos = [HERO, ...names.filter((n) => n.startsWith("real-") && n !== HERO)];
   const amenity = (name: string, value: boolean | string = true) => ({
     "@type": "LocationFeatureSpecification",
     name,
@@ -61,6 +63,7 @@ function vacationRental(lang: Lang) {
         amenity("washerDryer"),
         amenity("selfCheckinCheckout"),
         amenity("balcony"),
+        // TODO: amenity("licenseNum", CIN) once the real CIN replaces the placeholder in contact.ts
       ],
     },
   };

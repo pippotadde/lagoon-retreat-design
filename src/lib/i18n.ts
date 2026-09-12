@@ -44,13 +44,21 @@ type Dict = {
       | { type: "link"; value: string; query: string }
     )[];
   };
-  contact: { whatsappCta: string; whatsappMessage: string; callIt: string; callDe: string };
+  contact: {
+    whatsappCta: string;
+    whatsappMessage: string;
+    priceNote: string;
+    callIt: string;
+    callDe: string;
+  };
   ui: { address: string; openImage: string; close: string; previous: string; next: string };
   location: {
     eyebrow: string; title: string;
     address: string; tagline: string;
     beach: string; venice: string; murano: string;
     openMaps: string;
+    showMap: string;
+    mapNotice: string;
   };
   footer: { tagline: string; cta: string; rights: string };
 };
@@ -95,6 +103,7 @@ export const translations: Record<Lang, Dict> = {
       "real-hallway": "Corridoio con ampio armadio a muro e porta verso il soggiorno",
       "real-balcony": "Balcone con tavolino e due sedie, affacciato sulle case colorate del residence",
       "real-entrance": "Passaggio ad arco verso l'ingresso, accanto alla parete con il murale",
+      "map-area": "Mappa di Ca' Vio, Cavallino Treporti, con via Paolo Thaon di Revel e la spiaggia",
     },
     features: { pine: "Vista sulla pineta", pool: "Piscina", beach: "Spiaggia a piedi", ferry: "5 min dal ferry per Venezia" },
     about: {
@@ -147,6 +156,7 @@ export const translations: Record<Lang, Dict> = {
     },
     contact: {
       whatsappCta: "WhatsApp per prenotazioni",
+      priceNote: "Prezzi e disponibilità su richiesta",
       whatsappMessage: "Ciao! Vorrei informazioni per prenotare Cavallino Treporti.",
       callIt: "Italia",
       callDe: "Deutschland",
@@ -165,6 +175,8 @@ export const translations: Record<Lang, Dict> = {
       tagline: "Cavallino Treporti, Venezia · Italia",
       beach: "→ Spiaggia", venice: "→ Venezia", murano: "→ Ferry Murano",
       openMaps: "Apri in Google Maps",
+      showMap: "Mostra la mappa",
+      mapNotice: "La mappa interattiva viene caricata da Google",
     },
     footer: { tagline: "Dove la laguna incontra il mare", cta: "Prenota Ora", rights: "Cavallino Treporti, Venezia" },
   },
@@ -207,6 +219,7 @@ export const translations: Record<Lang, Dict> = {
       "real-hallway": "Hallway with large built-in wardrobe and door to the living room",
       "real-balcony": "Balcony with a small table and two chairs, overlooking the colorful residence buildings",
       "real-entrance": "Arched passage to the entrance hall, next to the mural wall",
+      "map-area": "Map of Ca' Vio, Cavallino Treporti, showing Via Paolo Thaon di Revel and the beach",
     },
     features: { pine: "Pine forest views", pool: "Swimming pool", beach: "Beach walkable", ferry: "5 min from Venice ferry" },
     about: {
@@ -259,6 +272,7 @@ export const translations: Record<Lang, Dict> = {
     },
     contact: {
       whatsappCta: "WhatsApp for bookings",
+      priceNote: "Prices and availability on request",
       whatsappMessage: "Hi! I'd like some information about booking Cavallino Treporti.",
       callIt: "Italy",
       callDe: "Germany",
@@ -277,6 +291,8 @@ export const translations: Record<Lang, Dict> = {
       tagline: "Cavallino Treporti, Venice · Italy",
       beach: "→ Beach", venice: "→ Venice", murano: "→ Murano ferry",
       openMaps: "Open in Google Maps",
+      showMap: "Show the map",
+      mapNotice: "The interactive map is loaded from Google",
     },
     footer: { tagline: "Where the lagoon meets the sea", cta: "Book Now", rights: "Cavallino Treporti, Venice" },
   },
@@ -319,6 +335,7 @@ export const translations: Record<Lang, Dict> = {
       "real-hallway": "Flur mit großem Einbauschrank und Tür zum Wohnzimmer",
       "real-balcony": "Balkon mit kleinem Tisch und zwei Stühlen, Blick auf die bunten Häuser der Wohnanlage",
       "real-entrance": "Rundbogen zum Eingangsbereich neben der Wand mit dem Wandbild",
+      "map-area": "Karte von Ca' Vio, Cavallino Treporti, mit der Via Paolo Thaon di Revel und dem Strand",
     },
     features: { pine: "Blick auf den Pinienwald", pool: "Schwimmbad", beach: "Strand zu Fuß erreichbar", ferry: "5 Min. zur Fähre nach Venedig" },
     about: {
@@ -371,6 +388,7 @@ export const translations: Record<Lang, Dict> = {
     },
     contact: {
       whatsappCta: "WhatsApp für Buchungen",
+      priceNote: "Preise und Verfügbarkeit auf Anfrage",
       whatsappMessage: "Hallo! Ich hätte gerne Informationen zur Buchung von Cavallino Treporti.",
       callIt: "Italien",
       callDe: "Deutschland",
@@ -389,6 +407,8 @@ export const translations: Record<Lang, Dict> = {
       tagline: "Cavallino Treporti, Venedig · Italien",
       beach: "→ Strand", venice: "→ Venedig", murano: "→ Murano-Fähre",
       openMaps: "In Google Maps öffnen",
+      showMap: "Karte anzeigen",
+      mapNotice: "Die interaktive Karte wird von Google geladen",
     },
     footer: { tagline: "Wo die Lagune auf das Meer trifft", cta: "Jetzt Buchen", rights: "Cavallino Treporti, Venedig" },
   },

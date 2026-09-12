@@ -1,6 +1,17 @@
 {
   "settings": "75ab121d2c8a3568",
   "images": {
+    "map-area": {
+      "width": 1024,
+      "height": 640,
+      "widths": [
+        480,
+        800,
+        1024
+      ],
+      "fallback": 1024,
+      "hash": "5f82f75fe6e4dc91"
+    },
     "real-balcony": {
       "width": 1920,
       "height": 1440,
