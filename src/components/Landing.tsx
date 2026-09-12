@@ -34,7 +34,15 @@ const MAPS_EMBED = `https://www.google.com/maps?q=${MAPS_QUERY}&output=embed`;
 
 const expMapUrl = (q: string) => `https://www.google.com/maps/search/?api=1&query=${q}`;
 
-function Reveal({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
+function Reveal({
+  children,
+  className = "",
+  delay = 0,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+}) {
   const ref = useReveal<HTMLDivElement>();
   return (
     <div ref={ref} className={`fade-in-up ${className}`} style={{ transitionDelay: `${delay}ms` }}>
@@ -74,13 +82,27 @@ function LocationMap() {
               onClick={() => setInteractive(true)}
               className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-foreground shadow-md transition-transform hover:scale-105"
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden="true">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1 1 18 0z" strokeLinecap="round" strokeLinejoin="round" />
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.2"
+                aria-hidden="true"
+              >
+                <path
+                  d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1 1 18 0z"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
                 <circle cx="12" cy="10" r="3" />
               </svg>
               {t.location.showMap}
             </button>
-            <p className="rounded-full bg-white/90 px-3 py-1 text-xs text-foreground">{t.location.mapNotice}</p>
+            <p className="rounded-full bg-white/90 px-3 py-1 text-xs text-foreground">
+              {t.location.mapNotice}
+            </p>
           </div>
           {/* Map data licence (ODbL) requires the credit */}
           <a
@@ -106,11 +128,21 @@ function Header() {
           CavallinoTreporti
         </a>
         <nav className="hidden items-center gap-7 text-sm text-white/90 lg:flex">
-          <a href="#gallery" className="hover:text-white transition-colors">{t.nav.gallery}</a>
-          <a href="#about" className="hover:text-white transition-colors">{t.nav.about}</a>
-          <a href="#amenities" className="hover:text-white transition-colors">{t.nav.amenities}</a>
-          <a href="#experiences" className="hover:text-white transition-colors">{t.nav.experiences}</a>
-          <a href="#location" className="hover:text-white transition-colors">{t.nav.location}</a>
+          <a href="#gallery" className="hover:text-white transition-colors">
+            {t.nav.gallery}
+          </a>
+          <a href="#about" className="hover:text-white transition-colors">
+            {t.nav.about}
+          </a>
+          <a href="#amenities" className="hover:text-white transition-colors">
+            {t.nav.amenities}
+          </a>
+          <a href="#experiences" className="hover:text-white transition-colors">
+            {t.nav.experiences}
+          </a>
+          <a href="#location" className="hover:text-white transition-colors">
+            {t.nav.location}
+          </a>
         </nav>
         <LanguageDropdown variant="dark" />
       </div>
@@ -142,7 +174,10 @@ function LandingInner() {
   const openLightbox = useCallback((i: number) => setLightboxIndex(i), []);
   const closeLightbox = useCallback(() => setLightboxIndex(null), []);
   const prevImg = useCallback(
-    () => setLightboxIndex((i) => (i === null ? i : (i - 1 + galleryItems.length) % galleryItems.length)),
+    () =>
+      setLightboxIndex((i) =>
+        i === null ? i : (i - 1 + galleryItems.length) % galleryItems.length,
+      ),
     [galleryItems.length],
   );
   const nextImg = useCallback(
@@ -165,7 +200,6 @@ function LandingInner() {
       document.body.style.overflow = prevOverflow;
     };
   }, [lightboxIndex, closeLightbox, prevImg, nextImg]);
-
 
   return (
     <main id="top" className="min-h-screen bg-background text-foreground">
@@ -199,20 +233,24 @@ function LandingInner() {
             </h1>
           </Reveal>
           <Reveal delay={240}>
-            <p className="mt-8 max-w-xl text-base text-white/90 sm:text-lg">
-              {t.hero.subtitle}
-            </p>
+            <p className="mt-8 max-w-xl text-base text-white/90 sm:text-lg">{t.hero.subtitle}</p>
           </Reveal>
           <Reveal delay={360}>
             <WhatsAppButton className="mt-8" />
           </Reveal>
           <Reveal delay={460}>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-white/85">
-              <a href={`tel:${PHONE_IT_DISPLAY.replace(/\s/g, "")}`} className="hover:text-white transition-colors">
+              <a
+                href={`tel:${PHONE_IT_DISPLAY.replace(/\s/g, "")}`}
+                className="hover:text-white transition-colors"
+              >
                 🇮🇹 {t.contact.callIt}: {PHONE_IT_DISPLAY}
               </a>
               <span className="hidden sm:inline text-white/40">·</span>
-              <a href={`tel:${PHONE_DE_DISPLAY.replace(/\s/g, "")}`} className="hover:text-white transition-colors">
+              <a
+                href={`tel:${PHONE_DE_DISPLAY.replace(/\s/g, "")}`}
+                className="hover:text-white transition-colors"
+              >
                 🇩🇪 {t.contact.callDe}: {PHONE_DE_DISPLAY}
               </a>
             </div>
@@ -220,7 +258,14 @@ function LandingInner() {
         </div>
 
         <div className="absolute bottom-6 left-1/2 z-10 -translate-x-1/2 text-white/80 animate-bounce">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
             <path d="M12 5v14M5 12l7 7 7-7" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </div>
@@ -256,7 +301,6 @@ function LandingInner() {
                   {item.label}
                 </figcaption>
               </button>
-
             ))}
           </div>
         </Reveal>
@@ -264,15 +308,12 @@ function LandingInner() {
 
       <BubbleDivider />
 
-
       {/* ABOUT */}
       <section id="about" className="py-20 md:py-32">
         <div className="mx-auto grid max-w-7xl items-center gap-14 px-6 md:grid-cols-2 md:gap-20">
           <Reveal>
             <p className="text-xs uppercase tracking-[0.4em] text-primary">{t.about.eyebrow}</p>
-            <h2 className="mt-3 font-serif text-3xl md:text-5xl">
-              {t.about.title}
-            </h2>
+            <h2 className="mt-3 font-serif text-3xl md:text-5xl">{t.about.title}</h2>
             <div className="mt-8 space-y-5 text-base leading-relaxed text-muted-foreground md:text-lg">
               <p>{t.about.p1}</p>
               <p>
@@ -288,7 +329,10 @@ function LandingInner() {
               </p>
               <div className="flex flex-wrap gap-3 pt-2">
                 {[t.about.sqm, t.about.guests, t.about.bedroom, t.about.balcony].map((tag) => (
-                  <span key={tag} className="rounded-full border border-border bg-card px-4 py-1.5 text-sm text-foreground">
+                  <span
+                    key={tag}
+                    className="rounded-full border border-border bg-card px-4 py-1.5 text-sm text-foreground"
+                  >
                     {tag}
                   </span>
                 ))}
@@ -298,11 +342,26 @@ function LandingInner() {
 
           <Reveal delay={150}>
             <div className="grid grid-cols-2 gap-4">
-              <Picture name="real-mural" alt={t.alt["real-mural"]} sizes={SIZES.mural} className="aspect-[4/5] w-full rounded-3xl object-cover shadow-soft" />
+              <Picture
+                name="real-mural"
+                alt={t.alt["real-mural"]}
+                sizes={SIZES.mural}
+                className="aspect-[4/5] w-full rounded-3xl object-cover shadow-soft"
+              />
               {/* gap instead of space-y: margins don't apply to the display:contents <picture> */}
               <div className="flex flex-col gap-4 pt-10">
-                <Picture name="real-kitchen" alt={t.alt["real-kitchen"]} sizes={SIZES.kitchen} className="aspect-square w-full rounded-3xl object-cover shadow-soft" />
-                <Picture name="real-sofa" alt={t.alt["real-sofa"]} sizes={SIZES.sofa} className="aspect-square w-full rounded-3xl object-cover shadow-soft" />
+                <Picture
+                  name="real-kitchen"
+                  alt={t.alt["real-kitchen"]}
+                  sizes={SIZES.kitchen}
+                  className="aspect-square w-full rounded-3xl object-cover shadow-soft"
+                />
+                <Picture
+                  name="real-sofa"
+                  alt={t.alt["real-sofa"]}
+                  sizes={SIZES.sofa}
+                  className="aspect-square w-full rounded-3xl object-cover shadow-soft"
+                />
               </div>
             </div>
           </Reveal>
@@ -343,7 +402,9 @@ function LandingInner() {
       <section id="experiences" className="py-20 md:py-32">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <Reveal className="mb-10">
-            <p className="text-xs uppercase tracking-[0.4em] text-primary">{t.experiences.eyebrow}</p>
+            <p className="text-xs uppercase tracking-[0.4em] text-primary">
+              {t.experiences.eyebrow}
+            </p>
             <h2 className="mt-3 font-serif text-3xl md:text-5xl">{t.experiences.title}</h2>
           </Reveal>
 
@@ -362,7 +423,7 @@ function LandingInner() {
                   </a>
                 ) : (
                   <span key={i}>{seg.value}</span>
-                )
+                ),
               )}
             </p>
           </Reveal>
@@ -392,7 +453,10 @@ function LandingInner() {
                     { d: "20 min", l: t.location.venice },
                     { d: "15 min", l: t.location.murano },
                   ].map((b) => (
-                    <div key={b.l} className="flex items-center justify-between rounded-full border border-white/20 bg-white/5 px-5 py-3">
+                    <div
+                      key={b.l}
+                      className="flex items-center justify-between rounded-full border border-white/20 bg-white/5 px-5 py-3"
+                    >
                       <span className="font-serif text-lg text-[var(--amber-brand)]">{b.d}</span>
                       <span className="text-sm text-white/85">{b.l}</span>
                     </div>
@@ -405,8 +469,19 @@ function LandingInner() {
                   rel="noopener noreferrer"
                   className="mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-gradient-amber px-6 py-3 text-sm font-semibold text-[oklch(0.25_0.04_60)] transition-transform hover:scale-105"
                 >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1 1 18 0z" strokeLinecap="round" strokeLinejoin="round" />
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.2"
+                  >
+                    <path
+                      d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1 1 18 0z"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
                     <circle cx="12" cy="10" r="3" />
                   </svg>
                   {t.location.openMaps}
@@ -429,10 +504,16 @@ function LandingInner() {
             <p className="mt-4 italic text-white/75 md:text-lg">{t.footer.tagline}</p>
             <WhatsAppButton className="mt-8" />
             <div className="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-white/85">
-              <a href={`tel:${PHONE_IT_DISPLAY.replace(/\s/g, "")}`} className="hover:text-white transition-colors">
+              <a
+                href={`tel:${PHONE_IT_DISPLAY.replace(/\s/g, "")}`}
+                className="hover:text-white transition-colors"
+              >
                 🇮🇹 {t.contact.callIt}: {PHONE_IT_DISPLAY}
               </a>
-              <a href={`tel:${PHONE_DE_DISPLAY.replace(/\s/g, "")}`} className="hover:text-white transition-colors">
+              <a
+                href={`tel:${PHONE_DE_DISPLAY.replace(/\s/g, "")}`}
+                className="hover:text-white transition-colors"
+              >
                 🇩🇪 {t.contact.callDe}: {PHONE_DE_DISPLAY}
               </a>
             </div>
@@ -458,31 +539,64 @@ function LandingInner() {
         >
           <button
             type="button"
-            onClick={(e) => { e.stopPropagation(); closeLightbox(); }}
+            onClick={(e) => {
+              e.stopPropagation();
+              closeLightbox();
+            }}
             aria-label={t.ui.close}
             className="absolute right-4 top-4 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden="true">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.2"
+              aria-hidden="true"
+            >
               <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
             </svg>
           </button>
           <button
             type="button"
-            onClick={(e) => { e.stopPropagation(); prevImg(); }}
+            onClick={(e) => {
+              e.stopPropagation();
+              prevImg();
+            }}
             aria-label={t.ui.previous}
             className="absolute left-4 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 md:left-8"
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden="true">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.2"
+              aria-hidden="true"
+            >
               <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </button>
           <button
             type="button"
-            onClick={(e) => { e.stopPropagation(); nextImg(); }}
+            onClick={(e) => {
+              e.stopPropagation();
+              nextImg();
+            }}
             aria-label={t.ui.next}
             className="absolute right-4 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 md:right-8"
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden="true">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.2"
+              aria-hidden="true"
+            >
               <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </button>
@@ -494,7 +608,11 @@ function LandingInner() {
               key={galleryItems[lightboxIndex].name}
               name={galleryItems[lightboxIndex].name}
               alt={t.alt[galleryItems[lightboxIndex].name]}
-              sizes={isLandscape(galleryItems[lightboxIndex].name) ? SIZES.lightboxLandscape : SIZES.lightboxPortrait}
+              sizes={
+                isLandscape(galleryItems[lightboxIndex].name)
+                  ? SIZES.lightboxLandscape
+                  : SIZES.lightboxPortrait
+              }
               priority
               className="max-h-[85vh] w-auto max-w-full rounded-2xl object-contain shadow-2xl"
             />
@@ -508,7 +626,6 @@ function LandingInner() {
         </div>
       )}
     </main>
-
   );
 }
 

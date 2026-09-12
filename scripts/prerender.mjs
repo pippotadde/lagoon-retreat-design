@@ -56,7 +56,6 @@ function outFile(route) {
 try {
   await waitForServer();
 
-  let home = "";
   for (const route of ROUTES) {
     const res = await fetch(base + route, { redirect: "manual" });
     // a redirect means the route is not the canonical URL (e.g. trailing slash mismatch)
@@ -78,10 +77,13 @@ try {
     await mkdir(path.dirname(dest), { recursive: true });
     await writeFile(dest, html, "utf8");
     console.log(`[prerender] ${route} -> ${dest} (${(html.length / 1024).toFixed(1)} kB)`);
-    if (route === "/") home = html;
   }
 
-  await writeFile(path.join(PUBLIC, "404.html"), home, "utf8");
+  // GitHub Pages serves 404.html for every unknown URL: render the app's not-found page
+  const notFound = await fetch(base + "/404/", { redirect: "manual" });
+  if (notFound.status !== 404) throw new Error(`/404/ responded ${notFound.status}, not 404`);
+  await writeFile(path.join(PUBLIC, "404.html"), await notFound.text(), "utf8");
+  console.log(`[prerender] not-found page -> ${path.join(PUBLIC, "404.html")}`);
   await writeFile(path.join(PUBLIC, ".nojekyll"), "", "utf8");
 
   if (existsSync("CNAME")) {

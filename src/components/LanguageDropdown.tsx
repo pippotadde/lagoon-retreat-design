@@ -36,7 +36,15 @@ export function LanguageDropdown({ variant = "light" }: Props) {
         <span className="text-base leading-none">{current.flag}</span>
         <span className="hidden sm:inline">{current.label}</span>
         <span className="sm:hidden uppercase">{current.code}</span>
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className={`transition-transform ${open ? "rotate-180" : ""}`}>
+        <svg
+          width="12"
+          height="12"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.5"
+          className={`transition-transform ${open ? "rotate-180" : ""}`}
+        >
           <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </button>
