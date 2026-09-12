@@ -5,7 +5,8 @@ import { BubbleDivider } from "@/components/BubbleDivider";
 import { LanguageDropdown } from "@/components/LanguageDropdown";
 import { Picture } from "@/components/Picture";
 import { isLandscape, type ImageName } from "@/lib/images";
-import type { Lang } from "@/lib/i18n";
+import { LANGS, type Lang } from "@/lib/i18n";
+import { PHONE_DE_DISPLAY, PHONE_IT_DISPLAY, WHATSAPP_DE, WHATSAPP_IT } from "@/lib/contact";
 
 // `sizes` for each image slot: its rendered width. With object-cover a landscape (4:3)
 // photo in a taller box is wider than the box (box height × 4/3), so it needs more pixels.
@@ -28,11 +29,6 @@ const MAPS_QUERY = "Via+Paolo+Thaon+di+Revel+58,+Cavallino+Treporti,+Venezia";
 const MAPS_URL = `https://www.google.com/maps/search/?api=1&query=${MAPS_QUERY}`;
 const MAPS_EMBED = `https://www.google.com/maps?q=${MAPS_QUERY}&output=embed`;
 
-// WhatsApp & contact numbers
-const WHATSAPP_IT = "393466023270";
-const WHATSAPP_DE = "4915123706891";
-const PHONE_IT_DISPLAY = "+39 346 6023270";
-const PHONE_DE_DISPLAY = "+49 151 23706891";
 // The German page writes to the German number, the other languages to the Italian one.
 const whatsappUrl = (lang: Lang, message: string) =>
   `https://wa.me/${lang === "de" ? WHATSAPP_DE : WHATSAPP_IT}?text=${encodeURIComponent(message)}`;
@@ -119,6 +115,10 @@ function LandingInner() {
 
   return (
     <main id="top" className="min-h-screen bg-background text-foreground">
+      {/* Repeated meta: head() in the route would dedupe it by property. React hoists these into <head>. */}
+      {LANGS.filter((l) => l.code !== lang).map((l) => (
+        <meta key={l.code} property="og:locale:alternate" content={l.ogLocale} />
+      ))}
       <Header />
 
       {/* HERO */}

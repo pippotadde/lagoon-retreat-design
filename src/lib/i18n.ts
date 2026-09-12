@@ -4,10 +4,10 @@ export type Lang = "it" | "en" | "de";
 
 // Each language has its own URL; Italian lives at the root and is also x-default.
 // Keep in sync with src/routes/, ROUTES in scripts/prerender.mjs and scripts/generate-sitemap.mjs.
-export const LANGS: { code: Lang; label: string; flag: string; path: string }[] = [
-  { code: "it", label: "Italiano", flag: "🇮🇹", path: "/" },
-  { code: "en", label: "English", flag: "🇬🇧", path: "/en/" },
-  { code: "de", label: "Deutsch", flag: "🇩🇪", path: "/de/" },
+export const LANGS: { code: Lang; label: string; flag: string; path: string; ogLocale: string }[] = [
+  { code: "it", label: "Italiano", flag: "🇮🇹", path: "/", ogLocale: "it_IT" },
+  { code: "en", label: "English", flag: "🇬🇧", path: "/en/", ogLocale: "en_GB" },
+  { code: "de", label: "Deutsch", flag: "🇩🇪", path: "/de/", ogLocale: "de_DE" },
 ];
 
 export const DEFAULT_LANG: Lang = "it";
