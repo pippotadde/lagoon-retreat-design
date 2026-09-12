@@ -2,13 +2,25 @@ import type { ImageName } from "@/lib/images";
 
 export type Lang = "it" | "en" | "de";
 
-export const LANGS: { code: Lang; label: string; flag: string }[] = [
-  { code: "it", label: "Italiano", flag: "🇮🇹" },
-  { code: "en", label: "English", flag: "🇬🇧" },
-  { code: "de", label: "Deutsch", flag: "🇩🇪" },
+// Each language has its own URL; Italian lives at the root and is also x-default.
+// Keep in sync with src/routes/, ROUTES in scripts/prerender.mjs and scripts/generate-sitemap.mjs.
+export const LANGS: { code: Lang; label: string; flag: string; path: string }[] = [
+  { code: "it", label: "Italiano", flag: "🇮🇹", path: "/" },
+  { code: "en", label: "English", flag: "🇬🇧", path: "/en/" },
+  { code: "de", label: "Deutsch", flag: "🇩🇪", path: "/de/" },
 ];
 
+export const DEFAULT_LANG: Lang = "it";
+
+/** Language of a URL path: its first segment if that is a language code, else the default. */
+export function langFromPath(pathname: string): Lang {
+  const segment = pathname.split("/")[1];
+  return LANGS.find((l) => l.code === segment)?.code ?? DEFAULT_LANG;
+}
+
 type Dict = {
+  /** Search result title and description: written per language, like an ad. */
+  meta: { title: string; description: string };
   nav: { gallery: string; about: string; amenities: string; experiences: string; location: string; book: string };
   hero: { eyebrow: string; subtitle: string; cta: string };
   gallery: {
@@ -32,7 +44,8 @@ type Dict = {
       | { type: "link"; value: string; query: string }
     )[];
   };
-  contact: { whatsappCta: string; callIt: string; callDe: string };
+  contact: { whatsappCta: string; whatsappMessage: string; callIt: string; callDe: string };
+  ui: { address: string; openImage: string; close: string; previous: string; next: string };
   location: {
     eyebrow: string; title: string;
     address: string; tagline: string;
@@ -44,6 +57,11 @@ type Dict = {
 
 export const translations: Record<Lang, Dict> = {
   it: {
+    meta: {
+      title: "Appartamento con piscina a Cavallino Treporti, vicino a Venezia",
+      description:
+        "Appartamento di 62 m² per 4 persone con balcone, aria condizionata e piscina condominiale. Spiaggia a piedi e Venezia raggiungibile in ferry.",
+    },
     nav: { gallery: "Galleria", about: "L'appartamento", amenities: "Comfort", experiences: "Esperienze", location: "Dove siamo", book: "Prenota" },
     hero: { eyebrow: "Cavallino Treporti · Venezia", subtitle: "Una fuga rilassante tra Venezia e il mare", cta: "Prenota Ora" },
     gallery: {
@@ -127,7 +145,19 @@ export const translations: Record<Lang, Dict> = {
         { type: "text", value: " del territorio." },
       ],
     },
-    contact: { whatsappCta: "WhatsApp per prenotazioni", callIt: "Italia", callDe: "Deutschland" },
+    contact: {
+      whatsappCta: "WhatsApp per prenotazioni",
+      whatsappMessage: "Ciao! Vorrei informazioni per prenotare Cavallino Treporti.",
+      callIt: "Italia",
+      callDe: "Deutschland",
+    },
+    ui: {
+      address: "Indirizzo",
+      openImage: "apri l'immagine",
+      close: "Chiudi",
+      previous: "Immagine precedente",
+      next: "Immagine successiva",
+    },
     location: {
       eyebrow: "Dove trovarci",
       title: "Posizione",
@@ -139,6 +169,11 @@ export const translations: Record<Lang, Dict> = {
     footer: { tagline: "Dove la laguna incontra il mare", cta: "Prenota Ora", rights: "Cavallino Treporti, Venezia" },
   },
   en: {
+    meta: {
+      title: "Apartment with Pool in Cavallino Treporti, near Venice",
+      description:
+        "62 m² apartment for up to 4 guests with balcony, air conditioning and shared pool. Walk to the beach and take the ferry to Venice.",
+    },
     nav: { gallery: "Gallery", about: "The Apartment", amenities: "Amenities", experiences: "Experiences", location: "Location", book: "Book" },
     hero: { eyebrow: "Cavallino Treporti · Venice", subtitle: "A relaxing escape between Venice and the sea", cta: "Book Now" },
     gallery: {
@@ -222,7 +257,19 @@ export const translations: Record<Lang, Dict> = {
         { type: "text", value: " of the area." },
       ],
     },
-    contact: { whatsappCta: "WhatsApp for bookings", callIt: "Italy", callDe: "Germany" },
+    contact: {
+      whatsappCta: "WhatsApp for bookings",
+      whatsappMessage: "Hi! I'd like some information about booking Cavallino Treporti.",
+      callIt: "Italy",
+      callDe: "Germany",
+    },
+    ui: {
+      address: "Address",
+      openImage: "open image",
+      close: "Close",
+      previous: "Previous image",
+      next: "Next image",
+    },
     location: {
       eyebrow: "Where to find us",
       title: "Location",
@@ -234,6 +281,11 @@ export const translations: Record<Lang, Dict> = {
     footer: { tagline: "Where the lagoon meets the sea", cta: "Book Now", rights: "Cavallino Treporti, Venice" },
   },
   de: {
+    meta: {
+      title: "Ferienwohnung mit Pool in Cavallino Treporti bei Venedig",
+      description:
+        "Ferienwohnung mit 62 m² für bis zu 4 Gäste, mit Balkon, Klimaanlage und Gemeinschaftspool. Strand zu Fuß erreichbar, mit der Fähre nach Venedig.",
+    },
     nav: { gallery: "Galerie", about: "Wohnung", amenities: "Komfort", experiences: "Erlebnisse", location: "Lage", book: "Buchen" },
     hero: { eyebrow: "Cavallino Treporti · Venedig", subtitle: "Eine erholsame Auszeit zwischen Venedig und dem Meer", cta: "Jetzt Buchen" },
     gallery: {
@@ -317,7 +369,19 @@ export const translations: Record<Lang, Dict> = {
         { type: "text", value: " entdecken." },
       ],
     },
-    contact: { whatsappCta: "WhatsApp für Buchungen", callIt: "Italien", callDe: "Deutschland" },
+    contact: {
+      whatsappCta: "WhatsApp für Buchungen",
+      whatsappMessage: "Hallo! Ich hätte gerne Informationen zur Buchung von Cavallino Treporti.",
+      callIt: "Italien",
+      callDe: "Deutschland",
+    },
+    ui: {
+      address: "Adresse",
+      openImage: "Bild öffnen",
+      close: "Schließen",
+      previous: "Vorheriges Bild",
+      next: "Nächstes Bild",
+    },
     location: {
       eyebrow: "So finden Sie uns",
       title: "Lage",

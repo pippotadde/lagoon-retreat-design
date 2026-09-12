@@ -1,11 +1,11 @@
 import { useState, useRef, useEffect } from "react";
 import { useLang } from "@/hooks/use-lang";
-import { LANGS, type Lang } from "@/lib/i18n";
+import { LANGS } from "@/lib/i18n";
 
 type Props = { variant?: "light" | "dark" };
 
 export function LanguageDropdown({ variant = "light" }: Props) {
-  const { lang, setLang } = useLang();
+  const { lang } = useLang();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -25,8 +25,8 @@ export function LanguageDropdown({ variant = "light" }: Props) {
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        aria-haspopup="listbox"
         aria-expanded={open}
+        aria-controls="language-menu"
         className={`flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
           isDark
             ? "border-white/30 bg-white/10 text-white hover:bg-white/20"
@@ -41,30 +41,30 @@ export function LanguageDropdown({ variant = "light" }: Props) {
         </svg>
       </button>
 
-      {open && (
-        <ul
-          role="listbox"
-          className="absolute right-0 mt-2 w-44 overflow-hidden rounded-2xl border border-border bg-card shadow-warm z-50"
-        >
-          {LANGS.map((l) => (
-            <li key={l.code}>
-              <button
-                type="button"
-                onClick={() => {
-                  setLang(l.code as Lang);
-                  setOpen(false);
-                }}
-                className={`flex w-full items-center gap-3 px-4 py-3 text-left text-sm transition-colors hover:bg-muted ${
-                  l.code === lang ? "bg-muted font-semibold text-primary" : "text-foreground"
-                }`}
-              >
-                <span className="text-base">{l.flag}</span>
-                <span>{l.label}</span>
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
+      {/* Always rendered (hidden when closed) so the links to the other languages are in the HTML */}
+      <ul
+        id="language-menu"
+        className={`absolute right-0 mt-2 w-44 overflow-hidden rounded-2xl border border-border bg-card shadow-warm z-50 ${
+          open ? "" : "hidden"
+        }`}
+      >
+        {LANGS.map((l) => (
+          <li key={l.code}>
+            <a
+              href={l.path}
+              hrefLang={l.code}
+              lang={l.code}
+              aria-current={l.code === lang ? "page" : undefined}
+              className={`flex w-full items-center gap-3 px-4 py-3 text-left text-sm transition-colors hover:bg-muted ${
+                l.code === lang ? "bg-muted font-semibold text-primary" : "text-foreground"
+              }`}
+            >
+              <span className="text-base">{l.flag}</span>
+              <span>{l.label}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

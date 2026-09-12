@@ -5,6 +5,7 @@ import { BubbleDivider } from "@/components/BubbleDivider";
 import { LanguageDropdown } from "@/components/LanguageDropdown";
 import { Picture } from "@/components/Picture";
 import { isLandscape, type ImageName } from "@/lib/images";
+import type { Lang } from "@/lib/i18n";
 
 // `sizes` for each image slot: its rendered width. With object-cover a landscape (4:3)
 // photo in a taller box is wider than the box (box height × 4/3), so it needs more pixels.
@@ -32,7 +33,9 @@ const WHATSAPP_IT = "393466023270";
 const WHATSAPP_DE = "4915123706891";
 const PHONE_IT_DISPLAY = "+39 346 6023270";
 const PHONE_DE_DISPLAY = "+49 151 23706891";
-const WHATSAPP_URL = `https://wa.me/${WHATSAPP_IT}?text=${encodeURIComponent("Ciao! Vorrei informazioni per prenotare Cavallino Treporti.")}`;
+// The German page writes to the German number, the other languages to the Italian one.
+const whatsappUrl = (lang: Lang, message: string) =>
+  `https://wa.me/${lang === "de" ? WHATSAPP_DE : WHATSAPP_IT}?text=${encodeURIComponent(message)}`;
 const expMapUrl = (q: string) => `https://www.google.com/maps/search/?api=1&query=${q}`;
 
 function Reveal({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
@@ -66,7 +69,7 @@ function Header() {
 }
 
 function LandingInner() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
 
   const galleryItems: { label: string; name: ImageName }[] = [
     { label: t.gallery.pool, name: "real-pool" },
@@ -148,7 +151,7 @@ function LandingInner() {
           </Reveal>
           <Reveal delay={360}>
             <a
-              href={WHATSAPP_URL}
+              href={whatsappUrl(lang, t.contact.whatsappMessage)}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366]/85 px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#25D366]"
@@ -197,7 +200,7 @@ function LandingInner() {
                 type="button"
                 key={`${item.label}-${i}`}
                 onClick={() => openLightbox(i)}
-                aria-label={`${item.label} — open image`}
+                aria-label={`${item.label} — ${t.ui.openImage}`}
                 className="group relative flex-shrink-0 snap-start overflow-hidden rounded-3xl shadow-soft w-[280px] sm:w-[360px] md:w-[420px] h-[360px] md:h-[460px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--amber-brand)] focus-visible:ring-offset-2 focus-visible:ring-offset-background cursor-pointer"
               >
                 <Picture
@@ -330,7 +333,7 @@ function LandingInner() {
           <div className="grid gap-6 lg:grid-cols-3 lg:gap-8">
             <Reveal className="lg:col-span-1">
               <div className="flex h-full flex-col rounded-3xl bg-[var(--teal-deep)] p-8 text-white shadow-soft md:p-10">
-                <p className="text-xs uppercase tracking-[0.3em] text-white/70">Address</p>
+                <p className="text-xs uppercase tracking-[0.3em] text-white/70">{t.ui.address}</p>
                 <p className="mt-4 font-serif text-2xl leading-snug md:text-3xl">
                   {t.location.address}
                 </p>
@@ -395,7 +398,7 @@ function LandingInner() {
             <h2 className="font-serif italic text-4xl md:text-6xl">CavallinoTreporti</h2>
             <p className="mt-4 italic text-white/75 md:text-lg">{t.footer.tagline}</p>
             <a
-              href={WHATSAPP_URL}
+              href={whatsappUrl(lang, t.contact.whatsappMessage)}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366]/85 px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#25D366]"
@@ -434,7 +437,7 @@ function LandingInner() {
           <button
             type="button"
             onClick={(e) => { e.stopPropagation(); closeLightbox(); }}
-            aria-label="Close"
+            aria-label={t.ui.close}
             className="absolute right-4 top-4 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden="true">
@@ -444,7 +447,7 @@ function LandingInner() {
           <button
             type="button"
             onClick={(e) => { e.stopPropagation(); prevImg(); }}
-            aria-label="Previous image"
+            aria-label={t.ui.previous}
             className="absolute left-4 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 md:left-8"
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden="true">
@@ -454,7 +457,7 @@ function LandingInner() {
           <button
             type="button"
             onClick={(e) => { e.stopPropagation(); nextImg(); }}
-            aria-label="Next image"
+            aria-label={t.ui.next}
             className="absolute right-4 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 md:right-8"
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden="true">
@@ -487,9 +490,9 @@ function LandingInner() {
   );
 }
 
-export function Landing() {
+export function Landing({ lang }: { lang: Lang }) {
   return (
-    <LangProvider>
+    <LangProvider lang={lang}>
       <LandingInner />
     </LangProvider>
   );

@@ -16,8 +16,8 @@ const PORT = process.env.PRERENDER_PORT || "4321";
 const SERVER = ".output/server/index.mjs";
 const PUBLIC = ".output/public";
 
-// PHASE 3: this will become ["/", "/en/", "/de/"]
-const ROUTES = ["/"];
+// One page per language: keep in sync with LANGS in src/lib/i18n.ts.
+const ROUTES = ["/", "/en/", "/de/"];
 
 if (!existsSync(SERVER)) {
   console.error(`[prerender] ${SERVER} not found. Build first with NITRO_PRESET=node-server.`);
@@ -58,7 +58,11 @@ try {
 
   let home = "";
   for (const route of ROUTES) {
-    const res = await fetch(base + route);
+    const res = await fetch(base + route, { redirect: "manual" });
+    // a redirect means the route is not the canonical URL (e.g. trailing slash mismatch)
+    if (res.status >= 300 && res.status < 400) {
+      throw new Error(`${route} redirects to ${res.headers.get("location")}`);
+    }
     if (!res.ok) throw new Error(`${route} responded ${res.status}`);
     const html = await res.text();
     if (!/<!doctype html>/i.test(html)) throw new Error(`${route} did not return valid HTML`);

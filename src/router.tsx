@@ -59,6 +59,8 @@ export const getRouter = () => {
     routeTree,
     context: {},
     scrollRestoration: true,
+    // Pages are published as /en/index.html etc., so canonical URLs end with a slash.
+    trailingSlash: "always",
     defaultPreloadStaleTime: 0,
     defaultErrorComponent: DefaultErrorComponent,
   });

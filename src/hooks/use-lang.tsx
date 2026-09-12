@@ -1,20 +1,17 @@
-import { createContext, useContext, useState, type ReactNode } from "react";
+import { createContext, useContext, type ReactNode } from "react";
 import { translations, type Lang } from "@/lib/i18n";
 
 type Ctx = {
   lang: Lang;
-  setLang: (l: Lang) => void;
   t: (typeof translations)[Lang];
 };
 
 const LangContext = createContext<Ctx | null>(null);
 
-export function LangProvider({ children }: { children: ReactNode }) {
-  const [lang, setLang] = useState<Lang>("it");
+/** Provides the page language, which is fixed by the route (/, /en/, /de/). */
+export function LangProvider({ lang, children }: { lang: Lang; children: ReactNode }) {
   return (
-    <LangContext.Provider value={{ lang, setLang, t: translations[lang] }}>
-      {children}
-    </LangContext.Provider>
+    <LangContext.Provider value={{ lang, t: translations[lang] }}>{children}</LangContext.Provider>
   );
 }
 
