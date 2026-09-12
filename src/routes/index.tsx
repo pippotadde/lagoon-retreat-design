@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Landing } from "@/components/Landing";
+import { imagePreload } from "@/lib/images";
 
 export const Route = createFileRoute("/")({
   component: Landing,
@@ -18,5 +19,7 @@ export const Route = createFileRoute("/")({
       },
       { property: "og:type", content: "website" },
     ],
+    // Hero photo is the LCP element: start downloading it before the CSS is parsed.
+    links: [imagePreload("real-pool", "100vw")],
   }),
 });

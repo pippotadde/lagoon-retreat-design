@@ -1,0 +1,181 @@
+{
+  "settings": "75ab121d2c8a3568",
+  "images": {
+    "real-balcony": {
+      "width": 1920,
+      "height": 1440,
+      "widths": [
+        480,
+        800,
+        1200,
+        1600,
+        1920
+      ],
+      "fallback": 1200,
+      "hash": "ca6a7e2db273b46e"
+    },
+    "real-bathroom-2": {
+      "width": 1440,
+      "height": 1920,
+      "widths": [
+        480,
+        800,
+        1200,
+        1440
+      ],
+      "fallback": 1200,
+      "hash": "1956a3e78930b358"
+    },
+    "real-bathroom-4": {
+      "width": 1440,
+      "height": 1920,
+      "widths": [
+        480,
+        800,
+        1200,
+        1440
+      ],
+      "fallback": 1200,
+      "hash": "ec6ff1305d405a54"
+    },
+    "real-bedroom-1": {
+      "width": 1920,
+      "height": 1440,
+      "widths": [
+        480,
+        800,
+        1200,
+        1600,
+        1920
+      ],
+      "fallback": 1200,
+      "hash": "b2f99b9c123f7846"
+    },
+    "real-bedroom-2": {
+      "width": 1920,
+      "height": 1440,
+      "widths": [
+        480,
+        800,
+        1200,
+        1600,
+        1920
+      ],
+      "fallback": 1200,
+      "hash": "6a212796a580dd7a"
+    },
+    "real-bedroom-3": {
+      "width": 1920,
+      "height": 1440,
+      "widths": [
+        480,
+        800,
+        1200,
+        1600,
+        1920
+      ],
+      "fallback": 1200,
+      "hash": "2d05726311d8f4af"
+    },
+    "real-entrance": {
+      "width": 1440,
+      "height": 1920,
+      "widths": [
+        480,
+        800,
+        1200,
+        1440
+      ],
+      "fallback": 1200,
+      "hash": "43a37894a09799c9"
+    },
+    "real-hallway": {
+      "width": 1440,
+      "height": 1920,
+      "widths": [
+        480,
+        800,
+        1200,
+        1440
+      ],
+      "fallback": 1200,
+      "hash": "cc320d29b8c77296"
+    },
+    "real-kitchen": {
+      "width": 1440,
+      "height": 1920,
+      "widths": [
+        480,
+        800,
+        1200,
+        1440
+      ],
+      "fallback": 1200,
+      "hash": "9c4a83cb4f42940f"
+    },
+    "real-living": {
+      "width": 1920,
+      "height": 1440,
+      "widths": [
+        480,
+        800,
+        1200,
+        1600,
+        1920
+      ],
+      "fallback": 1200,
+      "hash": "458c1fdf64acabfc"
+    },
+    "real-mural": {
+      "width": 1920,
+      "height": 1440,
+      "widths": [
+        480,
+        800,
+        1200,
+        1600,
+        1920
+      ],
+      "fallback": 1200,
+      "hash": "169ef6ba2cbfd094"
+    },
+    "real-openspace": {
+      "width": 1920,
+      "height": 1440,
+      "widths": [
+        480,
+        800,
+        1200,
+        1600,
+        1920
+      ],
+      "fallback": 1200,
+      "hash": "7dce05106484b8de"
+    },
+    "real-pool": {
+      "width": 1284,
+      "height": 958,
+      "widths": [
+        480,
+        800,
+        1200,
+        1284
+      ],
+      "fallback": 1200,
+      "hash": "0e306f550a2ce5b7"
+    },
+    "real-sofa": {
+      "width": 1920,
+      "height": 1440,
+      "widths": [
+        480,
+        800,
+        1200,
+        1600,
+        1920
+      ],
+      "fallback": 1200,
+      "hash": "680167fe64dd57eb"
+    }
+  }
+}

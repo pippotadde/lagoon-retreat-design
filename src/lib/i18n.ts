@@ -1,3 +1,5 @@
+import type { ImageName } from "@/lib/images";
+
 export type Lang = "it" | "en" | "de";
 
 export const LANGS: { code: Lang; label: string; flag: string }[] = [
@@ -14,6 +16,8 @@ type Dict = {
     pool: string; openspace: string; living: string; sofa: string; kitchen: string; mural: string; balcony: string; entrance: string;
     bedroom: string; bedroomYellow: string; bathroom: string; hallway: string;
   };
+  /** Descriptive alt text for every photo, keyed by image name. */
+  alt: Record<ImageName, string>;
   features: { pine: string; pool: string; beach: string; ferry: string };
   about: {
     eyebrow: string; title: string;
@@ -57,6 +61,22 @@ export const translations: Record<Lang, Dict> = {
       bedroomYellow: "Camera Giallo Senape",
       bathroom: "Bagno Lagunare",
       hallway: "Corridoio & Armadi",
+    },
+    alt: {
+      "real-pool": "Piscina condominiale del residence con vista sulla pineta, a Cavallino Treporti",
+      "real-openspace": "Open space con tavolo effetto marmo, cucina verde salvia e murale a pois blu sullo sfondo",
+      "real-living": "Soggiorno con tavolo da pranzo per quattro, divano color senape e carte nautiche alle pareti",
+      "real-sofa": "Divano senape con cuscini gialli, zona pranzo e portafinestra sul balcone",
+      "real-kitchen": "Cucina con mobili verde salvia, forno e macchina del caffè, vista dal divano",
+      "real-mural": "Parete dipinta a mano con pois blu e turchesi dietro la TV, mobile effetto marmo",
+      "real-bedroom-1": "Camera matrimoniale con parete giallo senape, comodini con lampade e tende a righe",
+      "real-bedroom-2": "Camera matrimoniale con armadio a quattro ante e aria condizionata",
+      "real-bedroom-3": "Camera matrimoniale vista dal letto, con armadio e poltroncina patchwork",
+      "real-bathroom-2": "Bagno con piastrelle turchesi, lavabo, sanitari, lavatrice e finestra",
+      "real-bathroom-4": "Bagno con pavimento turchese, lavabo sospeso e grande specchio",
+      "real-hallway": "Corridoio con ampio armadio a muro e porta verso il soggiorno",
+      "real-balcony": "Balcone con tavolino e due sedie, affacciato sulle case colorate del residence",
+      "real-entrance": "Passaggio ad arco verso l'ingresso, accanto alla parete con il murale",
     },
     features: { pine: "Vista sulla pineta", pool: "Piscina", beach: "Spiaggia a piedi", ferry: "5 min dal ferry per Venezia" },
     about: {
@@ -137,6 +157,22 @@ export const translations: Record<Lang, Dict> = {
       bathroom: "Lagoon Bathroom",
       hallway: "Hallway & Wardrobes",
     },
+    alt: {
+      "real-pool": "Residence swimming pool overlooking the pine forest in Cavallino Treporti",
+      "real-openspace": "Open-plan living area with marble-effect dining table, sage-green kitchen and blue dotted mural",
+      "real-living": "Living room with dining table for four, mustard sofa and framed nautical charts",
+      "real-sofa": "Mustard sofa with yellow cushions, dining area and French window to the balcony",
+      "real-kitchen": "Kitchen with sage-green cabinets, oven and coffee machine, seen from the sofa",
+      "real-mural": "Hand-painted wall of blue and teal dots behind the TV, with marble-effect cabinet",
+      "real-bedroom-1": "Double bedroom with mustard-yellow wall, bedside lamps and striped curtains",
+      "real-bedroom-2": "Double bedroom with four-door wardrobe and air conditioning",
+      "real-bedroom-3": "Double bedroom seen from the bed, with wardrobe and patchwork armchair",
+      "real-bathroom-2": "Bathroom with teal tiles, washbasin, toilet, bidet, washing machine and window",
+      "real-bathroom-4": "Bathroom with teal floor, wall-hung washbasin and large mirror",
+      "real-hallway": "Hallway with large built-in wardrobe and door to the living room",
+      "real-balcony": "Balcony with a small table and two chairs, overlooking the colorful residence buildings",
+      "real-entrance": "Arched passage to the entrance hall, next to the mural wall",
+    },
     features: { pine: "Pine forest views", pool: "Swimming pool", beach: "Beach walkable", ferry: "5 min from Venice ferry" },
     about: {
       eyebrow: "The apartment",
@@ -215,6 +251,22 @@ export const translations: Record<Lang, Dict> = {
       bedroomYellow: "Senfgelbes Schlafzimmer",
       bathroom: "Lagunen-Badezimmer",
       hallway: "Flur & Schränke",
+    },
+    alt: {
+      "real-pool": "Gemeinschaftspool der Wohnanlage mit Blick auf den Pinienwald in Cavallino Treporti",
+      "real-openspace": "Offener Wohnbereich mit Esstisch in Marmoroptik, salbeigrüner Küche und blauem Punkte-Wandbild",
+      "real-living": "Wohnzimmer mit Esstisch für vier Personen, senfgelbem Sofa und gerahmten Seekarten",
+      "real-sofa": "Senfgelbes Sofa mit gelben Kissen, Essbereich und Balkontür",
+      "real-kitchen": "Küche mit salbeigrünen Schränken, Backofen und Kaffeemaschine, vom Sofa aus gesehen",
+      "real-mural": "Handbemalte Wand mit blauen und türkisen Punkten hinter dem Fernseher, Lowboard in Marmoroptik",
+      "real-bedroom-1": "Schlafzimmer mit Doppelbett, senfgelber Wand, Nachttischlampen und gestreiften Vorhängen",
+      "real-bedroom-2": "Schlafzimmer mit Doppelbett, viertürigem Kleiderschrank und Klimaanlage",
+      "real-bedroom-3": "Schlafzimmer vom Bett aus gesehen, mit Kleiderschrank und Patchwork-Sessel",
+      "real-bathroom-2": "Badezimmer mit türkisen Fliesen, Waschbecken, WC, Bidet, Waschmaschine und Fenster",
+      "real-bathroom-4": "Badezimmer mit türkisem Boden, Hängewaschbecken und großem Spiegel",
+      "real-hallway": "Flur mit großem Einbauschrank und Tür zum Wohnzimmer",
+      "real-balcony": "Balkon mit kleinem Tisch und zwei Stühlen, Blick auf die bunten Häuser der Wohnanlage",
+      "real-entrance": "Rundbogen zum Eingangsbereich neben der Wand mit dem Wandbild",
     },
     features: { pine: "Blick auf den Pinienwald", pool: "Schwimmbad", beach: "Strand zu Fuß erreichbar", ferry: "5 Min. zur Fähre nach Venedig" },
     about: {

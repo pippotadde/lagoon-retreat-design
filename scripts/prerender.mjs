@@ -40,7 +40,9 @@ async function waitForServer(timeoutMs = 30000) {
     try {
       const res = await fetch(base + "/", { redirect: "manual" });
       if (res.status < 500) return;
-    } catch { /* not ready yet */ }
+    } catch {
+      /* not ready yet */
+    }
     await sleep(300);
   }
   throw new Error("the server did not start within the timeout");
@@ -63,7 +65,9 @@ try {
 
     // regression guard: if the HTML is an empty shell, prerendering did not work
     if (html.length < 10000) {
-      throw new Error(`${route} produced only ${html.length} bytes: looks like an SSR shell with no content`);
+      throw new Error(
+        `${route} produced only ${html.length} bytes: looks like an SSR shell with no content`,
+      );
     }
 
     const dest = outFile(route);

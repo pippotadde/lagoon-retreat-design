@@ -3,23 +3,24 @@ import { useReveal } from "@/hooks/use-reveal";
 import { LangProvider, useLang } from "@/hooks/use-lang";
 import { BubbleDivider } from "@/components/BubbleDivider";
 import { LanguageDropdown } from "@/components/LanguageDropdown";
+import { Picture } from "@/components/Picture";
+import { isLandscape, type ImageName } from "@/lib/images";
 
-
-import realPool from "@/assets/real-pool.jpg";
-import realBalcony from "@/assets/real-balcony.jpg";
-import realLiving from "@/assets/real-living.jpg";
-import realSofa from "@/assets/real-sofa.jpg";
-import realKitchen from "@/assets/real-kitchen.jpg";
-import realOpenspace from "@/assets/real-openspace.jpg";
-import realMural from "@/assets/real-mural.jpg";
-import realEntrance from "@/assets/real-entrance.jpg";
-import realBedroom1 from "@/assets/real-bedroom-1.jpg";
-import realBedroom2 from "@/assets/real-bedroom-2.jpg";
-import realBedroom3 from "@/assets/real-bedroom-3.jpg";
-import realBathroom2 from "@/assets/real-bathroom-2.jpg";
-import realBathroom4 from "@/assets/real-bathroom-4.jpg";
-import realHallway from "@/assets/real-hallway.jpg";
-import location from "@/assets/location.jpg";
+// `sizes` for each image slot: its rendered width. With object-cover a landscape (4:3)
+// photo in a taller box is wider than the box (box height × 4/3), so it needs more pixels.
+const SIZES = {
+  hero: "100vw",
+  // Gallery cards: 280×360 below 640px, 360×360 up to 768px, 420×460 above.
+  galleryLandscape: "(min-width: 768px) 614px, 480px",
+  galleryPortrait: "(min-width: 768px) 420px, (min-width: 640px) 360px, 280px",
+  // About collage: boxes about 280px wide on desktop, half the column on mobile.
+  mural: "(min-width: 768px) 470px, 83vw", // landscape photo in a 4:5 box
+  sofa: "(min-width: 768px) 375px, 67vw", // landscape photo in a square box
+  kitchen: "(min-width: 768px) 280px, 50vw", // portrait photo in a square box
+  // Lightbox: at most 1152px wide and 85vh tall, 16px padding on each side.
+  lightboxLandscape: "(min-width: 1184px) 1152px, calc(100vw - 32px)",
+  lightboxPortrait: "(orientation: portrait) calc(100vw - 32px), 64vh",
+};
 
 // Address coordinates for Google Maps
 const MAPS_QUERY = "Via+Paolo+Thaon+di+Revel+58,+Cavallino+Treporti,+Venezia";
@@ -67,21 +68,21 @@ function Header() {
 function LandingInner() {
   const { t } = useLang();
 
-  const galleryItems = [
-    { label: t.gallery.pool, src: realPool },
-    { label: t.gallery.openspace, src: realOpenspace },
-    { label: t.gallery.living, src: realLiving },
-    { label: t.gallery.sofa, src: realSofa },
-    { label: t.gallery.kitchen, src: realKitchen },
-    { label: t.gallery.mural, src: realMural },
-    { label: t.gallery.bedroomYellow, src: realBedroom1 },
-    { label: t.gallery.bedroom, src: realBedroom2 },
-    { label: t.gallery.bedroom, src: realBedroom3 },
-    { label: t.gallery.bathroom, src: realBathroom2 },
-    { label: t.gallery.bathroom, src: realBathroom4 },
-    { label: t.gallery.hallway, src: realHallway },
-    { label: t.gallery.balcony, src: realBalcony },
-    { label: t.gallery.entrance, src: realEntrance },
+  const galleryItems: { label: string; name: ImageName }[] = [
+    { label: t.gallery.pool, name: "real-pool" },
+    { label: t.gallery.openspace, name: "real-openspace" },
+    { label: t.gallery.living, name: "real-living" },
+    { label: t.gallery.sofa, name: "real-sofa" },
+    { label: t.gallery.kitchen, name: "real-kitchen" },
+    { label: t.gallery.mural, name: "real-mural" },
+    { label: t.gallery.bedroomYellow, name: "real-bedroom-1" },
+    { label: t.gallery.bedroom, name: "real-bedroom-2" },
+    { label: t.gallery.bedroom, name: "real-bedroom-3" },
+    { label: t.gallery.bathroom, name: "real-bathroom-2" },
+    { label: t.gallery.bathroom, name: "real-bathroom-4" },
+    { label: t.gallery.hallway, name: "real-hallway" },
+    { label: t.gallery.balcony, name: "real-balcony" },
+    { label: t.gallery.entrance, name: "real-entrance" },
   ];
 
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
@@ -119,12 +120,12 @@ function LandingInner() {
 
       {/* HERO */}
       <section className="relative h-screen min-h-[640px] w-full overflow-hidden">
-        <img
-          src={realPool}
-          alt="Piscina del residence a Cavallino Treporti"
+        <Picture
+          name="real-pool"
+          alt={t.alt["real-pool"]}
+          sizes={SIZES.hero}
+          priority
           className="absolute inset-0 h-full w-full object-cover"
-          width={1920}
-          height={1280}
         />
         <div className="absolute inset-0 bg-gradient-hero" />
         <div className="absolute inset-0 bg-black/25" />
@@ -199,10 +200,10 @@ function LandingInner() {
                 aria-label={`${item.label} — open image`}
                 className="group relative flex-shrink-0 snap-start overflow-hidden rounded-3xl shadow-soft w-[280px] sm:w-[360px] md:w-[420px] h-[360px] md:h-[460px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--amber-brand)] focus-visible:ring-offset-2 focus-visible:ring-offset-background cursor-pointer"
               >
-                <img
-                  src={item.src}
-                  alt={item.label}
-                  loading="lazy"
+                <Picture
+                  name={item.name}
+                  alt={t.alt[item.name]}
+                  sizes={isLandscape(item.name) ? SIZES.galleryLandscape : SIZES.galleryPortrait}
                   className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[oklch(0.22_0.03_220/0.85)] via-transparent to-transparent" />
@@ -252,10 +253,11 @@ function LandingInner() {
 
           <Reveal delay={150}>
             <div className="grid grid-cols-2 gap-4">
-              <img src={realMural} alt={t.gallery.mural} loading="lazy" className="aspect-[4/5] w-full rounded-3xl object-cover shadow-soft" />
-              <div className="space-y-4 pt-10">
-                <img src={realKitchen} alt={t.gallery.kitchen} loading="lazy" className="aspect-square w-full rounded-3xl object-cover shadow-soft" />
-                <img src={realSofa} alt={t.gallery.sofa} loading="lazy" className="aspect-square w-full rounded-3xl object-cover shadow-soft" />
+              <Picture name="real-mural" alt={t.alt["real-mural"]} sizes={SIZES.mural} className="aspect-[4/5] w-full rounded-3xl object-cover shadow-soft" />
+              {/* gap instead of space-y: margins don't apply to the display:contents <picture> */}
+              <div className="flex flex-col gap-4 pt-10">
+                <Picture name="real-kitchen" alt={t.alt["real-kitchen"]} sizes={SIZES.kitchen} className="aspect-square w-full rounded-3xl object-cover shadow-soft" />
+                <Picture name="real-sofa" alt={t.alt["real-sofa"]} sizes={SIZES.sofa} className="aspect-square w-full rounded-3xl object-cover shadow-soft" />
               </div>
             </div>
           </Reveal>
@@ -420,9 +422,6 @@ function LandingInner() {
         </div>
       </footer>
 
-      {/* Suppress unused location image import warning by keeping reference */}
-      <link rel="preload" as="image" href={location} />
-
       {/* LIGHTBOX */}
       {lightboxIndex !== null && (
         <div
@@ -466,9 +465,12 @@ function LandingInner() {
             className="relative flex max-h-full max-w-6xl flex-col items-center"
             onClick={(e) => e.stopPropagation()}
           >
-            <img
-              src={galleryItems[lightboxIndex].src}
-              alt={galleryItems[lightboxIndex].label}
+            <Picture
+              key={galleryItems[lightboxIndex].name}
+              name={galleryItems[lightboxIndex].name}
+              alt={t.alt[galleryItems[lightboxIndex].name]}
+              sizes={isLandscape(galleryItems[lightboxIndex].name) ? SIZES.lightboxLandscape : SIZES.lightboxPortrait}
+              priority
               className="max-h-[85vh] w-auto max-w-full rounded-2xl object-contain shadow-2xl"
             />
             <figcaption className="mt-4 text-center font-serif text-base text-white/90 md:text-lg">
