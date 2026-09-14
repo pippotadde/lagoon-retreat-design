@@ -81,10 +81,9 @@ anteprime social, dati strutturati) è costruito in `src/lib/seo.ts`.
 In `src/lib/contact.ts`:
 
 - telefoni e numeri WhatsApp. La pagina tedesca scrive al numero tedesco, le altre a quello italiano.
-- `CIN`: **per ora è un segnaposto** (`IT027008C2XXXXXXXX`). Il codice vero è obbligatorio
-  per legge su ogni annuncio, sito compreso: va messo prima di pubblicare se l'appartamento
-  è in affitto. Quando c'è, va aggiunto anche ai dati strutturati (`licenseNum`, vedi il
-  TODO in `src/lib/seo.ts`).
+- `CIN`: non pubblicato, per scelta del proprietario (`null`). Se un giorno si mette, compare
+  da solo nel footer; va aggiunto a mano ai dati strutturati (`licenseNum`, vedi il commento
+  in `src/lib/seo.ts`).
 - l'email non c'è: si aggiunge qui e nel footer di `Landing.tsx`.
 
 ## Foto
@@ -120,9 +119,10 @@ Le foto il cui nome inizia con `real-` finiscono anche nei dati strutturati per 
 
 ## Coordinate
 
-`GEO` in `src/lib/seo.ts` e `PIN` in `scripts/generate-static-map.mjs`. **Mancano**: vanno
-prese da Google Maps (clic destro sul palazzo) con almeno 5 decimali. Con `PIN` impostato
-la mappa statica mostra il segnaposto.
+`GEO` in `src/lib/seo.ts` e `PIN` in `scripts/generate-static-map.mjs`, uguali in tutti e
+due i file: 45.45423, 12.47768. È il civico 58 secondo il geocoder Esri (OpenStreetMap ha
+solo la via). Per un punto più preciso: Google Maps, clic destro sul palazzo, almeno 5
+decimali. Dopo averle cambiate va rigenerata la mappa statica (sezione sopra).
 
 ## Prezzi
 

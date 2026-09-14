@@ -8,9 +8,12 @@ export const SITE_URL = "https://venicelagoonbeachpoolcavallino.com";
 const OG_IMAGE = { url: `${SITE_URL}/og-image.jpg`, width: 1200, height: 630 };
 const HERO: ImageName = "real-pool";
 
-// Exact position of the building, 5+ decimals (Google requirement).
-// TODO: fill in from Google Maps (right click on the building); omitted from the data until then.
-const GEO: { latitude: number; longitude: number } | null = null;
+// Position of the building, 5+ decimals (Google requirement): house number 58
+// as geocoded by Esri (PointAddress match), since OpenStreetMap only has the street.
+const GEO: { latitude: number; longitude: number } | null = {
+  latitude: 45.45423,
+  longitude: 12.47768,
+};
 
 const pathOf = (lang: Lang) => LANGS.find((l) => l.code === lang)!.path;
 
@@ -63,7 +66,7 @@ function vacationRental(lang: Lang) {
         amenity("washerDryer"),
         amenity("selfCheckinCheckout"),
         amenity("balcony"),
-        // TODO: amenity("licenseNum", CIN) once the real CIN replaces the placeholder in contact.ts
+        // amenity("licenseNum", CIN) goes here if the CIN is ever published (contact.ts)
       ],
     },
   };

@@ -9,10 +9,10 @@
  */
 import sharp from "sharp";
 
-// Via Paolo Thaon di Revel: centroid of the street, the exact building is not known yet.
+// Via Paolo Thaon di Revel: centroid of the street.
 const CENTER = { lat: 45.45431, lon: 12.47712 };
-// Exact position of the building, same as GEO in src/lib/seo.ts; draws a pin when set.
-const PIN = null;
+// Position of the building, same as GEO in src/lib/seo.ts; draws a pin when set.
+const PIN = { lat: 45.45423, lon: 12.47768 };
 const ZOOM = 15;
 const WIDTH = 1024;
 const HEIGHT = 640;

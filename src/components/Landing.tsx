@@ -519,8 +519,8 @@ function LandingInner() {
             </div>
             <div className="mt-14 border-t border-white/15 pt-8 text-sm text-white/55">
               © {new Date().getFullYear()} CavallinoTreporti · {t.footer.rights}
-              {/* National identification code, required by law on every listing */}
-              <p className="mt-2 text-white/75">CIN {CIN}</p>
+              {/* National identification code, shown only when set in contact.ts */}
+              {CIN && <p className="mt-2 text-white/75">CIN {CIN}</p>}
             </div>
           </Reveal>
         </div>
