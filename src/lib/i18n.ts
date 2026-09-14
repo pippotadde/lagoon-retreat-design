@@ -242,7 +242,7 @@ export const translations: Record<Lang, Dict> = {
     location: {
       eyebrow: "Dove trovarci",
       title: "Posizione",
-      address: "Via Paolo Thaon di Revel 58",
+      address: "Via Paolo Thaon di Revel 58", // no-break space: "58" never wraps alone
       tagline: "Cavallino Treporti, Venezia · Italia",
       beach: "→ Spiaggia",
       venice: "→ Venezia",
@@ -401,7 +401,7 @@ export const translations: Record<Lang, Dict> = {
     location: {
       eyebrow: "Where to find us",
       title: "Location",
-      address: "Via Paolo Thaon di Revel 58",
+      address: "Via Paolo Thaon di Revel 58", // no-break space: "58" never wraps alone
       tagline: "Cavallino Treporti, Venice · Italy",
       beach: "→ Beach",
       venice: "→ Venice",
@@ -565,7 +565,7 @@ export const translations: Record<Lang, Dict> = {
     location: {
       eyebrow: "So finden Sie uns",
       title: "Lage",
-      address: "Via Paolo Thaon di Revel 58",
+      address: "Via Paolo Thaon di Revel 58", // no-break space: "58" never wraps alone
       tagline: "Cavallino Treporti, Venedig · Italien",
       beach: "→ Strand",
       venice: "→ Venedig",

@@ -76,7 +76,8 @@ function LocationMap() {
             sizes={SIZES.map}
             className="absolute inset-0 h-full w-full object-cover"
           />
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-[oklch(0.22_0.03_220/0.12)] p-6 text-center">
+          {/* Button at the bottom: the building pin sits in the middle of the map */}
+          <div className="absolute inset-0 flex flex-col items-center justify-end gap-3 bg-[oklch(0.22_0.03_220/0.12)] p-6 text-center">
             <button
               type="button"
               onClick={() => setInteractive(true)}
