@@ -165,7 +165,7 @@
     },
     "real-pool": {
       "width": 1284,
-      "height": 958,
+      "height": 955,
       "widths": [
         480,
         800,
@@ -173,7 +173,7 @@
         1284
       ],
       "fallback": 1200,
-      "hash": "0e306f550a2ce5b7"
+      "hash": "1b4b17094051c163"
     },
     "real-sofa": {
       "width": 1920,
