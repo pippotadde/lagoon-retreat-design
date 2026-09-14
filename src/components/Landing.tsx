@@ -51,6 +51,15 @@ function Reveal({
   );
 }
 
+/** Hero content: CSS fade-in on load, so it shows without waiting for JavaScript. */
+function HeroFade({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  return (
+    <div className="hero-fade" style={{ animationDelay: `${delay}ms` }}>
+      {children}
+    </div>
+  );
+}
+
 /**
  * Static OpenStreetMap picture of the area (scripts/generate-static-map.mjs). The
  * Google Maps iframe is only loaded when the visitor asks for it, so the page makes
@@ -126,7 +135,7 @@ function Header() {
     <header className="absolute top-0 left-0 right-0 z-30 px-6 py-5 md:px-10 md:py-6">
       <div className="mx-auto flex max-w-7xl items-center justify-between">
         <a href="#top" className="font-serif text-lg italic text-white drop-shadow-md md:text-xl">
-          CavallinoTreporti
+          Cavallino Treporti
         </a>
         <nav className="hidden items-center gap-7 text-sm text-white/90 lg:flex">
           <a href="#gallery" className="hover:text-white transition-colors">
@@ -223,42 +232,42 @@ function LandingInner() {
         <div className="absolute inset-0 bg-black/25" />
 
         <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center text-white">
-          <Reveal>
-            <p className="mb-5 text-xs uppercase tracking-[0.4em] text-white/85">
+          <HeroFade>
+            <p className="mb-5 text-xs uppercase tracking-[0.25em] text-white/85 sm:tracking-[0.4em]">
               {t.hero.eyebrow}
             </p>
-          </Reveal>
-          <Reveal delay={120}>
+          </HeroFade>
+          <HeroFade delay={120}>
             <h1 className="font-serif italic text-5xl leading-[1.05] sm:text-7xl md:text-8xl lg:text-9xl">
-              CavallinoTreporti
+              Cavallino Treporti
             </h1>
-          </Reveal>
-          <Reveal delay={240}>
+          </HeroFade>
+          <HeroFade delay={240}>
             <p className="mt-8 max-w-xl text-base text-white/90 sm:text-lg">{t.hero.subtitle}</p>
-          </Reveal>
-          <Reveal delay={360}>
+          </HeroFade>
+          <HeroFade delay={360}>
             <WhatsAppButton className="mt-8" />
-          </Reveal>
-          <Reveal delay={460}>
+          </HeroFade>
+          <HeroFade delay={460}>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-white/85">
               <a
                 href={`tel:${PHONE_IT_DISPLAY.replace(/\s/g, "")}`}
                 className="hover:text-white transition-colors"
               >
-                🇮🇹 {t.contact.callIt}: {PHONE_IT_DISPLAY}
+                {t.contact.callIt}: {PHONE_IT_DISPLAY}
               </a>
               <span className="hidden sm:inline text-white/40">·</span>
               <a
                 href={`tel:${PHONE_DE_DISPLAY.replace(/\s/g, "")}`}
                 className="hover:text-white transition-colors"
               >
-                🇩🇪 {t.contact.callDe}: {PHONE_DE_DISPLAY}
+                {t.contact.callDe}: {PHONE_DE_DISPLAY}
               </a>
             </div>
-          </Reveal>
+          </HeroFade>
         </div>
 
-        <div className="absolute bottom-6 left-1/2 z-10 -translate-x-1/2 text-white/80 animate-bounce">
+        <div className="absolute bottom-6 left-1/2 z-10 -translate-x-1/2 text-white/80 motion-safe:animate-bounce">
           <svg
             width="24"
             height="24"
@@ -501,7 +510,7 @@ function LandingInner() {
       <footer id="book" className="bg-[var(--teal-deep)] py-20 text-white md:py-28">
         <div className="mx-auto max-w-4xl px-6 text-center">
           <Reveal>
-            <h2 className="font-serif italic text-4xl md:text-6xl">CavallinoTreporti</h2>
+            <h2 className="font-serif italic text-4xl md:text-6xl">Cavallino Treporti</h2>
             <p className="mt-4 italic text-white/75 md:text-lg">{t.footer.tagline}</p>
             <WhatsAppButton className="mt-8" />
             <div className="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-white/85">
@@ -509,17 +518,17 @@ function LandingInner() {
                 href={`tel:${PHONE_IT_DISPLAY.replace(/\s/g, "")}`}
                 className="hover:text-white transition-colors"
               >
-                🇮🇹 {t.contact.callIt}: {PHONE_IT_DISPLAY}
+                {t.contact.callIt}: {PHONE_IT_DISPLAY}
               </a>
               <a
                 href={`tel:${PHONE_DE_DISPLAY.replace(/\s/g, "")}`}
                 className="hover:text-white transition-colors"
               >
-                🇩🇪 {t.contact.callDe}: {PHONE_DE_DISPLAY}
+                {t.contact.callDe}: {PHONE_DE_DISPLAY}
               </a>
             </div>
             <div className="mt-14 border-t border-white/15 pt-8 text-sm text-white/55">
-              © {new Date().getFullYear()} CavallinoTreporti · {t.footer.rights}
+              © {new Date().getFullYear()} {t.footer.rights}
               {/* National identification code, shown only when set in contact.ts */}
               {CIN && <p className="mt-2 text-white/75">CIN {CIN}</p>}
             </div>
