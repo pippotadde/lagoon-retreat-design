@@ -113,12 +113,13 @@
   --whatsapp: #6fd3b5;
   --whatsapp-hover: #8adcc4;
 
-  /* Light lagoon veil: keeps the white hero text readable without tinting the photo blue */
+  /* Neutral veil, darker at the top (menu) and bottom (phone numbers): the pool photo keeps
+     its own colours instead of being tinted blue */
   --gradient-hero: linear-gradient(
-    160deg,
-    rgb(15 59 64 / 0.45) 0%,
-    rgb(42 116 121 / 0.12) 55%,
-    rgb(111 207 176 / 0.1) 100%
+    180deg,
+    rgb(20 28 28 / 0.35) 0%,
+    rgb(20 28 28 / 0.05) 50%,
+    rgb(20 28 28 / 0.3) 100%
   );
   --gradient-lagoon: linear-gradient(90deg, var(--azure) 0%, var(--aqua) 100%);
 
