@@ -162,8 +162,9 @@ export const translations: Record<Lang, Dict> = {
       "real-entrance": "Passaggio ad arco verso l'ingresso, accanto alla parete con il murale",
       "map-area":
         "Mappa di Ca' Vio, Cavallino Treporti, con via Paolo Thaon di Revel e la spiaggia",
-      "area-laguna": "Pista ciclabile tra le barene della laguna",
-      "area-pineta": "Pineta affacciata sul mare vista dall'alto",
+      "area-laguna":
+        "Laguna al tramonto a Treporti, con le briccole e la passeggiata lungo l'acqua",
+      "area-liopiccolo": "Il borgo di Lio Piccolo nella laguna, con la chiesa e il campanile",
     },
     features: {
       pine: "Vista sulla pineta",
@@ -309,8 +310,8 @@ export const translations: Record<Lang, Dict> = {
       "real-entrance": "Arched passage to the entrance hall, next to the mural wall",
       "map-area":
         "Map of Ca' Vio, Cavallino Treporti, showing Via Paolo Thaon di Revel and the beach",
-      "area-laguna": "Cycle path through the salt marshes of the lagoon",
-      "area-pineta": "Aerial view of the pine forest by the sea",
+      "area-laguna": "The lagoon at sunset in Treporti, with mooring poles and the waterside path",
+      "area-liopiccolo": "The lagoon village of Lio Piccolo, with its church and bell tower",
     },
     features: {
       pine: "Pine forest views",
@@ -457,8 +458,8 @@ export const translations: Record<Lang, Dict> = {
       "real-entrance": "Rundbogen zum Eingangsbereich neben der Wand mit dem Wandbild",
       "map-area":
         "Karte von Ca' Vio, Cavallino Treporti, mit der Via Paolo Thaon di Revel und dem Strand",
-      "area-laguna": "Radweg durch die Salzwiesen der Lagune",
-      "area-pineta": "Pinienwald am Meer von oben",
+      "area-laguna": "Die Lagune bei Sonnenuntergang in Treporti, mit Pfählen und Uferweg",
+      "area-liopiccolo": "Das Lagunendorf Lio Piccolo mit Kirche und Glockenturm",
     },
     features: {
       pine: "Blick auf den Pinienwald",

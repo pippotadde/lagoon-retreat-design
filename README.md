@@ -109,13 +109,24 @@ lo script, che si accorge del cambiamento e rigenera solo quella.
 
 Le foto il cui nome inizia con `real-` finiscono anche nei dati strutturati per Google.
 
+### Foto dei dintorni: fonti e licenze
+
+Le foto `area-*` non sono nostre: vengono da Wikimedia Commons, con licenze che ne
+permettono l'uso senza chiedere permessi né citare l'autore. Qui sotto la prova, da tenere
+aggiornata se si cambiano.
+
+| File                  | Originale                                                                                                            | Autore  | Licenza          |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------- | ------- | ---------------- |
+| `area-laguna.jpg`     | [Panorama (Treporti) 30 11 2022 01](<https://commons.wikimedia.org/wiki/File:Panorama_(Treporti)_30_11_2022_01.jpg>) | Effems  | CC0 1.0          |
+| `area-liopiccolo.jpg` | [Lio Piccolo - Borgo](https://commons.wikimedia.org/wiki/File:Lio_Piccolo_-_Borgo.jpg)                               | Gaemon3 | Pubblico dominio |
+
 ## Altre immagini (si rigenerano a mano)
 
 - `scripts/generate-meta-images.mjs`: anteprima dei link `public/og-image.jpg` (dalla foto
   della piscina) e favicon a partire da `public/favicon.svg`.
 - `scripts/generate-static-map.mjs`: mappa statica della zona in `src/assets/map-area.jpg`
-  (dati © OpenStreetMap), mostrata al posto di Google Maps finché non si clicca
-  "Mostra la mappa". Dopo averla rigenerata: `node scripts/optimize-images.mjs`.
+  (dati © OpenStreetMap), con il segnaposto del palazzo: toccandola si apre Google Maps.
+  Dopo averla rigenerata: `node scripts/optimize-images.mjs`.
 
 ## Coordinate
 

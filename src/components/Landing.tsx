@@ -616,14 +616,13 @@ function LandingInner() {
         </div>
       </section>
 
-      {/* FOOTER */}
-      {/* FOOTER: pine forest from above, faded into the lagoon colours */}
+      {/* FOOTER: the lagoon village of Lio Piccolo, faded into the lagoon colours */}
       <footer
         id="book"
         className="relative overflow-hidden bg-lagoon-deep py-20 text-white md:py-28"
       >
         <Picture
-          name="area-pineta"
+          name="area-liopiccolo"
           alt=""
           sizes="100vw"
           className="absolute inset-0 h-full w-full object-cover opacity-60"

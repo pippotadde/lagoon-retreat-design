@@ -2,26 +2,30 @@
   "settings": "75ab121d2c8a3568",
   "images": {
     "area-laguna": {
-      "width": 1200,
-      "height": 600,
+      "width": 2400,
+      "height": 1183,
       "widths": [
         480,
         800,
-        1200
+        1200,
+        1600,
+        1920
       ],
       "fallback": 1200,
-      "hash": "9e58558f8bdbfd7f"
+      "hash": "eb71278d869c8006"
     },
-    "area-pineta": {
-      "width": 1032,
-      "height": 860,
+    "area-liopiccolo": {
+      "width": 2272,
+      "height": 1704,
       "widths": [
         480,
         800,
-        1032
+        1200,
+        1600,
+        1920
       ],
-      "fallback": 1032,
-      "hash": "5eb0dfac7d1ee36d"
+      "fallback": 1200,
+      "hash": "e2283a856a9ac6ad"
     },
     "map-area": {
       "width": 1024,
