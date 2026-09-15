@@ -19,8 +19,8 @@ export function langFromPath(pathname: string): Lang {
 }
 
 export type HighlightKey = "garden" | "location" | "space" | "guests";
-export type AmenityKey =
-  "pool" | "beach" | "ac" | "wifi" | "kitchen" | "parking" | "checkin" | "balcony";
+export type AmenityKey = "ac" | "wifi" | "kitchen" | "parking" | "checkin" | "balcony";
+export type HeroFactKey = "pool" | "beach" | "guests";
 export type ExperienceKey = "venice" | "beach" | "active";
 
 type Dict = {
@@ -34,7 +34,8 @@ type Dict = {
     location: string;
     book: string;
   };
-  hero: { eyebrow: string; subtitle: string; cta: string };
+  /** facts: short key points under the subtitle; icons and order in Landing.tsx. */
+  hero: { eyebrow: string; subtitle: string; cta: string; facts: Record<HeroFactKey, string> };
   gallery: {
     eyebrow: string;
     title: string;
@@ -62,7 +63,7 @@ type Dict = {
     highlights: Record<HighlightKey, { title: string; text: string }>;
   };
   /** Short labels; icons and order in Landing.tsx. */
-  amenities: { eyebrow: string; title: string; items: Record<AmenityKey, string> };
+  amenities: { title: string; items: Record<AmenityKey, string> };
   experiences: {
     eyebrow: string;
     title: string;
@@ -121,6 +122,7 @@ export const translations: Record<Lang, Dict> = {
       eyebrow: "Appartamento con piscina · Venezia",
       subtitle: "Una fuga rilassante tra Venezia e il mare",
       cta: "Prenota Ora",
+      facts: { pool: "Piscina", beach: "Spiaggia a 5 min", guests: "Fino a 4 ospiti" },
     },
     gallery: {
       eyebrow: "All'interno",
@@ -184,11 +186,8 @@ export const translations: Record<Lang, Dict> = {
       },
     },
     amenities: {
-      eyebrow: "Ogni comfort",
       title: "Tutto quello che serve",
       items: {
-        pool: "Piscina",
-        beach: "Spiaggia a piedi",
         ac: "Aria condizionata",
         wifi: "Wi-Fi veloce",
         kitchen: "Cucina attrezzata",
@@ -268,6 +267,7 @@ export const translations: Record<Lang, Dict> = {
       eyebrow: "Apartment with pool · Venice",
       subtitle: "A relaxing escape between Venice and the sea",
       cta: "Book Now",
+      facts: { pool: "Pool", beach: "Beach 5 min away", guests: "Up to 4 guests" },
     },
     gallery: {
       eyebrow: "Inside",
@@ -331,11 +331,8 @@ export const translations: Record<Lang, Dict> = {
       },
     },
     amenities: {
-      eyebrow: "Every comfort",
       title: "Everything you need",
       items: {
-        pool: "Pool",
-        beach: "Walk to the beach",
         ac: "Air conditioning",
         wifi: "Fast Wi-Fi",
         kitchen: "Equipped kitchen",
@@ -415,6 +412,7 @@ export const translations: Record<Lang, Dict> = {
       eyebrow: "Ferienwohnung mit Pool · Venedig",
       subtitle: "Eine erholsame Auszeit zwischen Venedig und dem Meer",
       cta: "Jetzt Buchen",
+      facts: { pool: "Pool", beach: "Strand in 5 Min.", guests: "Bis zu 4 Gäste" },
     },
     gallery: {
       eyebrow: "Innenansicht",
@@ -479,11 +477,8 @@ export const translations: Record<Lang, Dict> = {
       },
     },
     amenities: {
-      eyebrow: "Jeder Komfort",
       title: "Alles, was Sie brauchen",
       items: {
-        pool: "Pool",
-        beach: "Strand zu Fuß",
         ac: "Klimaanlage",
         wifi: "Schnelles WLAN",
         kitchen: "Ausgestattete Küche",

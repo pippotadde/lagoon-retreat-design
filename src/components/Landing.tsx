@@ -9,6 +9,7 @@ import {
   LANGS,
   type AmenityKey,
   type ExperienceKey,
+  type HeroFactKey,
   type HighlightKey,
   type Lang,
 } from "@/lib/i18n";
@@ -34,16 +35,20 @@ const SIZES = {
 const MAPS_QUERY = "Via+Paolo+Thaon+di+Revel+58,+Cavallino+Treporti,+Venezia";
 const MAPS_URL = `https://www.google.com/maps/search/?api=1&query=${MAPS_QUERY}`;
 
-// Icons, photos and order of the short lists; their texts are in i18n.ts.
+// Icons and order of the short lists; their texts are in i18n.ts.
+const HERO_FACTS: { key: HeroFactKey; icon: IconName }[] = [
+  { key: "pool", icon: "pool" },
+  { key: "beach", icon: "beach" },
+  { key: "guests", icon: "guests" },
+];
 const HIGHLIGHTS: { key: HighlightKey; icon: IconName }[] = [
   { key: "garden", icon: "pine" },
   { key: "location", icon: "pin" },
   { key: "space", icon: "area" },
   { key: "guests", icon: "guests" },
 ];
+// Pool and beach are already in the hero facts and the highlights.
 const AMENITIES: { key: AmenityKey; icon: IconName }[] = [
-  { key: "pool", icon: "pool" },
-  { key: "beach", icon: "beach" },
   { key: "ac", icon: "ac" },
   { key: "wifi", icon: "wifi" },
   { key: "kitchen", icon: "kitchen" },
@@ -83,21 +88,28 @@ function HeroFade({ children, delay = 0 }: { children: React.ReactNode; delay?: 
   );
 }
 
-/** Section heading: short azure-to-green bar, eyebrow and title; `light` over dark photos. */
+/**
+ * Section heading: short azure-to-green bar, eyebrow and title. `light` over dark photos,
+ * `start` to align it left from tablets up (two-column sections).
+ */
 function SectionTitle({
   eyebrow,
   title,
   className = "",
   light = false,
+  start = false,
 }: {
   eyebrow: string;
   title: string;
   className?: string;
   light?: boolean;
+  start?: boolean;
 }) {
   return (
-    <Reveal className={`text-center ${className}`}>
-      <span className="mx-auto mb-5 block h-1 w-12 rounded-full bg-gradient-lagoon" />
+    <Reveal className={`${start ? "text-center md:text-left" : "text-center"} ${className}`}>
+      <span
+        className={`mb-5 block h-1 w-12 rounded-full bg-gradient-lagoon ${start ? "mx-auto md:mx-0" : "mx-auto"}`}
+      />
       <p className={`text-xs uppercase tracking-[0.4em] ${light ? "text-aqua" : "text-primary"}`}>
         {eyebrow}
       </p>
@@ -431,8 +443,21 @@ function LandingInner() {
           <HeroFade delay={240}>
             <p className="mt-8 max-w-xl text-base text-white/90 sm:text-lg">{t.hero.subtitle}</p>
           </HeroFade>
+          <HeroFade delay={300}>
+            <ul className="mt-6 flex flex-wrap items-center justify-center gap-2">
+              {HERO_FACTS.map(({ key, icon }) => (
+                <li
+                  key={key}
+                  className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1.5 text-xs font-medium text-white backdrop-blur-sm sm:text-sm"
+                >
+                  <Icon name={icon} size={16} />
+                  {t.hero.facts[key]}
+                </li>
+              ))}
+            </ul>
+          </HeroFade>
           <HeroFade delay={360}>
-            <WhatsAppButton className="mt-8" />
+            <WhatsAppButton className="mt-7" />
           </HeroFade>
           <HeroFade delay={460}>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-white/85">
@@ -468,7 +493,7 @@ function LandingInner() {
       </section>
 
       {/* GALLERY */}
-      <section id="gallery" className="relative overflow-hidden py-20 md:py-28">
+      <section id="gallery" className="relative overflow-hidden py-14 md:py-28">
         <CornerWaves corner="top-right" />
         <div className="relative mx-auto max-w-6xl px-6">
           <SectionTitle eyebrow={t.gallery.eyebrow} title={t.gallery.title} className="mb-12" />
@@ -479,61 +504,60 @@ function LandingInner() {
         <CornerWaves corner="bottom-left" />
       </section>
 
-      {/* ABOUT */}
-      <section id="about" className="relative overflow-hidden py-20 md:py-28">
+      {/* ABOUT + AMENITIES: text and call to action left, highlights right, comfort icons below */}
+      <section id="about" className="relative overflow-hidden py-14 md:py-28">
         <CornerWaves corner="top-right" />
         <CornerWaves corner="bottom-left" />
-        <div className="relative mx-auto max-w-5xl px-6">
-          <SectionTitle eyebrow={t.about.eyebrow} title={t.about.title} />
-          <Reveal delay={100}>
-            <p className="mx-auto mt-6 max-w-2xl text-center text-base leading-relaxed text-muted-foreground md:text-lg">
-              {t.about.text}
-            </p>
-          </Reveal>
-          <div className="mt-12 grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
-            {HIGHLIGHTS.map(({ key, icon }, i) => (
-              <Reveal key={key} delay={i * 80} className="h-full">
-                <div className="flex h-full flex-col items-center rounded-3xl bg-card/80 p-5 text-center shadow-soft md:p-6">
-                  <span className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-lagoon text-lagoon-deep">
-                    <Icon name={icon} size={22} />
-                  </span>
-                  <h3 className="mt-4 font-serif text-lg leading-snug md:text-xl">
-                    {t.about.highlights[key].title}
-                  </h3>
-                  <p className="mt-1 text-sm text-muted-foreground">
-                    {t.about.highlights[key].text}
-                  </p>
-                </div>
+        <div className="relative mx-auto max-w-6xl px-6">
+          <div className="grid items-center gap-10 md:grid-cols-2 md:gap-14">
+            <div className="text-center md:text-left">
+              <SectionTitle eyebrow={t.about.eyebrow} title={t.about.title} start />
+              <Reveal delay={100}>
+                <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-muted-foreground md:mx-0 md:text-lg">
+                  {t.about.text}
+                </p>
+                {/* With no prices on the site, the only action is to write */}
+                <p className="mt-6 text-sm text-muted-foreground">{t.contact.priceNote}</p>
+                <WhatsAppButton className="mt-3" />
               </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* AMENITIES */}
-      <section id="amenities" className="relative overflow-hidden py-20 md:py-28">
-        <CornerWaves corner="top-right" />
-        <CornerWaves corner="bottom-left" />
-        <div className="relative mx-auto max-w-5xl px-6">
-          <SectionTitle eyebrow={t.amenities.eyebrow} title={t.amenities.title} />
-          <Reveal delay={100}>
-            <ul className="mt-12 grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-4">
-              {AMENITIES.map(({ key, icon }) => (
-                <li key={key} className="flex flex-col items-center gap-3 text-center">
-                  <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-card text-primary shadow-soft">
-                    <Icon name={icon} size={26} />
-                  </span>
-                  <span className="text-sm font-medium text-foreground md:text-base">
-                    {t.amenities.items[key]}
-                  </span>
-                </li>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              {HIGHLIGHTS.map(({ key, icon }, i) => (
+                <Reveal key={key} delay={i * 80} className="h-full">
+                  <div className="flex h-full flex-col items-center rounded-3xl bg-card/80 p-5 text-center shadow-soft md:p-6">
+                    <span className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-lagoon text-lagoon-deep">
+                      <Icon name={icon} size={22} />
+                    </span>
+                    <h3 className="mt-4 font-serif text-lg leading-snug md:text-xl">
+                      {t.about.highlights[key].title}
+                    </h3>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      {t.about.highlights[key].text}
+                    </p>
+                  </div>
+                </Reveal>
               ))}
-            </ul>
-          </Reveal>
-          {/* Mid-page call to action: with no prices on the site, the only action is to write */}
-          <Reveal className="mt-14 text-center">
-            <p className="text-sm text-muted-foreground md:text-base">{t.contact.priceNote}</p>
-            <WhatsAppButton className="mt-4" />
+            </div>
+          </div>
+
+          <Reveal className="mt-12 md:mt-20">
+            <div id="amenities" className="border-t border-border pt-10">
+              <p className="text-center text-xs uppercase tracking-[0.3em] text-primary">
+                {t.amenities.title}
+              </p>
+              <ul className="mt-8 grid grid-cols-3 gap-x-4 gap-y-8 sm:grid-cols-6">
+                {AMENITIES.map(({ key, icon }) => (
+                  <li key={key} className="flex flex-col items-center gap-3 text-center">
+                    <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-card text-primary shadow-soft md:h-14 md:w-14">
+                      <Icon name={icon} size={24} />
+                    </span>
+                    <span className="text-sm font-medium text-foreground">
+                      {t.amenities.items[key]}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </Reveal>
         </div>
       </section>
@@ -541,7 +565,7 @@ function LandingInner() {
       {/* EXPERIENCES: one panoramic photo of the lagoon behind the text */}
       <section
         id="experiences"
-        className="relative overflow-hidden bg-lagoon-deep py-24 text-white md:py-32"
+        className="relative overflow-hidden bg-lagoon-deep py-20 text-white md:py-32"
       >
         <Picture
           name="area-laguna"
@@ -576,7 +600,7 @@ function LandingInner() {
       </section>
 
       {/* LOCATION */}
-      <section id="location" className="relative overflow-hidden py-20 md:py-28">
+      <section id="location" className="relative overflow-hidden py-14 md:py-28">
         <CornerWaves corner="top-right" />
         <CornerWaves corner="bottom-left" />
         <div className="relative mx-auto max-w-7xl px-6">
