@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useReveal } from "@/hooks/use-reveal";
 import { LangProvider, useLang } from "@/hooks/use-lang";
 import { Icon, type IconName } from "@/components/Icons";
@@ -19,11 +19,10 @@ import { WhatsAppButton, WhatsAppFloatingButton } from "@/components/WhatsApp";
 // photo in a taller box is wider than the box (box height × 4/3), so it needs more pixels.
 const SIZES = {
   hero: "100vw",
-  // Gallery cards: 280×360 below 640px, 360×360 up to 768px, 420×460 above.
-  galleryLandscape: "(min-width: 768px) 614px, 480px",
-  galleryPortrait: "(min-width: 768px) 420px, (min-width: 640px) 360px, 280px",
-  // Experience cards: a third of the grid, 440px tall on desktop; landscape photos covering them.
-  experience: "(min-width: 768px) 660px, 600px",
+  // Gallery pages: the large photo is 2/3 of the 1104px row on desktop and the whole row on
+  // phones; the small ones a third of the row, or half of it on phones.
+  mosaicLarge: "(min-width: 768px) 740px, 100vw",
+  mosaicSmall: "(min-width: 768px) 370px, 50vw",
   // Lightbox: at most 1152px wide and 85vh tall, 16px padding on each side.
   lightboxLandscape: "(min-width: 1184px) 1152px, calc(100vw - 32px)",
   lightboxPortrait: "(orientation: portrait) calc(100vw - 32px), 64vh",
@@ -52,10 +51,10 @@ const AMENITIES: { key: AmenityKey; icon: IconName }[] = [
   { key: "checkin", icon: "key" },
   { key: "balcony", icon: "sun" },
 ];
-const EXPERIENCES: { key: ExperienceKey; image: ImageName }[] = [
-  { key: "venice", image: "area-burano" },
-  { key: "beach", image: "area-spiaggia" },
-  { key: "active", image: "area-kayak" },
+const EXPERIENCES: { key: ExperienceKey; icon: IconName }[] = [
+  { key: "venice", icon: "boat" },
+  { key: "beach", icon: "beach" },
+  { key: "active", icon: "bike" },
 ];
 
 function Reveal({
@@ -84,22 +83,194 @@ function HeroFade({ children, delay = 0 }: { children: React.ReactNode; delay?: 
   );
 }
 
-/** Section heading: short azure-to-green bar, eyebrow and title. */
+/** Section heading: short azure-to-green bar, eyebrow and title; `light` over dark photos. */
 function SectionTitle({
   eyebrow,
   title,
   className = "",
+  light = false,
 }: {
   eyebrow: string;
   title: string;
   className?: string;
+  light?: boolean;
 }) {
   return (
     <Reveal className={`text-center ${className}`}>
       <span className="mx-auto mb-5 block h-1 w-12 rounded-full bg-gradient-lagoon" />
-      <p className="text-xs uppercase tracking-[0.4em] text-primary">{eyebrow}</p>
-      <h2 className="mt-3 font-serif text-3xl md:text-5xl">{title}</h2>
+      <p className={`text-xs uppercase tracking-[0.4em] ${light ? "text-aqua" : "text-primary"}`}>
+        {eyebrow}
+      </p>
+      <h2 className={`mt-3 font-serif text-3xl md:text-5xl ${light ? "text-white" : ""}`}>
+        {title}
+      </h2>
     </Reveal>
+  );
+}
+
+/** Gradient of the corner waves, defined once in the page. */
+function WaveGradient() {
+  return (
+    <svg width="0" height="0" className="absolute" aria-hidden="true">
+      <defs>
+        <linearGradient id="lagoon-wave" x1="0" x2="1" y1="0" y2="0">
+          <stop offset="0%" style={{ stopColor: "var(--azure)" }} />
+          <stop offset="100%" style={{ stopColor: "var(--aqua)" }} />
+        </linearGradient>
+      </defs>
+    </svg>
+  );
+}
+
+const WAVE = "M0 30 C 40 10, 80 10, 120 30 S 200 50, 240 30 S 300 12, 340 26";
+
+/**
+ * Decorative lagoon waves in a section corner: bottom left of one section and top right
+ * of the next, so they seem to carry on down the page.
+ */
+function CornerWaves({ corner }: { corner: "top-right" | "bottom-left" }) {
+  const place = corner === "top-right" ? "right-0 top-0" : "bottom-0 left-0 rotate-180";
+  return (
+    <svg
+      viewBox="0 0 340 110"
+      fill="none"
+      aria-hidden="true"
+      className={`pointer-events-none absolute ${place} w-44 opacity-60 md:w-80`}
+    >
+      {[0, 20, 40, 60].map((dy) => (
+        <path
+          key={dy}
+          d={WAVE}
+          transform={`translate(0 ${dy})`}
+          stroke="url(#lagoon-wave)"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+        />
+      ))}
+    </svg>
+  );
+}
+
+/**
+ * Gallery in pages of three photos (one large, two small) that scroll sideways, with
+ * arrows on large screens and dots below. A tap opens the photo in the lightbox.
+ */
+function GalleryMosaic({
+  items,
+  onOpen,
+}: {
+  items: { label: string; name: ImageName }[];
+  onOpen: (index: number) => void;
+}) {
+  const { t } = useLang();
+  const track = useRef<HTMLDivElement>(null);
+  const [page, setPage] = useState(0);
+  const pages: number[][] = [];
+  for (let i = 0; i < items.length; i += 3) {
+    pages.push([i, i + 1, i + 2].filter((j) => j < items.length));
+  }
+
+  useEffect(() => {
+    const el = track.current;
+    if (!el) return;
+    const onScroll = () => setPage(Math.round(el.scrollLeft / el.clientWidth));
+    el.addEventListener("scroll", onScroll, { passive: true });
+    return () => el.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const goTo = (p: number) => {
+    const el = track.current;
+    if (!el) return;
+    const target = Math.max(0, Math.min(pages.length - 1, p));
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    el.scrollTo({ left: target * el.clientWidth, behavior: reduce ? "auto" : "smooth" });
+  };
+
+  const arrow =
+    "absolute top-[260px] z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white text-lagoon-deep shadow-md transition-opacity hover:bg-muted disabled:opacity-0 md:flex";
+
+  return (
+    <div className="relative">
+      <div ref={track} className="flex snap-x snap-mandatory overflow-x-auto scrollbar-hide">
+        {pages.map((group, p) => (
+          <div
+            key={p}
+            role="group"
+            aria-label={`${t.ui.page} ${p + 1} / ${pages.length}`}
+            className="grid w-full flex-shrink-0 snap-start grid-cols-2 gap-3 md:h-[520px] md:grid-cols-3 md:grid-rows-2 md:gap-4"
+          >
+            {group.map((i, j) => {
+              const item = items[i];
+              const large = j === 0;
+              // A page with two photos: the second one fills the whole right column
+              const tall = j === 1 && group.length === 2;
+              const size = large
+                ? "col-span-2 h-56 sm:h-72 md:row-span-2 md:h-auto"
+                : tall
+                  ? "col-span-2 h-40 sm:h-52 md:col-span-1 md:row-span-2 md:h-auto"
+                  : "h-40 sm:h-52 md:h-auto";
+              return (
+                <button
+                  type="button"
+                  key={i}
+                  onClick={() => onOpen(i)}
+                  aria-label={`${item.label} — ${t.ui.openImage}`}
+                  className={`group relative overflow-hidden rounded-2xl shadow-soft focus:outline-none focus-visible:ring-2 focus-visible:ring-lagoon focus-visible:ring-offset-2 focus-visible:ring-offset-background ${size}`}
+                >
+                  <Picture
+                    name={item.name}
+                    alt={t.alt[item.name]}
+                    sizes={large ? SIZES.mosaicLarge : SIZES.mosaicSmall}
+                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-lagoon-deep/75 via-transparent to-transparent" />
+                  <span className="absolute bottom-3 left-4 right-4 text-left font-serif text-base text-white md:bottom-4 md:text-xl">
+                    {item.label}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        ))}
+      </div>
+
+      {/* Arrows on large screens; phones swipe */}
+      <button
+        type="button"
+        onClick={() => goTo(page - 1)}
+        disabled={page === 0}
+        aria-label={t.ui.prevPage}
+        className={`${arrow} -left-5`}
+      >
+        <Icon name="left" size={22} />
+      </button>
+      <button
+        type="button"
+        onClick={() => goTo(page + 1)}
+        disabled={page === pages.length - 1}
+        aria-label={t.ui.nextPage}
+        className={`${arrow} -right-5`}
+      >
+        <Icon name="right" size={22} />
+      </button>
+
+      <div className="mt-5 flex justify-center gap-1">
+        {pages.map((_, p) => (
+          <button
+            key={p}
+            type="button"
+            onClick={() => goTo(p)}
+            aria-label={`${t.ui.page} ${p + 1}`}
+            aria-current={p === page ? "true" : undefined}
+            className="p-[7px]"
+          >
+            <span
+              className={`block h-2.5 rounded-full transition-all ${p === page ? "w-7 bg-lagoon" : "w-2.5 bg-lagoon/25"}`}
+            />
+          </button>
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -232,6 +403,7 @@ function LandingInner() {
         <meta key={l.code} property="og:locale:alternate" content={l.ogLocale} />
       ))}
       <Header />
+      <WaveGradient />
 
       {/* HERO */}
       <section className="relative h-screen min-h-[640px] w-full overflow-hidden">
@@ -296,40 +468,22 @@ function LandingInner() {
       </section>
 
       {/* GALLERY */}
-      <section id="gallery" className="py-20 md:py-28">
-        <div className="mx-auto max-w-7xl px-6">
+      <section id="gallery" className="relative overflow-hidden py-20 md:py-28">
+        <CornerWaves corner="top-right" />
+        <div className="relative mx-auto max-w-6xl px-6">
           <SectionTitle eyebrow={t.gallery.eyebrow} title={t.gallery.title} className="mb-12" />
+          <Reveal>
+            <GalleryMosaic items={galleryItems} onOpen={openLightbox} />
+          </Reveal>
         </div>
-
-        <Reveal>
-          <div className="flex gap-5 overflow-x-auto px-6 pb-6 scrollbar-hide snap-x snap-mandatory md:px-12">
-            {galleryItems.map((item, i) => (
-              <button
-                type="button"
-                key={`${item.label}-${i}`}
-                onClick={() => openLightbox(i)}
-                aria-label={`${item.label} — ${t.ui.openImage}`}
-                className="group relative flex-shrink-0 snap-start overflow-hidden rounded-3xl shadow-soft w-[280px] sm:w-[360px] md:w-[420px] h-[360px] md:h-[460px] focus:outline-none focus-visible:ring-2 focus-visible:ring-lagoon focus-visible:ring-offset-2 focus-visible:ring-offset-background cursor-pointer"
-              >
-                <Picture
-                  name={item.name}
-                  alt={t.alt[item.name]}
-                  sizes={isLandscape(item.name) ? SIZES.galleryLandscape : SIZES.galleryPortrait}
-                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-lagoon-deep/85 via-transparent to-transparent" />
-                <figcaption className="absolute bottom-5 left-5 right-5 text-left font-serif text-xl text-white md:text-2xl">
-                  {item.label}
-                </figcaption>
-              </button>
-            ))}
-          </div>
-        </Reveal>
+        <CornerWaves corner="bottom-left" />
       </section>
 
-      {/* ABOUT: the page background fades from sand to azure, then to aqua green below */}
-      <section id="about" className="bg-fade-azure py-20 md:py-28">
-        <div className="mx-auto max-w-5xl px-6">
+      {/* ABOUT */}
+      <section id="about" className="relative overflow-hidden py-20 md:py-28">
+        <CornerWaves corner="top-right" />
+        <CornerWaves corner="bottom-left" />
+        <div className="relative mx-auto max-w-5xl px-6">
           <SectionTitle eyebrow={t.about.eyebrow} title={t.about.title} />
           <Reveal delay={100}>
             <p className="mx-auto mt-6 max-w-2xl text-center text-base leading-relaxed text-muted-foreground md:text-lg">
@@ -357,8 +511,10 @@ function LandingInner() {
       </section>
 
       {/* AMENITIES */}
-      <section id="amenities" className="bg-fade-aqua py-20 md:py-28">
-        <div className="mx-auto max-w-5xl px-6">
+      <section id="amenities" className="relative overflow-hidden py-20 md:py-28">
+        <CornerWaves corner="top-right" />
+        <CornerWaves corner="bottom-left" />
+        <div className="relative mx-auto max-w-5xl px-6">
           <SectionTitle eyebrow={t.amenities.eyebrow} title={t.amenities.title} />
           <Reveal delay={100}>
             <ul className="mt-12 grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-4">
@@ -382,35 +538,37 @@ function LandingInner() {
         </div>
       </section>
 
-      {/* EXPERIENCES */}
-      <section id="experiences" className="bg-fade-sand py-20 md:py-28">
-        <div className="mx-auto max-w-7xl px-6">
-          <SectionTitle eyebrow={t.experiences.eyebrow} title={t.experiences.title} />
-          <div className="mt-12 grid gap-5 md:grid-cols-3 md:gap-6">
-            {EXPERIENCES.map(({ key, image }, i) => (
-              <Reveal key={key} delay={i * 100}>
-                <article className="relative h-[340px] overflow-hidden rounded-3xl shadow-soft md:h-[440px]">
-                  <Picture
-                    name={image}
-                    alt={t.alt[image]}
-                    sizes={SIZES.experience}
-                    className="absolute inset-0 h-full w-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-lagoon-deep/90 via-lagoon-deep/25 to-transparent" />
-                  <div className="absolute inset-x-0 bottom-0 p-6 text-white md:p-7">
-                    <h3 className="font-serif text-2xl md:text-3xl">
-                      {t.experiences.cards[key].title}
-                    </h3>
-                    <p className="mt-2 text-sm leading-relaxed text-white/90 md:text-base">
-                      {t.experiences.cards[key].text}
-                    </p>
-                  </div>
-                </article>
+      {/* EXPERIENCES: one panoramic photo of the lagoon behind the text */}
+      <section
+        id="experiences"
+        className="relative overflow-hidden bg-lagoon-deep py-24 text-white md:py-32"
+      >
+        <Picture
+          name="area-laguna"
+          alt=""
+          sizes="100vw"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-lagoon-deep/80 via-lagoon-deep/60 to-lagoon-deep/85" />
+        <div className="relative mx-auto max-w-6xl px-6">
+          <SectionTitle eyebrow={t.experiences.eyebrow} title={t.experiences.title} light />
+          <div className="mt-12 grid gap-10 md:grid-cols-3 md:gap-8">
+            {EXPERIENCES.map(({ key, icon }, i) => (
+              <Reveal key={key} delay={i * 100} className="text-center">
+                <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-gradient-lagoon text-lagoon-deep">
+                  <Icon name={icon} size={22} />
+                </span>
+                <h3 className="mt-4 font-serif text-2xl md:text-3xl">
+                  {t.experiences.cards[key].title}
+                </h3>
+                <p className="mx-auto mt-2 max-w-xs text-sm leading-relaxed text-white/85 md:text-base">
+                  {t.experiences.cards[key].text}
+                </p>
               </Reveal>
             ))}
           </div>
-          <Reveal className="mt-10 text-center">
-            <p className="font-serif text-lg italic text-muted-foreground md:text-xl">
+          <Reveal className="mt-12 text-center">
+            <p className="font-serif text-lg italic text-white/80 md:text-xl">
               {t.experiences.food}
             </p>
           </Reveal>
@@ -418,8 +576,10 @@ function LandingInner() {
       </section>
 
       {/* LOCATION */}
-      <section id="location" className="py-20 md:py-28">
-        <div className="mx-auto max-w-7xl px-6">
+      <section id="location" className="relative overflow-hidden py-20 md:py-28">
+        <CornerWaves corner="top-right" />
+        <CornerWaves corner="bottom-left" />
+        <div className="relative mx-auto max-w-7xl px-6">
           <SectionTitle eyebrow={t.location.eyebrow} title={t.location.title} className="mb-12" />
 
           <div className="grid gap-6 lg:grid-cols-3 lg:gap-8">

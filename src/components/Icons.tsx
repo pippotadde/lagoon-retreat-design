@@ -95,6 +95,23 @@ const ICONS = {
       <path d="m19.07 4.93-1.41 1.41" />
     </>
   ),
+  boat: (
+    <>
+      <path d="M22 18H2a4 4 0 0 0 4 4h12a4 4 0 0 0 4-4Z" />
+      <path d="M21 14 10 2 3 14h18Z" />
+      <path d="M10 2v16" />
+    </>
+  ),
+  bike: (
+    <>
+      <circle cx="18.5" cy="17.5" r="3.5" />
+      <circle cx="5.5" cy="17.5" r="3.5" />
+      <circle cx="15" cy="5" r="1" />
+      <path d="M12 17.5V14l-3-3 4-3 2 3h2" />
+    </>
+  ),
+  left: <path d="m15 18-6-6 6-6" />,
+  right: <path d="m9 18 6-6-6-6" />,
   external: (
     <>
       <path d="M15 3h6v6" />

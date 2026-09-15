@@ -77,7 +77,17 @@ type Dict = {
     callIt: string;
     callDe: string;
   };
-  ui: { address: string; openImage: string; close: string; previous: string; next: string };
+  ui: {
+    address: string;
+    openImage: string;
+    close: string;
+    previous: string;
+    next: string;
+    /** Gallery pages: arrows and dots */
+    prevPage: string;
+    nextPage: string;
+    page: string;
+  };
   notFound: { title: string; back: string };
   location: {
     eyebrow: string;
@@ -152,9 +162,7 @@ export const translations: Record<Lang, Dict> = {
       "real-entrance": "Passaggio ad arco verso l'ingresso, accanto alla parete con il murale",
       "map-area":
         "Mappa di Ca' Vio, Cavallino Treporti, con via Paolo Thaon di Revel e la spiaggia",
-      "area-burano": "Canale di Burano con le case colorate e le barche ormeggiate",
-      "area-spiaggia": "Spiaggia di sabbia vista dall'alto, con ombrelloni e mare Adriatico",
-      "area-kayak": "Escursione in kayak tra le barene della laguna",
+      "area-laguna": "Pista ciclabile tra le barene della laguna",
       "area-pineta": "Pineta affacciata sul mare vista dall'alto",
     },
     features: {
@@ -220,6 +228,9 @@ export const translations: Record<Lang, Dict> = {
       close: "Chiudi",
       previous: "Immagine precedente",
       next: "Immagine successiva",
+      prevPage: "Foto precedenti",
+      nextPage: "Foto successive",
+      page: "Pagina",
     },
     notFound: { title: "Pagina non trovata", back: "Torna alla home" },
     location: {
@@ -298,9 +309,7 @@ export const translations: Record<Lang, Dict> = {
       "real-entrance": "Arched passage to the entrance hall, next to the mural wall",
       "map-area":
         "Map of Ca' Vio, Cavallino Treporti, showing Via Paolo Thaon di Revel and the beach",
-      "area-burano": "Canal in Burano with colourful houses and moored boats",
-      "area-spiaggia": "Aerial view of a sandy beach with parasols and the Adriatic Sea",
-      "area-kayak": "Kayaking among the salt marshes of the lagoon",
+      "area-laguna": "Cycle path through the salt marshes of the lagoon",
       "area-pineta": "Aerial view of the pine forest by the sea",
     },
     features: {
@@ -366,6 +375,9 @@ export const translations: Record<Lang, Dict> = {
       close: "Close",
       previous: "Previous image",
       next: "Next image",
+      prevPage: "Previous photos",
+      nextPage: "Next photos",
+      page: "Page",
     },
     notFound: { title: "Page not found", back: "Back to the home page" },
     location: {
@@ -445,9 +457,7 @@ export const translations: Record<Lang, Dict> = {
       "real-entrance": "Rundbogen zum Eingangsbereich neben der Wand mit dem Wandbild",
       "map-area":
         "Karte von Ca' Vio, Cavallino Treporti, mit der Via Paolo Thaon di Revel und dem Strand",
-      "area-burano": "Kanal in Burano mit bunten Häusern und vertäuten Booten",
-      "area-spiaggia": "Sandstrand von oben mit Sonnenschirmen und der Adria",
-      "area-kayak": "Kajaktour zwischen den Salzwiesen der Lagune",
+      "area-laguna": "Radweg durch die Salzwiesen der Lagune",
       "area-pineta": "Pinienwald am Meer von oben",
     },
     features: {
@@ -513,6 +523,9 @@ export const translations: Record<Lang, Dict> = {
       close: "Schließen",
       previous: "Vorheriges Bild",
       next: "Nächstes Bild",
+      prevPage: "Vorherige Fotos",
+      nextPage: "Nächste Fotos",
+      page: "Seite",
     },
     notFound: { title: "Seite nicht gefunden", back: "Zur Startseite" },
     location: {

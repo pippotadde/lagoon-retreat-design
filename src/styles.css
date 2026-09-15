@@ -70,8 +70,6 @@
   --color-lagoon: var(--lagoon);
   --color-azure: var(--azure);
   --color-aqua: var(--aqua);
-  --color-azure-pale: var(--azure-pale);
-  --color-aqua-pale: var(--aqua-pale);
   --color-whatsapp: var(--whatsapp);
   --color-whatsapp-hover: var(--whatsapp-hover);
 }
@@ -79,8 +77,8 @@
 :root {
   --radius: 0.75rem;
 
-  /* Light sand base, lagoon ink */
-  --background: #faf8f3;
+  /* Slightly warm sand base, lagoon ink */
+  --background: #f7f1e5;
   --foreground: #12363a;
 
   --card: #ffffff;
@@ -88,22 +86,22 @@
   --popover: #ffffff;
   --popover-foreground: #12363a;
 
-  /* Lagoon teal as primary: 5.1:1 on the sand base */
+  /* Lagoon teal as primary: 4.8:1 on the sand base */
   --primary: #2a7479;
   --primary-foreground: #ffffff;
 
   --secondary: #6fcfb0;
   --secondary-foreground: #0f3b40;
 
-  --muted: #eef3f1;
+  --muted: #efe7d8;
   --muted-foreground: #4d686b;
   --accent: #e3f0f5;
   --accent-foreground: #12363a;
 
   --destructive: oklch(0.6 0.22 27);
   --destructive-foreground: oklch(0.99 0.005 85);
-  --border: #d9e5e2;
-  --input: #d9e5e2;
+  --border: #e5dccb;
+  --input: #e5dccb;
   --ring: #2a7479;
 
   /* Lagoon palette: from the azure of open water to the green of the salt marshes */
@@ -111,8 +109,6 @@
   --lagoon: #2a7479;
   --azure: #7cc3d8;
   --aqua: #6fcfb0;
-  --azure-pale: #e3f0f5;
-  --aqua-pale: #e2f2ea;
   /* Aqua green for WhatsApp, with lagoon-deep text: 6.8:1 */
   --whatsapp: #6fd3b5;
   --whatsapp-hover: #8adcc4;
@@ -166,16 +162,6 @@
   }
   .bg-gradient-lagoon {
     background-image: var(--gradient-lagoon);
-  }
-  /* Section backgrounds: one continuous fade down the page, sand → azure → aqua green → sand */
-  .bg-fade-azure {
-    background-image: linear-gradient(180deg, var(--background) 0%, var(--azure-pale) 100%);
-  }
-  .bg-fade-aqua {
-    background-image: linear-gradient(180deg, var(--azure-pale) 0%, var(--aqua-pale) 100%);
-  }
-  .bg-fade-sand {
-    background-image: linear-gradient(180deg, var(--aqua-pale) 0%, var(--background) 100%);
   }
   .shadow-soft {
     box-shadow: var(--shadow-soft);
