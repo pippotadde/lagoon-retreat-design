@@ -66,66 +66,68 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  --color-amber-brand: var(--amber-brand);
-  --color-amber-deep: var(--amber-deep);
-  --color-teal-brand: var(--teal-brand);
-  --color-teal-deep: var(--teal-deep);
-  --color-teal-soft: var(--teal-soft);
-  --color-sage: var(--sage);
-  --color-marble: var(--marble);
+  --color-lagoon-deep: var(--lagoon-deep);
+  --color-lagoon: var(--lagoon);
+  --color-azure: var(--azure);
+  --color-aqua: var(--aqua);
+  --color-azure-pale: var(--azure-pale);
+  --color-aqua-pale: var(--aqua-pale);
+  --color-whatsapp: var(--whatsapp);
+  --color-whatsapp-hover: var(--whatsapp-hover);
 }
 
 :root {
   --radius: 0.75rem;
 
-  /* Warm sand base */
-  --background: oklch(0.98 0.012 80);
-  --foreground: oklch(0.24 0.035 50);
+  /* Light sand base, lagoon ink */
+  --background: #faf8f3;
+  --foreground: #12363a;
 
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.24 0.035 50);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.24 0.035 50);
+  --card: #ffffff;
+  --card-foreground: #12363a;
+  --popover: #ffffff;
+  --popover-foreground: #12363a;
 
-  /* Warm amber as primary */
-  --primary: oklch(0.62 0.14 60);
-  --primary-foreground: oklch(0.99 0.005 85);
+  /* Lagoon teal as primary: 5.1:1 on the sand base */
+  --primary: #2a7479;
+  --primary-foreground: #ffffff;
 
-  /* Warm terracotta as secondary */
-  --secondary: oklch(0.74 0.13 45);
-  --secondary-foreground: oklch(0.25 0.04 50);
+  --secondary: #6fcfb0;
+  --secondary-foreground: #0f3b40;
 
-  --muted: oklch(0.95 0.018 75);
-  --muted-foreground: oklch(0.5 0.03 60);
-  --accent: oklch(0.9 0.05 70);
-  --accent-foreground: oklch(0.25 0.04 50);
+  --muted: #eef3f1;
+  --muted-foreground: #4d686b;
+  --accent: #e3f0f5;
+  --accent-foreground: #12363a;
 
   --destructive: oklch(0.6 0.22 27);
   --destructive-foreground: oklch(0.99 0.005 85);
-  --border: oklch(0.9 0.02 70);
-  --input: oklch(0.9 0.02 70);
-  --ring: oklch(0.62 0.14 60);
+  --border: #d9e5e2;
+  --input: #d9e5e2;
+  --ring: #2a7479;
 
-  /* Brand palette — warmer, less blue */
-  --amber-brand: oklch(0.78 0.15 75);
-  --amber-deep: oklch(0.66 0.17 55);
-  --teal-brand: oklch(0.6 0.09 195);
-  --teal-deep: oklch(0.42 0.07 200);
-  --teal-soft: oklch(0.9 0.04 190);
-  --sage: oklch(0.78 0.04 140);
-  --marble: oklch(0.97 0.012 80);
+  /* Lagoon palette: from the azure of open water to the green of the salt marshes */
+  --lagoon-deep: #0f3b40;
+  --lagoon: #2a7479;
+  --azure: #7cc3d8;
+  --aqua: #6fcfb0;
+  --azure-pale: #e3f0f5;
+  --aqua-pale: #e2f2ea;
+  /* Aqua green for WhatsApp, with lagoon-deep text: 6.8:1 */
+  --whatsapp: #6fd3b5;
+  --whatsapp-hover: #8adcc4;
 
+  /* Light lagoon veil: keeps the white hero text readable without tinting the photo blue */
   --gradient-hero: linear-gradient(
-    135deg,
-    oklch(0.35 0.06 50 / 0.65) 0%,
-    oklch(0.55 0.12 60 / 0.45) 50%,
-    oklch(0.78 0.15 75 / 0.55) 100%
+    160deg,
+    rgb(15 59 64 / 0.45) 0%,
+    rgb(42 116 121 / 0.12) 55%,
+    rgb(111 207 176 / 0.1) 100%
   );
-  --gradient-amber: linear-gradient(135deg, var(--amber-brand) 0%, var(--amber-deep) 100%);
-  --gradient-teal-amber: linear-gradient(135deg, var(--amber-deep) 0%, var(--amber-brand) 100%);
+  --gradient-lagoon: linear-gradient(90deg, var(--azure) 0%, var(--aqua) 100%);
 
-  --shadow-soft: 0 10px 40px -15px oklch(0.45 0.08 60 / 0.25);
-  --shadow-warm: 0 20px 50px -20px oklch(0.66 0.17 55 / 0.4);
+  --shadow-soft: 0 10px 40px -15px rgb(15 59 64 / 0.25);
+  --shadow-warm: 0 20px 50px -20px rgb(15 59 64 / 0.3);
 }
 
 @layer base {
@@ -162,11 +164,18 @@
   .bg-gradient-hero {
     background-image: var(--gradient-hero);
   }
-  .bg-gradient-amber {
-    background-image: var(--gradient-amber);
+  .bg-gradient-lagoon {
+    background-image: var(--gradient-lagoon);
   }
-  .bg-gradient-teal-amber {
-    background-image: var(--gradient-teal-amber);
+  /* Section backgrounds: one continuous fade down the page, sand → azure → aqua green → sand */
+  .bg-fade-azure {
+    background-image: linear-gradient(180deg, var(--background) 0%, var(--azure-pale) 100%);
+  }
+  .bg-fade-aqua {
+    background-image: linear-gradient(180deg, var(--azure-pale) 0%, var(--aqua-pale) 100%);
+  }
+  .bg-fade-sand {
+    background-image: linear-gradient(180deg, var(--aqua-pale) 0%, var(--background) 100%);
   }
   .shadow-soft {
     box-shadow: var(--shadow-soft);

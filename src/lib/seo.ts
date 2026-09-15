@@ -62,8 +62,6 @@ function vacationRental(lang: Lang) {
         amenity("ac"),
         amenity("kitchen"),
         amenity("wifi"),
-        amenity("tv"),
-        amenity("washerDryer"),
         amenity("selfCheckinCheckout"),
         amenity("balcony"),
         // amenity("licenseNum", CIN) goes here if the CIN is ever published (contact.ts)

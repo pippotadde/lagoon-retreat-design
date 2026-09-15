@@ -1,6 +1,52 @@
 {
   "settings": "75ab121d2c8a3568",
   "images": {
+    "area-burano": {
+      "width": 1290,
+      "height": 860,
+      "widths": [
+        480,
+        800,
+        1200,
+        1290
+      ],
+      "fallback": 1200,
+      "hash": "47586515b2356db3"
+    },
+    "area-kayak": {
+      "width": 1024,
+      "height": 906,
+      "widths": [
+        480,
+        800,
+        1024
+      ],
+      "fallback": 1024,
+      "hash": "77569594a1f9141a"
+    },
+    "area-pineta": {
+      "width": 1032,
+      "height": 860,
+      "widths": [
+        480,
+        800,
+        1032
+      ],
+      "fallback": 1032,
+      "hash": "5eb0dfac7d1ee36d"
+    },
+    "area-spiaggia": {
+      "width": 1531,
+      "height": 860,
+      "widths": [
+        480,
+        800,
+        1200,
+        1531
+      ],
+      "fallback": 1200,
+      "hash": "e67207d1ada190be"
+    },
     "map-area": {
       "width": 1024,
       "height": 640,

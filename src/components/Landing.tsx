@@ -1,11 +1,17 @@
 import { useCallback, useEffect, useState } from "react";
 import { useReveal } from "@/hooks/use-reveal";
 import { LangProvider, useLang } from "@/hooks/use-lang";
-import { BubbleDivider } from "@/components/BubbleDivider";
+import { Icon, type IconName } from "@/components/Icons";
 import { LanguageDropdown } from "@/components/LanguageDropdown";
 import { Picture } from "@/components/Picture";
 import { isLandscape, type ImageName } from "@/lib/images";
-import { LANGS, type Lang } from "@/lib/i18n";
+import {
+  LANGS,
+  type AmenityKey,
+  type ExperienceKey,
+  type HighlightKey,
+  type Lang,
+} from "@/lib/i18n";
 import { CIN, PHONE_DE_DISPLAY, PHONE_IT_DISPLAY } from "@/lib/contact";
 import { WhatsAppButton, WhatsAppFloatingButton } from "@/components/WhatsApp";
 
@@ -16,10 +22,8 @@ const SIZES = {
   // Gallery cards: 280×360 below 640px, 360×360 up to 768px, 420×460 above.
   galleryLandscape: "(min-width: 768px) 614px, 480px",
   galleryPortrait: "(min-width: 768px) 420px, (min-width: 640px) 360px, 280px",
-  // About collage: boxes about 280px wide on desktop, half the column on mobile.
-  mural: "(min-width: 768px) 470px, 83vw", // landscape photo in a 4:5 box
-  sofa: "(min-width: 768px) 375px, 67vw", // landscape photo in a square box
-  kitchen: "(min-width: 768px) 280px, 50vw", // portrait photo in a square box
+  // Experience cards: a third of the grid, 440px tall on desktop; landscape photos covering them.
+  experience: "(min-width: 768px) 660px, 600px",
   // Lightbox: at most 1152px wide and 85vh tall, 16px padding on each side.
   lightboxLandscape: "(min-width: 1184px) 1152px, calc(100vw - 32px)",
   lightboxPortrait: "(orientation: portrait) calc(100vw - 32px), 64vh",
@@ -30,9 +34,29 @@ const SIZES = {
 // Address coordinates for Google Maps
 const MAPS_QUERY = "Via+Paolo+Thaon+di+Revel+58,+Cavallino+Treporti,+Venezia";
 const MAPS_URL = `https://www.google.com/maps/search/?api=1&query=${MAPS_QUERY}`;
-const MAPS_EMBED = `https://www.google.com/maps?q=${MAPS_QUERY}&output=embed`;
 
-const expMapUrl = (q: string) => `https://www.google.com/maps/search/?api=1&query=${q}`;
+// Icons, photos and order of the short lists; their texts are in i18n.ts.
+const HIGHLIGHTS: { key: HighlightKey; icon: IconName }[] = [
+  { key: "garden", icon: "pine" },
+  { key: "location", icon: "pin" },
+  { key: "space", icon: "area" },
+  { key: "guests", icon: "guests" },
+];
+const AMENITIES: { key: AmenityKey; icon: IconName }[] = [
+  { key: "pool", icon: "pool" },
+  { key: "beach", icon: "beach" },
+  { key: "ac", icon: "ac" },
+  { key: "wifi", icon: "wifi" },
+  { key: "kitchen", icon: "kitchen" },
+  { key: "parking", icon: "parking" },
+  { key: "checkin", icon: "key" },
+  { key: "balcony", icon: "sun" },
+];
+const EXPERIENCES: { key: ExperienceKey; image: ImageName }[] = [
+  { key: "venice", image: "area-burano" },
+  { key: "beach", image: "area-spiaggia" },
+  { key: "active", image: "area-kayak" },
+];
 
 function Reveal({
   children,
@@ -60,71 +84,61 @@ function HeroFade({ children, delay = 0 }: { children: React.ReactNode; delay?: 
   );
 }
 
+/** Section heading: short azure-to-green bar, eyebrow and title. */
+function SectionTitle({
+  eyebrow,
+  title,
+  className = "",
+}: {
+  eyebrow: string;
+  title: string;
+  className?: string;
+}) {
+  return (
+    <Reveal className={`text-center ${className}`}>
+      <span className="mx-auto mb-5 block h-1 w-12 rounded-full bg-gradient-lagoon" />
+      <p className="text-xs uppercase tracking-[0.4em] text-primary">{eyebrow}</p>
+      <h2 className="mt-3 font-serif text-3xl md:text-5xl">{title}</h2>
+    </Reveal>
+  );
+}
+
 /**
- * Static OpenStreetMap picture of the area (scripts/generate-static-map.mjs). The
- * Google Maps iframe is only loaded when the visitor asks for it, so the page makes
- * no third-party requests and sets no cookies on load.
+ * Static OpenStreetMap picture of the area with the building pin
+ * (scripts/generate-static-map.mjs). A tap opens Google Maps in a new tab, so the
+ * page itself makes no third-party requests and sets no cookies.
  */
 function LocationMap() {
   const { t } = useLang();
-  const [interactive, setInteractive] = useState(false);
   return (
     <div className="relative h-full min-h-[420px] overflow-hidden rounded-3xl shadow-soft">
-      {interactive ? (
-        <iframe
-          src={MAPS_EMBED}
-          title="Google Maps — Cavallino Treporti"
-          referrerPolicy="no-referrer-when-downgrade"
-          className="absolute inset-0 h-full w-full border-0"
+      <a
+        href={MAPS_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group absolute inset-0 block"
+      >
+        <Picture
+          name="map-area"
+          alt={t.alt["map-area"]}
+          sizes={SIZES.map}
+          className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
         />
-      ) : (
-        <>
-          <Picture
-            name="map-area"
-            alt={t.alt["map-area"]}
-            sizes={SIZES.map}
-            className="absolute inset-0 h-full w-full object-cover"
-          />
-          {/* Button at the bottom: the building pin sits in the middle of the map */}
-          <div className="absolute inset-0 flex flex-col items-center justify-end gap-3 bg-[oklch(0.22_0.03_220/0.12)] p-6 text-center">
-            <button
-              type="button"
-              onClick={() => setInteractive(true)}
-              className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-foreground shadow-md transition-transform hover:scale-105"
-            >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.2"
-                aria-hidden="true"
-              >
-                <path
-                  d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1 1 18 0z"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <circle cx="12" cy="10" r="3" />
-              </svg>
-              {t.location.showMap}
-            </button>
-            <p className="rounded-full bg-white/90 px-3 py-1 text-xs text-foreground">
-              {t.location.mapNotice}
-            </p>
-          </div>
-          {/* Map data licence (ODbL) requires the credit */}
-          <a
-            href="https://www.openstreetmap.org/copyright"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="absolute bottom-0 right-0 rounded-tl-lg bg-white/90 px-2 py-0.5 text-[11px] text-foreground"
-          >
-            © OpenStreetMap
-          </a>
-        </>
-      )}
+        {/* At the bottom: the building pin sits in the middle of the map */}
+        <span className="absolute bottom-6 left-1/2 inline-flex -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-lagoon-deep shadow-md">
+          <Icon name="external" size={16} />
+          {t.location.openMaps}
+        </span>
+      </a>
+      {/* Map data licence (ODbL) requires the credit */}
+      <a
+        href="https://www.openstreetmap.org/copyright"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="absolute bottom-0 right-0 z-10 rounded-tl-lg bg-white/90 px-2 py-0.5 text-[11px] text-foreground"
+      >
+        © OpenStreetMap
+      </a>
     </div>
   );
 }
@@ -284,10 +298,7 @@ function LandingInner() {
       {/* GALLERY */}
       <section id="gallery" className="py-20 md:py-28">
         <div className="mx-auto max-w-7xl px-6">
-          <Reveal className="mb-12 text-center">
-            <p className="text-xs uppercase tracking-[0.4em] text-primary">{t.gallery.eyebrow}</p>
-            <h2 className="mt-3 font-serif text-3xl md:text-5xl">{t.gallery.title}</h2>
-          </Reveal>
+          <SectionTitle eyebrow={t.gallery.eyebrow} title={t.gallery.title} className="mb-12" />
         </div>
 
         <Reveal>
@@ -298,7 +309,7 @@ function LandingInner() {
                 key={`${item.label}-${i}`}
                 onClick={() => openLightbox(i)}
                 aria-label={`${item.label} — ${t.ui.openImage}`}
-                className="group relative flex-shrink-0 snap-start overflow-hidden rounded-3xl shadow-soft w-[280px] sm:w-[360px] md:w-[420px] h-[360px] md:h-[460px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--amber-brand)] focus-visible:ring-offset-2 focus-visible:ring-offset-background cursor-pointer"
+                className="group relative flex-shrink-0 snap-start overflow-hidden rounded-3xl shadow-soft w-[280px] sm:w-[360px] md:w-[420px] h-[360px] md:h-[460px] focus:outline-none focus-visible:ring-2 focus-visible:ring-lagoon focus-visible:ring-offset-2 focus-visible:ring-offset-background cursor-pointer"
               >
                 <Picture
                   name={item.name}
@@ -306,7 +317,7 @@ function LandingInner() {
                   sizes={isLandscape(item.name) ? SIZES.galleryLandscape : SIZES.galleryPortrait}
                   className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[oklch(0.22_0.03_220/0.85)] via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-lagoon-deep/85 via-transparent to-transparent" />
                 <figcaption className="absolute bottom-5 left-5 right-5 text-left font-serif text-xl text-white md:text-2xl">
                   {item.label}
                 </figcaption>
@@ -316,88 +327,53 @@ function LandingInner() {
         </Reveal>
       </section>
 
-      <BubbleDivider />
-
-      {/* ABOUT */}
-      <section id="about" className="py-20 md:py-32">
-        <div className="mx-auto grid max-w-7xl items-center gap-14 px-6 md:grid-cols-2 md:gap-20">
-          <Reveal>
-            <p className="text-xs uppercase tracking-[0.4em] text-primary">{t.about.eyebrow}</p>
-            <h2 className="mt-3 font-serif text-3xl md:text-5xl">{t.about.title}</h2>
-            <div className="mt-8 space-y-5 text-base leading-relaxed text-muted-foreground md:text-lg">
-              <p>{t.about.p1}</p>
-              <p>
-                {t.about.p2a}
-                <span className="text-foreground font-medium">{t.about.mural}</span>
-                {t.about.p2b}
-                <span className="text-foreground font-medium">{t.about.marble}</span>
-                {t.about.p2c}
-                <span className="text-foreground font-medium">{t.about.yellow}</span>
-                {t.about.p2d}
-                <span className="text-foreground font-medium">{t.about.teal}</span>
-                {t.about.p2e}
-              </p>
-              <div className="flex flex-wrap gap-3 pt-2">
-                {[t.about.sqm, t.about.guests, t.about.bedroom, t.about.balcony].map((tag) => (
-                  <span
-                    key={tag}
-                    className="rounded-full border border-border bg-card px-4 py-1.5 text-sm text-foreground"
-                  >
-                    {tag}
+      {/* ABOUT: the page background fades from sand to azure, then to aqua green below */}
+      <section id="about" className="bg-fade-azure py-20 md:py-28">
+        <div className="mx-auto max-w-5xl px-6">
+          <SectionTitle eyebrow={t.about.eyebrow} title={t.about.title} />
+          <Reveal delay={100}>
+            <p className="mx-auto mt-6 max-w-2xl text-center text-base leading-relaxed text-muted-foreground md:text-lg">
+              {t.about.text}
+            </p>
+          </Reveal>
+          <div className="mt-12 grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
+            {HIGHLIGHTS.map(({ key, icon }, i) => (
+              <Reveal key={key} delay={i * 80} className="h-full">
+                <div className="flex h-full flex-col items-center rounded-3xl bg-card/80 p-5 text-center shadow-soft md:p-6">
+                  <span className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-lagoon text-lagoon-deep">
+                    <Icon name={icon} size={22} />
                   </span>
-                ))}
-              </div>
-            </div>
-          </Reveal>
-
-          <Reveal delay={150}>
-            <div className="grid grid-cols-2 gap-4">
-              <Picture
-                name="real-mural"
-                alt={t.alt["real-mural"]}
-                sizes={SIZES.mural}
-                className="aspect-[4/5] w-full rounded-3xl object-cover shadow-soft"
-              />
-              {/* gap instead of space-y: margins don't apply to the display:contents <picture> */}
-              <div className="flex flex-col gap-4 pt-10">
-                <Picture
-                  name="real-kitchen"
-                  alt={t.alt["real-kitchen"]}
-                  sizes={SIZES.kitchen}
-                  className="aspect-square w-full rounded-3xl object-cover shadow-soft"
-                />
-                <Picture
-                  name="real-sofa"
-                  alt={t.alt["real-sofa"]}
-                  sizes={SIZES.sofa}
-                  className="aspect-square w-full rounded-3xl object-cover shadow-soft"
-                />
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* AMENITIES */}
-      <section id="amenities" className="bg-[var(--marble)] py-20 md:py-28">
-        <div className="mx-auto max-w-6xl px-6">
-          <Reveal className="mb-14 text-center">
-            <p className="text-xs uppercase tracking-[0.4em] text-primary">{t.amenities.eyebrow}</p>
-            <h2 className="mt-3 font-serif text-3xl md:text-5xl">{t.amenities.title}</h2>
-          </Reveal>
-          <div className="grid grid-cols-1 gap-x-10 gap-y-1 sm:grid-cols-2 md:grid-cols-3">
-            {t.amenities.items.map((label, i) => (
-              <Reveal key={label} delay={(i % 6) * 50}>
-                <div className="flex items-center gap-4 border-b border-border/60 py-4">
-                  <span className="font-serif text-sm text-primary tabular-nums w-6">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span className="h-px flex-shrink-0 w-6 bg-[var(--amber-brand)]" />
-                  <span className="text-sm font-medium text-foreground md:text-base">{label}</span>
+                  <h3 className="mt-4 font-serif text-lg leading-snug md:text-xl">
+                    {t.about.highlights[key].title}
+                  </h3>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    {t.about.highlights[key].text}
+                  </p>
                 </div>
               </Reveal>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* AMENITIES */}
+      <section id="amenities" className="bg-fade-aqua py-20 md:py-28">
+        <div className="mx-auto max-w-5xl px-6">
+          <SectionTitle eyebrow={t.amenities.eyebrow} title={t.amenities.title} />
+          <Reveal delay={100}>
+            <ul className="mt-12 grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-4">
+              {AMENITIES.map(({ key, icon }) => (
+                <li key={key} className="flex flex-col items-center gap-3 text-center">
+                  <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-card text-primary shadow-soft">
+                    <Icon name={icon} size={26} />
+                  </span>
+                  <span className="text-sm font-medium text-foreground md:text-base">
+                    {t.amenities.items[key]}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
           {/* Mid-page call to action: with no prices on the site, the only action is to write */}
           <Reveal className="mt-14 text-center">
             <p className="text-sm text-muted-foreground md:text-base">{t.contact.priceNote}</p>
@@ -406,51 +382,49 @@ function LandingInner() {
         </div>
       </section>
 
-      <BubbleDivider />
-
       {/* EXPERIENCES */}
-      <section id="experiences" className="py-20 md:py-32">
-        <div className="mx-auto max-w-3xl px-6 text-center">
-          <Reveal className="mb-10">
-            <p className="text-xs uppercase tracking-[0.4em] text-primary">
-              {t.experiences.eyebrow}
-            </p>
-            <h2 className="mt-3 font-serif text-3xl md:text-5xl">{t.experiences.title}</h2>
-          </Reveal>
-
-          <Reveal delay={100}>
-            <p className="text-lg leading-relaxed text-muted-foreground md:text-xl">
-              {t.experiences.narrative.map((seg, i) =>
-                seg.type === "link" ? (
-                  <a
-                    key={i}
-                    href={expMapUrl(seg.query)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-medium text-foreground underline decoration-[var(--amber-brand)] underline-offset-4 transition-colors hover:text-[var(--amber-deep)]"
-                  >
-                    {seg.value}
-                  </a>
-                ) : (
-                  <span key={i}>{seg.value}</span>
-                ),
-              )}
+      <section id="experiences" className="bg-fade-sand py-20 md:py-28">
+        <div className="mx-auto max-w-7xl px-6">
+          <SectionTitle eyebrow={t.experiences.eyebrow} title={t.experiences.title} />
+          <div className="mt-12 grid gap-5 md:grid-cols-3 md:gap-6">
+            {EXPERIENCES.map(({ key, image }, i) => (
+              <Reveal key={key} delay={i * 100}>
+                <article className="relative h-[340px] overflow-hidden rounded-3xl shadow-soft md:h-[440px]">
+                  <Picture
+                    name={image}
+                    alt={t.alt[image]}
+                    sizes={SIZES.experience}
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-lagoon-deep/90 via-lagoon-deep/25 to-transparent" />
+                  <div className="absolute inset-x-0 bottom-0 p-6 text-white md:p-7">
+                    <h3 className="font-serif text-2xl md:text-3xl">
+                      {t.experiences.cards[key].title}
+                    </h3>
+                    <p className="mt-2 text-sm leading-relaxed text-white/90 md:text-base">
+                      {t.experiences.cards[key].text}
+                    </p>
+                  </div>
+                </article>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal className="mt-10 text-center">
+            <p className="font-serif text-lg italic text-muted-foreground md:text-xl">
+              {t.experiences.food}
             </p>
           </Reveal>
         </div>
       </section>
 
       {/* LOCATION */}
-      <section id="location" className="bg-[var(--marble)] py-20 md:py-28">
+      <section id="location" className="py-20 md:py-28">
         <div className="mx-auto max-w-7xl px-6">
-          <Reveal className="mb-14 text-center">
-            <p className="text-xs uppercase tracking-[0.4em] text-primary">{t.location.eyebrow}</p>
-            <h2 className="mt-3 font-serif text-3xl md:text-5xl">{t.location.title}</h2>
-          </Reveal>
+          <SectionTitle eyebrow={t.location.eyebrow} title={t.location.title} className="mb-12" />
 
           <div className="grid gap-6 lg:grid-cols-3 lg:gap-8">
             <Reveal className="lg:col-span-1">
-              <div className="flex h-full flex-col rounded-3xl bg-[var(--teal-deep)] p-8 text-white shadow-soft md:p-10">
+              <div className="flex h-full flex-col rounded-3xl bg-lagoon-deep p-8 text-white shadow-soft md:p-10">
                 <p className="text-xs uppercase tracking-[0.3em] text-white/70">{t.ui.address}</p>
                 <p className="mt-4 font-serif text-2xl leading-snug md:text-3xl">
                   {t.location.address}
@@ -465,37 +439,13 @@ function LandingInner() {
                   ].map((b) => (
                     <div
                       key={b.l}
-                      className="flex items-center justify-between rounded-full border border-white/20 bg-white/5 px-5 py-3"
+                      className="flex items-center justify-between rounded-full bg-white/10 px-5 py-3"
                     >
-                      <span className="font-serif text-lg text-[var(--amber-brand)]">{b.d}</span>
+                      <span className="font-serif text-lg text-aqua">{b.d}</span>
                       <span className="text-sm text-white/85">{b.l}</span>
                     </div>
                   ))}
                 </div>
-
-                <a
-                  href={MAPS_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-gradient-amber px-6 py-3 text-sm font-semibold text-[oklch(0.25_0.04_60)] transition-transform hover:scale-105"
-                >
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.2"
-                  >
-                    <path
-                      d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1 1 18 0z"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <circle cx="12" cy="10" r="3" />
-                  </svg>
-                  {t.location.openMaps}
-                </a>
               </div>
             </Reveal>
 
@@ -507,8 +457,19 @@ function LandingInner() {
       </section>
 
       {/* FOOTER */}
-      <footer id="book" className="bg-[var(--teal-deep)] py-20 text-white md:py-28">
-        <div className="mx-auto max-w-4xl px-6 text-center">
+      {/* FOOTER: pine forest from above, faded into the lagoon colours */}
+      <footer
+        id="book"
+        className="relative overflow-hidden bg-lagoon-deep py-20 text-white md:py-28"
+      >
+        <Picture
+          name="area-pineta"
+          alt=""
+          sizes="100vw"
+          className="absolute inset-0 h-full w-full object-cover opacity-60"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-lagoon-deep/55 via-lagoon-deep/70 to-[#12463f]/95" />
+        <div className="relative mx-auto max-w-4xl px-6 text-center">
           <Reveal>
             <h2 className="font-serif italic text-4xl md:text-6xl">Cavallino Treporti</h2>
             <p className="mt-4 italic text-white/75 md:text-lg">{t.footer.tagline}</p>

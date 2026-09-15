@@ -9,9 +9,9 @@ function WhatsAppIcon({ size }: { size: number }) {
   );
 }
 
-// Dark text on WhatsApp green: 6.4:1 contrast (white on this green is only 2:1).
+// Aqua green in the lagoon palette instead of WhatsApp's own green; lagoon-deep text: 6.8:1.
 
-/** Green pill opening a WhatsApp chat with the prefilled message in the page language. */
+/** Aqua green pill opening a WhatsApp chat with the prefilled message in the page language. */
 export function WhatsAppButton({ className = "" }: { className?: string }) {
   const { lang, t } = useLang();
   return (
@@ -19,7 +19,7 @@ export function WhatsAppButton({ className = "" }: { className?: string }) {
       href={whatsappUrl(lang, t.contact.whatsappMessage)}
       target="_blank"
       rel="noopener noreferrer"
-      className={`inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-6 py-2.5 text-sm font-medium text-[#073B2A] transition-colors hover:bg-[#3DDC84] ${className}`}
+      className={`inline-flex items-center justify-center gap-2 rounded-full bg-whatsapp px-6 py-2.5 text-sm font-semibold text-lagoon-deep shadow-soft transition-colors hover:bg-whatsapp-hover ${className}`}
     >
       <WhatsAppIcon size={16} />
       {t.contact.whatsappCta}
@@ -39,7 +39,7 @@ export function WhatsAppFloatingButton() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label={t.contact.whatsappCta}
-      className="fixed bottom-5 right-5 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-[#073B2A] shadow-lg transition-transform hover:scale-105 md:hidden"
+      className="fixed bottom-5 right-5 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-whatsapp text-lagoon-deep shadow-lg transition-transform hover:scale-105 md:hidden"
     >
       <WhatsAppIcon size={28} />
     </a>

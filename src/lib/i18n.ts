@@ -18,6 +18,11 @@ export function langFromPath(pathname: string): Lang {
   return LANGS.find((l) => l.code === segment)?.code ?? DEFAULT_LANG;
 }
 
+export type HighlightKey = "garden" | "location" | "space" | "guests";
+export type AmenityKey =
+  "pool" | "beach" | "ac" | "wifi" | "kitchen" | "parking" | "checkin" | "balcony";
+export type ExperienceKey = "venice" | "beach" | "active";
+
 type Dict = {
   /** Search result title and description: written per language, like an ad. */
   meta: { title: string; description: string };
@@ -52,26 +57,18 @@ type Dict = {
   about: {
     eyebrow: string;
     title: string;
-    p1: string;
-    p2a: string;
-    mural: string;
-    p2b: string;
-    marble: string;
-    p2c: string;
-    yellow: string;
-    p2d: string;
-    teal: string;
-    p2e: string;
-    sqm: string;
-    guests: string;
-    bedroom: string;
-    balcony: string;
+    text: string;
+    /** One line each; icons and order in Landing.tsx. */
+    highlights: Record<HighlightKey, { title: string; text: string }>;
   };
-  amenities: { eyebrow: string; title: string; items: string[] };
+  /** Short labels; icons and order in Landing.tsx. */
+  amenities: { eyebrow: string; title: string; items: Record<AmenityKey, string> };
   experiences: {
     eyebrow: string;
     title: string;
-    narrative: ({ type: "text"; value: string } | { type: "link"; value: string; query: string })[];
+    /** Photo cards; images and order in Landing.tsx. */
+    cards: Record<ExperienceKey, { title: string; text: string }>;
+    food: string;
   };
   contact: {
     whatsappCta: string;
@@ -91,8 +88,6 @@ type Dict = {
     venice: string;
     murano: string;
     openMaps: string;
-    showMap: string;
-    mapNotice: string;
   };
   footer: { tagline: string; cta: string; rights: string };
 };
@@ -113,7 +108,7 @@ export const translations: Record<Lang, Dict> = {
       book: "Prenota",
     },
     hero: {
-      eyebrow: "Cavallino Treporti · Venezia",
+      eyebrow: "Appartamento con piscina · Venezia",
       subtitle: "Una fuga rilassante tra Venezia e il mare",
       cta: "Prenota Ora",
     },
@@ -157,6 +152,10 @@ export const translations: Record<Lang, Dict> = {
       "real-entrance": "Passaggio ad arco verso l'ingresso, accanto alla parete con il murale",
       "map-area":
         "Mappa di Ca' Vio, Cavallino Treporti, con via Paolo Thaon di Revel e la spiaggia",
+      "area-burano": "Canale di Burano con le case colorate e le barche ormeggiate",
+      "area-spiaggia": "Spiaggia di sabbia vista dall'alto, con ombrelloni e mare Adriatico",
+      "area-kayak": "Escursione in kayak tra le barene della laguna",
+      "area-pineta": "Pineta affacciata sul mare vista dall'alto",
     },
     features: {
       pine: "Vista sulla pineta",
@@ -166,62 +165,47 @@ export const translations: Record<Lang, Dict> = {
     },
     about: {
       eyebrow: "L'appartamento",
-      title: "Luminoso, colorato e ispirato alla laguna",
-      p1: "Un moderno open-space di 62 mq che ospita fino a 4 persone, progettato con una palette giocosa presa in prestito direttamente dalla laguna veneziana e dalla calda luce dell'Adriatico.",
-      p2a: "Il soggiorno è caratterizzato da un ",
-      mural: "murale ad acquerello con bolle teal",
-      p2b: " — gocce blu che danzano sull'intonaco bianco, la nostra firma visiva. La cucina sfoggia ",
-      marble: "piani in effetto marmo",
-      p2c: " abbinati a mobili color salvia, mentre la camera da letto è avvolta da una ",
-      yellow: "parete giallo senape",
-      p2d: ". Il bagno brilla con ",
-      teal: "piastrelle teal lagunari",
-      p2e: " — un promemoria quotidiano che il mare è proprio fuori.",
-      sqm: "62 mq",
-      guests: "Fino a 4 ospiti",
-      bedroom: "1 camera da letto",
-      balcony: "Balcone privato",
+      title: "Tra laguna, pineta e mare",
+      text: "Un appartamento moderno di 62 m² in un residence tranquillo con piscina, circondato dal verde. La spiaggia è a pochi minuti a piedi e Venezia si raggiunge facilmente in traghetto.",
+      highlights: {
+        garden: { title: "Giardino e piscina", text: "Nel verde, con vista sulla pineta" },
+        location: { title: "Zona tranquilla", text: "Spiaggia a pochi minuti, Venezia vicina" },
+        space: { title: "62 m² moderni", text: "Open space luminoso e curato" },
+        guests: { title: "Fino a 4 ospiti", text: "Letto matrimoniale e divano letto" },
+      },
     },
     amenities: {
       eyebrow: "Ogni comfort",
-      title: "Comfort essenziali",
-      items: [
-        "Piscina condominiale",
-        "Vista sulla pineta",
-        "Spiaggia a piedi",
-        "Aria condizionata",
-        "Cucina completa",
-        "Macchina da caffè",
-        "Wi-Fi veloce",
-        "Smart TV",
-        "Lavatrice",
-        "Parcheggio privato",
-        "Self check-in",
-        "Balcone privato",
-      ],
+      title: "Tutto quello che serve",
+      items: {
+        pool: "Piscina",
+        beach: "Spiaggia a piedi",
+        ac: "Aria condizionata",
+        wifi: "Wi-Fi veloce",
+        kitchen: "Cucina attrezzata",
+        parking: "Parcheggio privato",
+        checkin: "Self check-in",
+        balcony: "Balcone",
+      },
     },
     experiences: {
-      eyebrow: "Oltre il rifugio",
-      title: "Esperienze ed Escursioni",
-      narrative: [
-        { type: "text", value: "A pochi passi dall'appartamento puoi raggiungere " },
-        { type: "link", value: "Venezia e la Laguna", query: "Piazza+San+Marco,+Venezia" },
-        { type: "text", value: " in ferry, rilassarti sulla " },
-        {
-          type: "link",
-          value: "Spiaggia e nella pineta",
-          query: "Spiaggia+Cavallino+Treporti,+Venezia",
+      eyebrow: "Da vivere",
+      title: "Esperienze ed escursioni",
+      cards: {
+        venice: {
+          title: "Venezia e laguna",
+          text: "In traghetto fino a Venezia, poi Murano, Burano e i tramonti in laguna.",
         },
-        { type: "text", value: ", praticare " },
-        {
-          type: "link",
-          value: "Attività all'aperto",
-          query: "Oasi+Naturalistica+Cavallino+Treporti",
+        beach: {
+          title: "Spiaggia e pineta",
+          text: "Lunghe spiagge di sabbia a pochi minuti e passeggiate al tramonto.",
         },
-        { type: "text", value: " in bici o kayak, oppure scoprire il " },
-        { type: "link", value: "Cibo e il vino", query: "Restaurants+Cavallino+Treporti,+Venezia" },
-        { type: "text", value: " del territorio." },
-      ],
+        active: {
+          title: "In bici e in kayak",
+          text: "Piste ciclabili tra pineta e laguna, kayak e birdwatching.",
+        },
+      },
+      food: "E la sera: cucina veneziana, pesce fresco e aperitivo vista laguna.",
     },
     contact: {
       whatsappCta: "WhatsApp per prenotazioni",
@@ -247,8 +231,6 @@ export const translations: Record<Lang, Dict> = {
       venice: "→ Venezia",
       murano: "→ Ferry Murano",
       openMaps: "Apri in Google Maps",
-      showMap: "Mostra la mappa",
-      mapNotice: "La mappa interattiva viene caricata da Google",
     },
     footer: {
       tagline: "Dove la laguna incontra il mare",
@@ -271,7 +253,7 @@ export const translations: Record<Lang, Dict> = {
       book: "Book",
     },
     hero: {
-      eyebrow: "Cavallino Treporti · Venice",
+      eyebrow: "Apartment with pool · Venice",
       subtitle: "A relaxing escape between Venice and the sea",
       cta: "Book Now",
     },
@@ -316,6 +298,10 @@ export const translations: Record<Lang, Dict> = {
       "real-entrance": "Arched passage to the entrance hall, next to the mural wall",
       "map-area":
         "Map of Ca' Vio, Cavallino Treporti, showing Via Paolo Thaon di Revel and the beach",
+      "area-burano": "Canal in Burano with colourful houses and moored boats",
+      "area-spiaggia": "Aerial view of a sandy beach with parasols and the Adriatic Sea",
+      "area-kayak": "Kayaking among the salt marshes of the lagoon",
+      "area-pineta": "Aerial view of the pine forest by the sea",
     },
     features: {
       pine: "Pine forest views",
@@ -325,62 +311,47 @@ export const translations: Record<Lang, Dict> = {
     },
     about: {
       eyebrow: "The apartment",
-      title: "Bright, colorful & inspired by the lagoon",
-      p1: "A 62 sqm modern open-space retreat hosting up to 4 guests, designed with a playful palette borrowed straight from the Venetian lagoon and the warm Adriatic light.",
-      p2a: "The living room features a hand-painted ",
-      mural: "watercolor bubble-dot wall",
-      p2b: " — teal droplets dancing across white plaster, our signature visual identity. The kitchen wears ",
-      marble: "marble-effect countertops",
-      p2c: " paired with sage cabinetry, while the bedroom is wrapped in a ",
-      yellow: "warm mustard accent wall",
-      p2d: ". The bathroom glows with ",
-      teal: "teal lagoon floor tiles",
-      p2e: " — a daily reminder that the sea is just outside.",
-      sqm: "62 sqm",
-      guests: "Up to 4 guests",
-      bedroom: "1 bedroom",
-      balcony: "Private balcony",
+      title: "Between lagoon, pine forest and sea",
+      text: "A modern 62 m² apartment in a quiet residence with a pool, surrounded by greenery. The beach is a few minutes' walk away and Venice is easy to reach by ferry.",
+      highlights: {
+        garden: { title: "Garden & pool", text: "Green surroundings with pine forest views" },
+        location: { title: "Quiet location", text: "Beach minutes away, Venice close by" },
+        space: { title: "62 m² of modern space", text: "Bright, well-designed open plan" },
+        guests: { title: "Up to 4 guests", text: "Double bed and sofa bed" },
+      },
     },
     amenities: {
       eyebrow: "Every comfort",
-      title: "Essential comforts",
-      items: [
-        "Shared swimming pool",
-        "Pine forest views",
-        "Beach walkable",
-        "Air conditioning",
-        "Full kitchen",
-        "Coffee machine",
-        "Fast Wi-Fi",
-        "Smart TV",
-        "Washing machine",
-        "Private parking",
-        "Self check-in",
-        "Private balcony",
-      ],
+      title: "Everything you need",
+      items: {
+        pool: "Pool",
+        beach: "Walk to the beach",
+        ac: "Air conditioning",
+        wifi: "Fast Wi-Fi",
+        kitchen: "Equipped kitchen",
+        parking: "Private parking",
+        checkin: "Self check-in",
+        balcony: "Balcony",
+      },
     },
     experiences: {
-      eyebrow: "Beyond the retreat",
-      title: "Experiences & Excursions",
-      narrative: [
-        { type: "text", value: "Just steps from the apartment you can reach " },
-        { type: "link", value: "Venice and the Lagoon", query: "Piazza+San+Marco,+Venezia" },
-        { type: "text", value: " by ferry, unwind on the " },
-        {
-          type: "link",
-          value: "Beach and in the pine forest",
-          query: "Spiaggia+Cavallino+Treporti,+Venezia",
+      eyebrow: "Things to do",
+      title: "Experiences & excursions",
+      cards: {
+        venice: {
+          title: "Venice & the lagoon",
+          text: "Ferry to Venice, then Murano, Burano and sunsets on the lagoon.",
         },
-        { type: "text", value: ", enjoy " },
-        {
-          type: "link",
-          value: "Outdoor activities",
-          query: "Oasi+Naturalistica+Cavallino+Treporti",
+        beach: {
+          title: "Beach & pine forest",
+          text: "Long sandy beaches minutes away and sunset walks.",
         },
-        { type: "text", value: " by bike or kayak, or discover the local " },
-        { type: "link", value: "Food and wine", query: "Restaurants+Cavallino+Treporti,+Venezia" },
-        { type: "text", value: " of the area." },
-      ],
+        active: {
+          title: "By bike and kayak",
+          text: "Cycle paths through pine forest and lagoon, kayaking and birdwatching.",
+        },
+      },
+      food: "And in the evening: Venetian cuisine, fresh seafood and an aperitivo with lagoon views.",
     },
     contact: {
       whatsappCta: "WhatsApp for bookings",
@@ -406,8 +377,6 @@ export const translations: Record<Lang, Dict> = {
       venice: "→ Venice",
       murano: "→ Murano ferry",
       openMaps: "Open in Google Maps",
-      showMap: "Show the map",
-      mapNotice: "The interactive map is loaded from Google",
     },
     footer: {
       tagline: "Where the lagoon meets the sea",
@@ -430,7 +399,7 @@ export const translations: Record<Lang, Dict> = {
       book: "Buchen",
     },
     hero: {
-      eyebrow: "Cavallino Treporti · Venedig",
+      eyebrow: "Ferienwohnung mit Pool · Venedig",
       subtitle: "Eine erholsame Auszeit zwischen Venedig und dem Meer",
       cta: "Jetzt Buchen",
     },
@@ -476,6 +445,10 @@ export const translations: Record<Lang, Dict> = {
       "real-entrance": "Rundbogen zum Eingangsbereich neben der Wand mit dem Wandbild",
       "map-area":
         "Karte von Ca' Vio, Cavallino Treporti, mit der Via Paolo Thaon di Revel und dem Strand",
+      "area-burano": "Kanal in Burano mit bunten Häusern und vertäuten Booten",
+      "area-spiaggia": "Sandstrand von oben mit Sonnenschirmen und der Adria",
+      "area-kayak": "Kajaktour zwischen den Salzwiesen der Lagune",
+      "area-pineta": "Pinienwald am Meer von oben",
     },
     features: {
       pine: "Blick auf den Pinienwald",
@@ -485,66 +458,47 @@ export const translations: Record<Lang, Dict> = {
     },
     about: {
       eyebrow: "Die Wohnung",
-      title: "Hell, farbenfroh & von der Lagune inspiriert",
-      p1: "Ein moderner offener Wohnraum von 62 qm für bis zu 4 Gäste, gestaltet mit einer verspielten Farbpalette, die direkt von der venezianischen Lagune und dem warmen Adrialicht inspiriert ist.",
-      p2a: "Das Wohnzimmer zeichnet sich durch eine ",
-      mural: "handgemalte Aquarell-Punktwand",
-      p2b: " aus — türkisfarbene Tropfen tanzen über weißen Putz, unsere unverwechselbare Note. Die Küche trägt ",
-      marble: "Arbeitsplatten in Marmoroptik",
-      p2c: " kombiniert mit salbeigrünen Schränken, während das Schlafzimmer in eine ",
-      yellow: "warme senfgelbe Akzentwand",
-      p2d: " gehüllt ist. Das Bad strahlt mit ",
-      teal: "türkisen Lagunenfliesen",
-      p2e: " — eine tägliche Erinnerung daran, dass das Meer direkt vor der Tür liegt.",
-      sqm: "62 qm",
-      guests: "Bis zu 4 Gäste",
-      bedroom: "1 Schlafzimmer",
-      balcony: "Privater Balkon",
+      title: "Zwischen Lagune, Pinienwald und Meer",
+      text: "Eine moderne 62-m²-Wohnung in einer ruhigen Anlage mit Pool, umgeben von Grün. Der Strand ist wenige Gehminuten entfernt, Venedig erreichen Sie bequem mit der Fähre.",
+      highlights: {
+        garden: { title: "Garten & Pool", text: "Im Grünen, mit Blick auf den Pinienwald" },
+        location: { title: "Ruhige Lage", text: "Strand in wenigen Minuten, Venedig ganz nah" },
+        space: { title: "62 m² modern", text: "Helles, durchdachtes Open Space" },
+        guests: { title: "Bis zu 4 Gäste", text: "Doppelbett und Schlafsofa" },
+      },
     },
     amenities: {
       eyebrow: "Jeder Komfort",
-      title: "Wesentliche Annehmlichkeiten",
-      items: [
-        "Gemeinschaftspool",
-        "Blick auf den Pinienwald",
-        "Strand zu Fuß",
-        "Klimaanlage",
-        "Voll ausgestattete Küche",
-        "Kaffeemaschine",
-        "Schnelles WLAN",
-        "Smart TV",
-        "Waschmaschine",
-        "Privatparkplatz",
-        "Self Check-in",
-        "Privater Balkon",
-      ],
+      title: "Alles, was Sie brauchen",
+      items: {
+        pool: "Pool",
+        beach: "Strand zu Fuß",
+        ac: "Klimaanlage",
+        wifi: "Schnelles WLAN",
+        kitchen: "Ausgestattete Küche",
+        parking: "Privatparkplatz",
+        checkin: "Self-Check-in",
+        balcony: "Balkon",
+      },
     },
     experiences: {
-      eyebrow: "Jenseits der Wohnung",
+      eyebrow: "Erleben",
       title: "Erlebnisse & Ausflüge",
-      narrative: [
-        { type: "text", value: "Nur wenige Schritte von der Wohnung entfernt können Sie " },
-        { type: "link", value: "Venedig und die Lagune", query: "Piazza+San+Marco,+Venezia" },
-        { type: "text", value: " mit der Fähre erreichen, sich am " },
-        {
-          type: "link",
-          value: "Strand und im Pinienwald",
-          query: "Spiaggia+Cavallino+Treporti,+Venezia",
+      cards: {
+        venice: {
+          title: "Venedig & Lagune",
+          text: "Mit der Fähre nach Venedig, dann Murano, Burano und Sonnenuntergänge in der Lagune.",
         },
-        { type: "text", value: " entspannen, " },
-        {
-          type: "link",
-          value: "Outdoor-Aktivitäten",
-          query: "Oasi+Naturalistica+Cavallino+Treporti",
+        beach: {
+          title: "Strand & Pinienwald",
+          text: "Lange Sandstrände wenige Minuten entfernt und Spaziergänge bei Sonnenuntergang.",
         },
-        { type: "text", value: " mit dem Fahrrad oder Kajak ausüben oder die lokale " },
-        {
-          type: "link",
-          value: "Küche und Weine",
-          query: "Restaurants+Cavallino+Treporti,+Venezia",
+        active: {
+          title: "Mit Rad und Kajak",
+          text: "Radwege durch Pinienwald und Lagune, Kajakfahren und Vogelbeobachtung.",
         },
-        { type: "text", value: " entdecken." },
-      ],
+      },
+      food: "Und am Abend: venezianische Küche, frischer Fisch und ein Aperitivo mit Blick auf die Lagune.",
     },
     contact: {
       whatsappCta: "WhatsApp für Buchungen",
@@ -570,8 +524,6 @@ export const translations: Record<Lang, Dict> = {
       venice: "→ Venedig",
       murano: "→ Murano-Fähre",
       openMaps: "In Google Maps öffnen",
-      showMap: "Karte anzeigen",
-      mapNotice: "Die interaktive Karte wird von Google geladen",
     },
     footer: {
       tagline: "Wo die Lagune auf das Meer trifft",
