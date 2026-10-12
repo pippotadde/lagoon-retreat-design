@@ -177,9 +177,13 @@ function GalleryMosaic({
   const { t } = useLang();
   const track = useRef<HTMLDivElement>(null);
   const [page, setPage] = useState(0);
+  // Pages of three; if one photo would be left alone, the last two pages get two each
   const pages: number[][] = [];
-  for (let i = 0; i < items.length; i += 3) {
-    pages.push([i, i + 1, i + 2].filter((j) => j < items.length));
+  const n = items.length;
+  const fullPages = n % 3 === 1 && n > 3 ? Math.floor(n / 3) - 1 : Math.floor(n / 3);
+  for (let p = 0; p < fullPages; p++) pages.push([3 * p, 3 * p + 1, 3 * p + 2]);
+  for (let i = 3 * fullPages; i < n; i += 2) {
+    pages.push([i, i + 1].filter((j) => j < n));
   }
 
   useEffect(() => {
@@ -362,19 +366,45 @@ function LandingInner() {
 
   const galleryItems: { label: string; name: ImageName }[] = [
     { label: t.gallery.pool, name: "real-pool" },
+    { label: t.gallery.pool, name: "real-pool-2" },
+    { label: t.gallery.pool, name: "real-pool-3" },
     { label: t.gallery.openspace, name: "real-openspace" },
     { label: t.gallery.living, name: "real-living" },
-    { label: t.gallery.sofa, name: "real-sofa" },
-    { label: t.gallery.kitchen, name: "real-kitchen" },
     { label: t.gallery.mural, name: "real-mural" },
+    { label: t.gallery.sofa, name: "real-sofa" },
+    { label: t.gallery.sofa, name: "real-sofa-2" },
+    { label: t.gallery.sofa, name: "real-sofa-3" },
+    { label: t.gallery.living, name: "real-living-2" },
+    { label: t.gallery.living, name: "real-living-3" },
+    { label: t.gallery.mural, name: "real-mural-2" },
+    { label: t.gallery.dining, name: "real-dining" },
+    { label: t.gallery.dining, name: "real-table" },
+    { label: t.gallery.dining, name: "real-table-2" },
+    { label: t.gallery.kitchen, name: "real-kitchen" },
+    { label: t.gallery.kitchen, name: "real-kitchen-2" },
+    { label: t.gallery.kitchen, name: "real-kitchen-3" },
+    { label: t.gallery.sofabed, name: "real-sofabed" },
+    { label: t.gallery.kitchen, name: "real-kitchen-4" },
+    { label: t.gallery.guestbook, name: "real-guestbook" },
     { label: t.gallery.bedroomYellow, name: "real-bedroom-1" },
     { label: t.gallery.bedroom, name: "real-bedroom-2" },
-    { label: t.gallery.bedroom, name: "real-bedroom-3" },
-    { label: t.gallery.bathroom, name: "real-bathroom-2" },
-    { label: t.gallery.bathroom, name: "real-bathroom-4" },
+    { label: t.gallery.bedroomYellow, name: "real-bedroom-3" },
+    { label: t.gallery.bedroom, name: "real-bedroom-4" },
+    { label: t.gallery.bedroom, name: "real-bedroom-5" },
+    { label: t.gallery.bedroom, name: "real-bedroom-6" },
     { label: t.gallery.hallway, name: "real-hallway" },
+    { label: t.gallery.bedroom, name: "real-bedroom-7" },
+    { label: t.gallery.bathroom, name: "real-bathroom-1" },
+    { label: t.gallery.bathroom, name: "real-bathroom-2" },
+    { label: t.gallery.bathroom, name: "real-bathroom-3" },
+    { label: t.gallery.bathroom, name: "real-bathroom-4" },
     { label: t.gallery.balcony, name: "real-balcony" },
-    { label: t.gallery.entrance, name: "real-entrance" },
+    { label: t.gallery.balcony, name: "real-balcony-2" },
+    { label: t.gallery.balcony, name: "real-balcony-3" },
+    { label: t.gallery.view, name: "real-view" },
+    { label: t.gallery.flowers, name: "real-flowers" },
+    { label: t.gallery.pool, name: "real-pool-4" },
+    { label: t.gallery.view, name: "real-view-2" },
   ];
 
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);

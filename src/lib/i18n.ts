@@ -46,7 +46,11 @@ type Dict = {
     kitchen: string;
     mural: string;
     balcony: string;
-    entrance: string;
+    dining: string;
+    sofabed: string;
+    guestbook: string;
+    view: string;
+    flowers: string;
     bedroom: string;
     bedroomYellow: string;
     bathroom: string;
@@ -134,34 +138,73 @@ export const translations: Record<Lang, Dict> = {
       kitchen: "Cucina Moderna",
       mural: "Murale Lagunare",
       balcony: "Balcone",
-      entrance: "Ingresso",
+      dining: "Zona Pranzo",
+      sofabed: "Divano Letto",
+      guestbook: "Libro degli Ospiti",
+      view: "Vista dal Balcone",
+      flowers: "Oleandri in Fiore",
       bedroom: "Camera Matrimoniale",
       bedroomYellow: "Camera Giallo Senape",
       bathroom: "Bagno Lagunare",
-      hallway: "Corridoio & Armadi",
+      hallway: "Corridoio",
     },
     alt: {
       "real-pool":
-        "Piscina condominiale del residence con vista sulla pineta, a Cavallino Treporti",
+        "Piscina rotonda del residence con lettini, circondata dalla pineta, a Cavallino Treporti",
+      "real-pool-2": "Piscina del residence con file di lettini e la pineta sullo sfondo",
+      "real-pool-3": "Piscina del residence vista dal bordo, con lettini e palazzine del complesso",
       "real-openspace":
-        "Open space con tavolo effetto marmo, cucina verde salvia e murale a pois blu sullo sfondo",
+        "Open space con tavolo apparecchiato, cucina verde salvia e murale a pois blu",
       "real-living":
-        "Soggiorno con tavolo da pranzo per quattro, divano color senape e carte nautiche alle pareti",
-      "real-sofa": "Divano senape con cuscini gialli, zona pranzo e portafinestra sul balcone",
-      "real-kitchen":
-        "Cucina con mobili verde salvia, forno e macchina del caffè, vista dal divano",
+        "Soggiorno con divano color senape, TV davanti al murale a pois blu e angolo cottura",
       "real-mural":
-        "Parete dipinta a mano con pois blu e turchesi dietro la TV, mobile effetto marmo",
+        "Divano senape con cuscini gialli e parete dipinta a pois blu e turchesi dietro la TV",
+      "real-sofa":
+        "Divano senape con cuscini gialli, cucina verde salvia e zona pranzo sullo sfondo",
+      "real-sofa-2":
+        "Divano senape visto di fronte, con la zona pranzo e la portafinestra alle spalle",
+      "real-sofa-3":
+        "Divano senape con cuscini gialli accanto alla cucina, con carta nautica alla parete",
+      "real-living-2":
+        "Soggiorno luminoso con divano senape, tavolo da pranzo e portafinestra sul balcone",
+      "real-living-3": "Zona pranzo vista dalla cucina, con divano senape e portafinestra",
+      "real-mural-2": "Dettaglio della parete dipinta a mano con pois blu, turchesi e dorati",
+      "real-dining": "Tavolo da pranzo per quattro accanto alla portafinestra aperta sul balcone",
+      "real-table": "Tavola apparecchiata per quattro con piatti chiari e bicchieri azzurri",
+      "real-table-2": "Tavola apparecchiata sotto la carta nautica dell'Australia",
+      "real-kitchen": "Cucina verde salvia con forno, piano cottura e top effetto marmo",
+      "real-kitchen-2":
+        "Cucina con mobili verde salvia e top effetto marmo, accanto alla portafinestra",
+      "real-kitchen-3": "Lavello della cucina con mobili effetto marmo e pensili verde salvia",
+      "real-sofabed": "Divano letto aperto e pronto per due ospiti, nel soggiorno",
+      "real-kitchen-4": "Piano cottura a induzione, bollitore e macchina del caffè in cucina",
+      "real-guestbook": "Libro degli ospiti sul mobile effetto marmo",
       "real-bedroom-1":
-        "Camera matrimoniale con parete giallo senape, comodini con lampade e tende a righe",
-      "real-bedroom-2": "Camera matrimoniale con armadio a quattro ante e aria condizionata",
-      "real-bedroom-3": "Camera matrimoniale vista dal letto, con armadio e poltroncina patchwork",
-      "real-bathroom-2": "Bagno con piastrelle turchesi, lavabo, sanitari, lavatrice e finestra",
-      "real-bathroom-4": "Bagno con pavimento turchese, lavabo sospeso e grande specchio",
-      "real-hallway": "Corridoio con ampio armadio a muro e porta verso il soggiorno",
+        "Camera matrimoniale con parete giallo senape e tende a righe sulla portafinestra",
+      "real-bedroom-2": "Camera matrimoniale con parete gialla, armadio e porta sul corridoio",
+      "real-bedroom-3":
+        "Letto matrimoniale con testiera grigia, comodini e lampade, davanti alla parete gialla",
+      "real-bedroom-4": "Camera matrimoniale con armadio a più ante e aria condizionata",
+      "real-bedroom-5": "Camera matrimoniale vista dalla porta, con armadio e parete gialla",
+      "real-bedroom-6": "Camera matrimoniale luminosa con parete gialla e armadio",
+      "real-hallway": "Corridoio con le porte del bagno e della camera da letto",
+      "real-bedroom-7": "Camera matrimoniale vista dal corridoio attraverso la porta",
+      "real-bathroom-1": "Bagno con pavimento turchese, lavabo sospeso, sanitari e finestra",
+      "real-bathroom-2":
+        "Bagno con pavimento turchese, lavabo, sanitari e lavatrice, visto dalla porta",
+      "real-bathroom-3":
+        "Bagno con finestra, lavabo e pavimento turchese, visto dalla porta aperta",
+      "real-bathroom-4": "Bagno con lavatrice, lavabo e specchio",
       "real-balcony":
-        "Balcone con tavolino e due sedie, affacciato sulle case colorate del residence",
-      "real-entrance": "Passaggio ad arco verso l'ingresso, accanto alla parete con il murale",
+        "Balcone con tavolino e sedie, affacciato sul verde e sulle palazzine colorate",
+      "real-balcony-2": "Balcone con ringhiera bianca e vista sui prati e sul verde",
+      "real-balcony-3":
+        "Balcone con sedia pieghevole, affacciato sulle case colorate del residence",
+      "real-view": "Vista dal balcone sulle palazzine del residence e sul giardino",
+      "real-flowers": "Oleandri rosa in fiore davanti alle palazzine del residence",
+      "real-pool-4":
+        "Piscina rotonda con lettini sotto il cielo azzurro, accanto alle palazzine del residence",
+      "real-view-2": "Vista dall'alto sulle palazzine del residence e sul giardino",
       "map-area":
         "Mappa di Ca' Vio, Cavallino Treporti, con via Paolo Thaon di Revel e la spiaggia",
       "area-laguna":
@@ -279,35 +322,72 @@ export const translations: Record<Lang, Dict> = {
       kitchen: "Modern Kitchen",
       mural: "Lagoon Mural",
       balcony: "Balcony",
-      entrance: "Entrance",
+      dining: "Dining Area",
+      sofabed: "Sofa Bed",
+      guestbook: "Guest Book",
+      view: "Balcony View",
+      flowers: "Oleanders in Bloom",
       bedroom: "Master Bedroom",
       bedroomYellow: "Mustard Bedroom",
       bathroom: "Lagoon Bathroom",
-      hallway: "Hallway & Wardrobes",
+      hallway: "Hallway",
     },
     alt: {
-      "real-pool": "Residence swimming pool overlooking the pine forest in Cavallino Treporti",
+      "real-pool":
+        "Round residence pool with sun loungers, surrounded by pine forest in Cavallino Treporti",
+      "real-pool-2": "Residence pool with rows of sun loungers and the pine forest behind",
+      "real-pool-3":
+        "Residence pool seen from the edge, with sun loungers and the complex buildings",
       "real-openspace":
-        "Open-plan living area with marble-effect dining table, sage-green kitchen and blue dotted mural",
+        "Open-plan area with a laid table, sage-green kitchen and blue dotted mural",
       "real-living":
-        "Living room with dining table for four, mustard sofa and framed nautical charts",
-      "real-sofa":
-        "Mustard sofa with yellow cushions, dining area and French window to the balcony",
-      "real-kitchen":
-        "Kitchen with sage-green cabinets, oven and coffee machine, seen from the sofa",
+        "Living room with mustard sofa, TV in front of the blue dotted mural and kitchenette",
       "real-mural":
-        "Hand-painted wall of blue and teal dots behind the TV, with marble-effect cabinet",
+        "Mustard sofa with yellow cushions and hand-painted blue and teal dotted wall behind the TV",
+      "real-sofa": "Mustard sofa with yellow cushions, sage-green kitchen and dining area behind",
+      "real-sofa-2":
+        "Mustard sofa seen from the front, with the dining area and French window behind",
+      "real-sofa-3":
+        "Mustard sofa with yellow cushions next to the kitchen, with a nautical chart on the wall",
+      "real-living-2":
+        "Bright living room with mustard sofa, dining table and French window to the balcony",
+      "real-living-3": "Dining area seen from the kitchen, with mustard sofa and French window",
+      "real-mural-2": "Close-up of the hand-painted wall with blue, teal and gold dots",
+      "real-dining": "Dining table for four next to the French window open onto the balcony",
+      "real-table": "Table laid for four with pale plates and blue glasses",
+      "real-table-2": "Table laid under a nautical chart of Australia",
+      "real-kitchen": "Sage-green kitchen with oven, hob and marble-effect worktop",
+      "real-kitchen-2":
+        "Kitchen with sage-green cabinets and marble-effect worktop, next to the French window",
+      "real-kitchen-3": "Kitchen sink with marble-effect units and sage-green wall cabinets",
+      "real-sofabed": "Sofa bed unfolded and made up for two guests in the living room",
+      "real-kitchen-4": "Induction hob, kettle and coffee machine in the kitchen",
+      "real-guestbook": "Guest book on the marble-effect cabinet",
       "real-bedroom-1":
-        "Double bedroom with mustard-yellow wall, bedside lamps and striped curtains",
-      "real-bedroom-2": "Double bedroom with four-door wardrobe and air conditioning",
-      "real-bedroom-3": "Double bedroom seen from the bed, with wardrobe and patchwork armchair",
+        "Double bedroom with mustard-yellow wall and striped curtains on the French window",
+      "real-bedroom-2": "Double bedroom with yellow wall, wardrobe and door to the hallway",
+      "real-bedroom-3":
+        "Double bed with grey headboard, bedside tables and lamps against the yellow wall",
+      "real-bedroom-4": "Double bedroom with multi-door wardrobe and air conditioning",
+      "real-bedroom-5": "Double bedroom seen from the door, with wardrobe and yellow wall",
+      "real-bedroom-6": "Bright double bedroom with yellow wall and wardrobe",
+      "real-hallway": "Hallway with the doors to the bathroom and the bedroom",
+      "real-bedroom-7": "Double bedroom seen from the hallway through the door",
+      "real-bathroom-1": "Bathroom with teal floor, wall-hung washbasin, toilet and window",
       "real-bathroom-2":
-        "Bathroom with teal tiles, washbasin, toilet, bidet, washing machine and window",
-      "real-bathroom-4": "Bathroom with teal floor, wall-hung washbasin and large mirror",
-      "real-hallway": "Hallway with large built-in wardrobe and door to the living room",
+        "Bathroom with teal floor, washbasin, toilet and washing machine, seen from the door",
+      "real-bathroom-3":
+        "Bathroom with window, washbasin and teal floor, seen through the open door",
+      "real-bathroom-4": "Bathroom with washing machine, washbasin and mirror",
       "real-balcony":
-        "Balcony with a small table and two chairs, overlooking the colorful residence buildings",
-      "real-entrance": "Arched passage to the entrance hall, next to the mural wall",
+        "Balcony with a small table and chairs, overlooking greenery and colorful buildings",
+      "real-balcony-2": "Balcony with white railing and a view over meadows and greenery",
+      "real-balcony-3": "Balcony with a folding chair, overlooking the colorful residence houses",
+      "real-view": "View from the balcony over the residence buildings and garden",
+      "real-flowers": "Pink oleanders in bloom in front of the residence buildings",
+      "real-pool-4":
+        "Round pool with sun loungers under a blue sky, next to the residence buildings",
+      "real-view-2": "View from above over the residence buildings and garden",
       "map-area":
         "Map of Ca' Vio, Cavallino Treporti, showing Via Paolo Thaon di Revel and the beach",
       "area-laguna": "The lagoon at sunset in Treporti, with mooring poles and the waterside path",
@@ -424,36 +504,69 @@ export const translations: Record<Lang, Dict> = {
       kitchen: "Moderne Küche",
       mural: "Lagunen-Wandbild",
       balcony: "Balkon",
-      entrance: "Eingang",
+      dining: "Essbereich",
+      sofabed: "Schlafsofa",
+      guestbook: "Gästebuch",
+      view: "Blick vom Balkon",
+      flowers: "Blühender Oleander",
       bedroom: "Hauptschlafzimmer",
       bedroomYellow: "Senfgelbes Schlafzimmer",
       bathroom: "Lagunen-Badezimmer",
-      hallway: "Flur & Schränke",
+      hallway: "Flur",
     },
     alt: {
       "real-pool":
-        "Gemeinschaftspool der Wohnanlage mit Blick auf den Pinienwald in Cavallino Treporti",
+        "Runder Pool der Wohnanlage mit Liegen, umgeben vom Pinienwald in Cavallino Treporti",
+      "real-pool-2": "Pool der Wohnanlage mit Liegestuhlreihen und dem Pinienwald im Hintergrund",
+      "real-pool-3":
+        "Pool der Wohnanlage vom Beckenrand aus, mit Liegen und den Gebäuden der Anlage",
       "real-openspace":
-        "Offener Wohnbereich mit Esstisch in Marmoroptik, salbeigrüner Küche und blauem Punkte-Wandbild",
+        "Offener Wohnbereich mit gedecktem Tisch, salbeigrüner Küche und blauem Punkte-Wandbild",
       "real-living":
-        "Wohnzimmer mit Esstisch für vier Personen, senfgelbem Sofa und gerahmten Seekarten",
-      "real-sofa": "Senfgelbes Sofa mit gelben Kissen, Essbereich und Balkontür",
-      "real-kitchen":
-        "Küche mit salbeigrünen Schränken, Backofen und Kaffeemaschine, vom Sofa aus gesehen",
+        "Wohnzimmer mit senfgelbem Sofa, Fernseher vor dem blauen Punkte-Wandbild und Küchenzeile",
       "real-mural":
-        "Handbemalte Wand mit blauen und türkisen Punkten hinter dem Fernseher, Lowboard in Marmoroptik",
+        "Senfgelbes Sofa mit gelben Kissen und handbemalter Wand mit blauen und türkisen Punkten",
+      "real-sofa":
+        "Senfgelbes Sofa mit gelben Kissen, salbeigrüne Küche und Essbereich im Hintergrund",
+      "real-sofa-2": "Senfgelbes Sofa von vorn, mit Essbereich und Balkontür dahinter",
+      "real-sofa-3": "Senfgelbes Sofa mit gelben Kissen neben der Küche, mit Seekarte an der Wand",
+      "real-living-2": "Helles Wohnzimmer mit senfgelbem Sofa, Esstisch und Balkontür",
+      "real-living-3": "Essbereich von der Küche aus gesehen, mit senfgelbem Sofa und Balkontür",
+      "real-mural-2": "Detail der handbemalten Wand mit blauen, türkisen und goldenen Punkten",
+      "real-dining": "Esstisch für vier Personen neben der offenen Balkontür",
+      "real-table": "Für vier Personen gedeckter Tisch mit hellen Tellern und blauen Gläsern",
+      "real-table-2": "Gedeckter Tisch unter einer Seekarte von Australien",
+      "real-kitchen": "Salbeigrüne Küche mit Backofen, Kochfeld und Arbeitsplatte in Marmoroptik",
+      "real-kitchen-2":
+        "Küche mit salbeigrünen Schränken und Arbeitsplatte in Marmoroptik neben der Balkontür",
+      "real-kitchen-3": "Spüle mit Unterschränken in Marmoroptik und salbeigrünen Hängeschränken",
+      "real-sofabed": "Ausgeklapptes, bezogenes Schlafsofa für zwei Gäste im Wohnzimmer",
+      "real-kitchen-4": "Induktionskochfeld, Wasserkocher und Kaffeemaschine in der Küche",
+      "real-guestbook": "Gästebuch auf dem Lowboard in Marmoroptik",
       "real-bedroom-1":
-        "Schlafzimmer mit Doppelbett, senfgelber Wand, Nachttischlampen und gestreiften Vorhängen",
-      "real-bedroom-2": "Schlafzimmer mit Doppelbett, viertürigem Kleiderschrank und Klimaanlage",
+        "Schlafzimmer mit Doppelbett, senfgelber Wand und gestreiften Vorhängen an der Balkontür",
+      "real-bedroom-2": "Schlafzimmer mit gelber Wand, Kleiderschrank und Tür zum Flur",
       "real-bedroom-3":
-        "Schlafzimmer vom Bett aus gesehen, mit Kleiderschrank und Patchwork-Sessel",
+        "Doppelbett mit grauem Kopfteil, Nachttischen und Lampen vor der gelben Wand",
+      "real-bedroom-4": "Schlafzimmer mit mehrtürigem Kleiderschrank und Klimaanlage",
+      "real-bedroom-5": "Schlafzimmer von der Tür aus gesehen, mit Kleiderschrank und gelber Wand",
+      "real-bedroom-6": "Helles Schlafzimmer mit gelber Wand und Kleiderschrank",
+      "real-hallway": "Flur mit den Türen zum Badezimmer und zum Schlafzimmer",
+      "real-bedroom-7": "Schlafzimmer vom Flur aus durch die Tür gesehen",
+      "real-bathroom-1": "Badezimmer mit türkisem Boden, Hängewaschbecken, WC und Fenster",
       "real-bathroom-2":
-        "Badezimmer mit türkisen Fliesen, Waschbecken, WC, Bidet, Waschmaschine und Fenster",
-      "real-bathroom-4": "Badezimmer mit türkisem Boden, Hängewaschbecken und großem Spiegel",
-      "real-hallway": "Flur mit großem Einbauschrank und Tür zum Wohnzimmer",
-      "real-balcony":
-        "Balkon mit kleinem Tisch und zwei Stühlen, Blick auf die bunten Häuser der Wohnanlage",
-      "real-entrance": "Rundbogen zum Eingangsbereich neben der Wand mit dem Wandbild",
+        "Badezimmer mit türkisem Boden, Waschbecken, WC und Waschmaschine, von der Tür aus",
+      "real-bathroom-3":
+        "Badezimmer mit Fenster, Waschbecken und türkisem Boden, durch die offene Tür gesehen",
+      "real-bathroom-4": "Badezimmer mit Waschmaschine, Waschbecken und Spiegel",
+      "real-balcony": "Balkon mit kleinem Tisch und Stühlen, Blick ins Grüne und auf bunte Häuser",
+      "real-balcony-2": "Balkon mit weißem Geländer und Blick auf Wiesen und Grün",
+      "real-balcony-3": "Balkon mit Klappstuhl, Blick auf die bunten Häuser der Wohnanlage",
+      "real-view": "Blick vom Balkon auf die Gebäude und den Garten der Wohnanlage",
+      "real-flowers": "Rosa blühender Oleander vor den Gebäuden der Wohnanlage",
+      "real-pool-4":
+        "Runder Pool mit Liegen unter blauem Himmel, neben den Gebäuden der Wohnanlage",
+      "real-view-2": "Blick von oben auf die Gebäude und den Garten der Wohnanlage",
       "map-area":
         "Karte von Ca' Vio, Cavallino Treporti, mit der Via Paolo Thaon di Revel und dem Strand",
       "area-laguna": "Die Lagune bei Sonnenuntergang in Treporti, mit Pfählen und Uferweg",
