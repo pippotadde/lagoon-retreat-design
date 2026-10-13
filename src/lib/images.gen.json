@@ -38,30 +38,6 @@
       "fallback": 1024,
       "hash": "18649ad3636c09a5"
     },
-    "real-balcony-2": {
-      "width": 1600,
-      "height": 2400,
-      "widths": [
-        480,
-        800,
-        1200,
-        1600
-      ],
-      "fallback": 1200,
-      "hash": "3fb3682fdd9f85f8"
-    },
-    "real-balcony-3": {
-      "width": 1600,
-      "height": 2400,
-      "widths": [
-        480,
-        800,
-        1200,
-        1600
-      ],
-      "fallback": 1200,
-      "hash": "411e71763b7523bc"
-    },
     "real-balcony": {
       "width": 2400,
       "height": 1600,
@@ -74,18 +50,6 @@
       ],
       "fallback": 1200,
       "hash": "86b3ec154b2f2ebd"
-    },
-    "real-bathroom-1": {
-      "width": 1600,
-      "height": 2400,
-      "widths": [
-        480,
-        800,
-        1200,
-        1600
-      ],
-      "fallback": 1200,
-      "hash": "c85faa4d7bbd9fc8"
     },
     "real-bathroom-2": {
       "width": 2400,
@@ -100,32 +64,6 @@
       "fallback": 1200,
       "hash": "5a547935b16d4171"
     },
-    "real-bathroom-3": {
-      "width": 2400,
-      "height": 1600,
-      "widths": [
-        480,
-        800,
-        1200,
-        1600,
-        1920
-      ],
-      "fallback": 1200,
-      "hash": "8bd58247f94626ae"
-    },
-    "real-bathroom-4": {
-      "width": 2400,
-      "height": 1600,
-      "widths": [
-        480,
-        800,
-        1200,
-        1600,
-        1920
-      ],
-      "fallback": 1200,
-      "hash": "5ae7d954da32457a"
-    },
     "real-bedroom-1": {
       "width": 2400,
       "height": 1600,
@@ -138,32 +76,6 @@
       ],
       "fallback": 1200,
       "hash": "ee9646a44676e325"
-    },
-    "real-bedroom-2": {
-      "width": 2400,
-      "height": 1600,
-      "widths": [
-        480,
-        800,
-        1200,
-        1600,
-        1920
-      ],
-      "fallback": 1200,
-      "hash": "b2f99a54ee69c5e6"
-    },
-    "real-bedroom-3": {
-      "width": 2400,
-      "height": 1600,
-      "widths": [
-        480,
-        800,
-        1200,
-        1600,
-        1920
-      ],
-      "fallback": 1200,
-      "hash": "ccdc7568661a9cbf"
     },
     "real-bedroom-4": {
       "width": 2400,
@@ -178,45 +90,6 @@
       "fallback": 1200,
       "hash": "ff64c77a965ba239"
     },
-    "real-bedroom-5": {
-      "width": 2400,
-      "height": 1600,
-      "widths": [
-        480,
-        800,
-        1200,
-        1600,
-        1920
-      ],
-      "fallback": 1200,
-      "hash": "e77721af674fb301"
-    },
-    "real-bedroom-6": {
-      "width": 2400,
-      "height": 1600,
-      "widths": [
-        480,
-        800,
-        1200,
-        1600,
-        1920
-      ],
-      "fallback": 1200,
-      "hash": "03657e5d17e35424"
-    },
-    "real-bedroom-7": {
-      "width": 2400,
-      "height": 1600,
-      "widths": [
-        480,
-        800,
-        1200,
-        1600,
-        1920
-      ],
-      "fallback": 1200,
-      "hash": "c5fa1f87ba6ec216"
-    },
     "real-dining": {
       "width": 2400,
       "height": 1600,
@@ -229,31 +102,6 @@
       ],
       "fallback": 1200,
       "hash": "71a40dca92c03f09"
-    },
-    "real-flowers": {
-      "width": 1600,
-      "height": 2400,
-      "widths": [
-        480,
-        800,
-        1200,
-        1600
-      ],
-      "fallback": 1200,
-      "hash": "1a3ad169c717903e"
-    },
-    "real-guestbook": {
-      "width": 2400,
-      "height": 1600,
-      "widths": [
-        480,
-        800,
-        1200,
-        1600,
-        1920
-      ],
-      "fallback": 1200,
-      "hash": "8ebd7c1bb00b12e3"
     },
     "real-hallway": {
       "width": 2400,
@@ -268,43 +116,6 @@
       "fallback": 1200,
       "hash": "d58fb66c9dfe709c"
     },
-    "real-kitchen-2": {
-      "width": 2400,
-      "height": 1600,
-      "widths": [
-        480,
-        800,
-        1200,
-        1600,
-        1920
-      ],
-      "fallback": 1200,
-      "hash": "2f0095e612667e22"
-    },
-    "real-kitchen-3": {
-      "width": 1600,
-      "height": 2400,
-      "widths": [
-        480,
-        800,
-        1200,
-        1600
-      ],
-      "fallback": 1200,
-      "hash": "80d2de4d92099a5b"
-    },
-    "real-kitchen-4": {
-      "width": 1600,
-      "height": 2400,
-      "widths": [
-        480,
-        800,
-        1200,
-        1600
-      ],
-      "fallback": 1200,
-      "hash": "a688c63bea01b818"
-    },
     "real-kitchen": {
       "width": 2400,
       "height": 1600,
@@ -318,32 +129,6 @@
       "fallback": 1200,
       "hash": "5f830f45cb238ee1"
     },
-    "real-living-2": {
-      "width": 2400,
-      "height": 1600,
-      "widths": [
-        480,
-        800,
-        1200,
-        1600,
-        1920
-      ],
-      "fallback": 1200,
-      "hash": "9b177a216907815e"
-    },
-    "real-living-3": {
-      "width": 2400,
-      "height": 1600,
-      "widths": [
-        480,
-        800,
-        1200,
-        1600,
-        1920
-      ],
-      "fallback": 1200,
-      "hash": "4e65ab1bec2a670c"
-    },
     "real-living": {
       "width": 2400,
       "height": 1600,
@@ -356,18 +141,6 @@
       ],
       "fallback": 1200,
       "hash": "53b55d07f2bc4f70"
-    },
-    "real-mural-2": {
-      "width": 1600,
-      "height": 2400,
-      "widths": [
-        480,
-        800,
-        1200,
-        1600
-      ],
-      "fallback": 1200,
-      "hash": "1e4036d8c8d88b85"
     },
     "real-mural": {
       "width": 2400,
@@ -395,18 +168,6 @@
       "fallback": 1200,
       "hash": "1153b9f901779071"
     },
-    "real-pool-2": {
-      "width": 1536,
-      "height": 1024,
-      "widths": [
-        480,
-        800,
-        1200,
-        1536
-      ],
-      "fallback": 1200,
-      "hash": "c0b9be6a35d144e8"
-    },
     "real-pool-3": {
       "width": 1537,
       "height": 1023,
@@ -418,18 +179,6 @@
       ],
       "fallback": 1200,
       "hash": "4b7e34cc873dd6b8"
-    },
-    "real-pool-4": {
-      "width": 1537,
-      "height": 1023,
-      "widths": [
-        480,
-        800,
-        1200,
-        1537
-      ],
-      "fallback": 1200,
-      "hash": "a0756af335133dd2"
     },
     "real-pool": {
       "width": 1537,
@@ -443,32 +192,6 @@
       "fallback": 1200,
       "hash": "e9694f9bd20efe87"
     },
-    "real-sofa-2": {
-      "width": 2400,
-      "height": 1600,
-      "widths": [
-        480,
-        800,
-        1200,
-        1600,
-        1920
-      ],
-      "fallback": 1200,
-      "hash": "fca19ff40ebaa790"
-    },
-    "real-sofa-3": {
-      "width": 2400,
-      "height": 1600,
-      "widths": [
-        480,
-        800,
-        1200,
-        1600,
-        1920
-      ],
-      "fallback": 1200,
-      "hash": "3323c5b723a97116"
-    },
     "real-sofa": {
       "width": 2400,
       "height": 1600,
@@ -481,56 +204,6 @@
       ],
       "fallback": 1200,
       "hash": "abf95f2b21eb6789"
-    },
-    "real-sofabed": {
-      "width": 2400,
-      "height": 1600,
-      "widths": [
-        480,
-        800,
-        1200,
-        1600,
-        1920
-      ],
-      "fallback": 1200,
-      "hash": "afa61769d71a5e63"
-    },
-    "real-table-2": {
-      "width": 1600,
-      "height": 2400,
-      "widths": [
-        480,
-        800,
-        1200,
-        1600
-      ],
-      "fallback": 1200,
-      "hash": "279e67399f2d5cab"
-    },
-    "real-table": {
-      "width": 2400,
-      "height": 1600,
-      "widths": [
-        480,
-        800,
-        1200,
-        1600,
-        1920
-      ],
-      "fallback": 1200,
-      "hash": "652625d2b3858b99"
-    },
-    "real-view-2": {
-      "width": 1600,
-      "height": 2400,
-      "widths": [
-        480,
-        800,
-        1200,
-        1600
-      ],
-      "fallback": 1200,
-      "hash": "847d8199ef26793a"
     },
     "real-view": {
       "width": 2400,
